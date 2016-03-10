@@ -1,1 +1,1 @@
-{"virtualbox":{"/app":{"guestpath":"/app","hostpath":"/Users/ksusa/MIH/MIH/app","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"/Users/ksusa/MIH/MIH/VM","disabled":false,"__vagrantfile":true}}}
+{"virtualbox":{"/app":{"guestpath":"/app","hostpath":"/Users/ksusa/epmkhrdmh/app","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"/Users/ksusa/epmkhrdmh/VM","disabled":false,"__vagrantfile":true}}}

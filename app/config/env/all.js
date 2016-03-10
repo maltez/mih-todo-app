@@ -2,7 +2,7 @@
 
 module.exports = {
 	app: {
-		title: 'MEAN.JS',
+		title: 'Make It Happen',
 		description: 'Full-Stack JavaScript with MongoDB, Express, AngularJS, and Node.js',
 		keywords: 'mongodb, express, angularjs, node.js, mongoose, passport'
 	},
@@ -45,6 +45,9 @@ module.exports = {
 			css: [
 				'public/lib/bootstrap/dist/css/bootstrap.css',
 				'public/lib/bootstrap/dist/css/bootstrap-theme.css',
+				'public/theme/style.min.css',
+				'public/theme/animate.css'
+
 			],
 			js: [
 				'public/lib/angular/angular.js',

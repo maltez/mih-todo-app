@@ -46,11 +46,20 @@
 </head>
 
 <body class="ng-cloak">
-	<header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse"></header>
-	<section class="content">
-		<section class="container">
-			{% block content %}{% endblock %}
+	<aside class="left-sidebar">
+		<section>
+			Sidebar module №1
 		</section>
+	</aside>
+
+	<section class="main-content" ng-controller="MainController as main" ng-class="{'with-sidebar': main.withSidebar}">
+		<div class="container-wrapper">
+			<header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-default"></header>
+
+			<div class="content">
+				{% block content %}{% endblock %}
+			</div>
+		</div>
 	</section>
 
 	<!--Embedding The User Object-->

@@ -127,11 +127,11 @@ module.exports = function(grunt) {
 			}
 		},
 		env: {
-			test: {
-				NODE_ENV: 'test'
+			development: {
+				NODE_ENV: 'development'
 			},
-			secure: {
-				NODE_ENV: 'secure'
+			production: {
+				NODE_ENV: 'production'
 			}
 		},
 		mochaTest: {
@@ -173,13 +173,10 @@ module.exports = function(grunt) {
 	});
 
 	// Default task(s).
-	grunt.registerTask('default', ['lint', 'copy:localConfig', 'concurrent:default']);
+	grunt.registerTask('default', ['env:development', 'lint', 'copy:localConfig', 'concurrent:default']);
 
 	// Debug task.
 	grunt.registerTask('debug', ['lint', 'copy:localConfig', 'concurrent:debug']);
-
-	// Secure task(s).
-	grunt.registerTask('secure', ['env:secure', 'lint', 'copy:localConfig', 'concurrent:default']);
 
 	// Lint task(s).
 	grunt.registerTask('lint', ['jshint', 'csslint']);
@@ -189,6 +186,4 @@ module.exports = function(grunt) {
 
 	// Test task.
 	grunt.registerTask('test', ['copy:localConfig', 'test:server', 'test:client']);
-	grunt.registerTask('test:server', ['env:test', 'mochaTest']);
-	grunt.registerTask('test:client', ['env:test', 'karma:unit']);
 };

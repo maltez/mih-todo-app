@@ -8,7 +8,8 @@ module.exports = function(grunt) {
 		serverViews: ['app/views/**/*.*'],
 		serverJS: ['gruntfile.js', 'server.js', 'config/**/*.js', 'app/**/*.js', '!app/tests/'],
 		clientViews: ['public/modules/**/views/**/*.html'],
-		clientJS: ['public/js/*.js', 'public/modules/**/*.js'],
+		clientJS: ['public/js/**/*.js', 'public/**/*.es6', '!public/**/*.compiled.js'],
+		allES6: ['public/**/*.es6', 'app/**/*.es6'],
 		clientCSS: ['public/assets/**/*.css'],
 		clientLESS: ['public/modules/**/less/*.less'],
 		mochaTests: ['app/tests/**/*.js']
@@ -108,6 +109,17 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+		babel: {
+			es6: {
+				files: [
+					{
+						expand: true,
+						src: watchFiles.allES6,
+						ext: '.compiled.js'
+					}
+				]
+			}
+		},
 		nodemon: {
 			dev: {
 				script: 'server.js',
@@ -205,7 +217,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('lint', ['less', 'jshint', 'csslint']);
 
 	// Build task(s).
-	grunt.registerTask('build', ['lint', 'loadConfig', 'ngAnnotate', 'uglify', 'cssmin']);
+	grunt.registerTask('build', ['lint', 'babel:es6', 'loadConfig', 'ngAnnotate', 'uglify', 'cssmin']);
 
 	// Test task.
 	grunt.registerTask('test', ['copy:localConfig', 'test:server', 'test:client']);

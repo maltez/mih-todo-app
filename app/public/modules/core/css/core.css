@@ -54,6 +54,7 @@ body {
   margin: 0;
   background: #F0F0F0;
   border-bottom: 1px solid;
+  border-radius: 0;
 }
 .main-content .container-wrapper > .content {
   position: absolute;

@@ -5,7 +5,7 @@ angular.module('core').controller('MainController', ['$scope', 'Authentication',
 		// This provides Authentication context.
 		$scope.authentication = Authentication;
 
-		this.withSidebar = true;
+		this.withSidebar = false;
 
 		$scope.$on('toggleSidebar', () => {
 			this.withSidebar = !this.withSidebar;

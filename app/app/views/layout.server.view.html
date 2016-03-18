@@ -46,21 +46,9 @@
 </head>
 
 <body class="ng-cloak">
-	<aside class="left-sidebar">
-		<section>
-			Sidebar module №1
-		</section>
-	</aside>
-
-	<section class="main-content" ng-controller="MainController as main" ng-class="{'with-sidebar': main.withSidebar}">
-		<div class="container-wrapper">
-			<header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-default"></header>
-
-			<div class="content container-fluid">
-				{% block content %}{% endblock %}
-			</div>
-		</div>
-	</section>
+	<div class="main-view-container">
+		{% block content %}{% endblock %}
+	</div>
 
 	<!--Embedding The User Object-->
 	<script type="text/javascript">

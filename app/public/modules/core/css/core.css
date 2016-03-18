@@ -1,3 +1,7 @@
+/* Common colors */
+/* Typography */
+/* Variables for authorization pages */
+/* Screens */
 .undecorated-link:hover {
   text-decoration: none;
 }
@@ -9,18 +13,29 @@
 .x-ng-cloak {
   display: none !important;
 }
-.ng-invalid.ng-dirty {
-  border-color: #FA787E;
-}
-.ng-valid.ng-dirty {
-  border-color: #78FA89;
-}
 .browsehappy.jumbotron.hide,
 body.ng-cloak {
   display: block;
 }
 body {
   background: #fff;
+}
+a {
+  color: #1c84c6;
+}
+.page-wrapper {
+  height: 100%;
+}
+.btn {
+  background-image: none;
+}
+.only-mobile {
+  display: none;
+}
+@media only screen and (max-width: 667px) {
+  .only-mobile {
+    display: block;
+  }
 }
 .left-sidebar {
   position: fixed;

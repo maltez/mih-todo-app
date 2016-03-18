@@ -1,3 +1,15 @@
-<section data-ng-controller="HomeController">
-	<h1>Welcome page</h1>
+<aside class="left-sidebar">
+	<section>
+		Sidebar module №1
+	</section>
+</aside>
+
+<section class="main-content" ng-controller="HomeController as home" ng-class="{'with-sidebar': home.withSidebar}">
+	<div class="container-wrapper">
+		<header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-default"></header>
+
+		<div class="content" data-ng-controller="HomeController">
+			<h1>Welcome page</h1>
+		</div>
+	</div>
 </section>

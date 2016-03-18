@@ -8,5 +8,13 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
 		$scope.toggleSidebar = () => {
 			$scope.$emit('toggleSidebar');
 		};
+
+		$scope.goToUserSettings = () => {
+
+		};
+
+		$scope.logOut = () => {
+
+		};
 	}
 ]);

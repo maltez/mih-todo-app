@@ -3,8 +3,8 @@
 module.exports = {
 	app: {
 		title: 'Make It Happen',
-		description: 'Full-Stack JavaScript with MongoDB, Express, AngularJS, and Node.js',
-		keywords: 'mongodb, express, angularjs, node.js, mongoose, passport'
+		description: 'Application for self organization',
+		keywords: 'Make It Happen'
 	},
 	port: process.env.PORT || 3000,
 	templateEngine: 'swig',
@@ -24,7 +24,7 @@ module.exports = {
 		secure: false,
 		// Only set the maxAge to null if the cookie shouldn't be expired
 		// at all. The cookie will expunge when the browser is closed.
-		maxAge: null,
+		maxAge: null
 		// To set the cookie in a specific domain uncomment the following
 		// setting:
 		// domain: 'yourdomain.com'
@@ -43,11 +43,10 @@ module.exports = {
 	assets: {
 		lib: {
 			css: [
+				'public/inspinia/font-awesome/css/font-awesome.css',
+				'public/inspinia/css/bootstrap.css',
 				'public/lib/bootstrap/dist/css/bootstrap.css',
-				'public/lib/bootstrap/dist/css/bootstrap-theme.css',
-				'public/theme/style.min.css',
-				'public/theme/animate.css'
-
+				'public/lib/bootstrap/dist/css/bootstrap-theme.css'
 			],
 			js: [
 				'public/lib/angular/angular.js',
@@ -59,12 +58,14 @@ module.exports = {
 			]
 		},
 		css: [
+			'public/inspinia/css/**/*.css',
 			'public/modules/**/css/*.css'
 		],
 		js: [
 			'public/config.js',
 			'public/application.js',
 			'public/modules/*/*.js',
+			'public/inspinia/js/directives.js',
 			'public/modules/*/*[!tests]*/*.js'
 		],
 		tests: [

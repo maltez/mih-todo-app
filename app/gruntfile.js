@@ -12,6 +12,7 @@ module.exports = function(grunt) {
 		allES6: ['public/**/*.es6', 'app/**/*.es6'],
 		clientCSS: ['public/assets/**/*.css'],
 		clientLESS: ['public/modules/**/less/*.less'],
+		mochaTestsES6: ['app/tests/**/*.es6'],
 		mochaTests: ['app/tests/**/*.js']
 	};
 
@@ -60,7 +61,7 @@ module.exports = function(grunt) {
 				}
 			},
 			mochaTests: {
-				files: watchFiles.mochaTests,
+				files: watchFiles.mochaTestsES6,
 				tasks: ['test:server']
 			}
 		},
@@ -170,7 +171,8 @@ module.exports = function(grunt) {
 			src: watchFiles.mochaTests,
 			options: {
 				reporter: 'spec',
-				require: 'server.js'
+				require: 'server.js',
+				timeout: 1000 * 20
 			}
 		},
 		karma: {
@@ -218,6 +220,6 @@ module.exports = function(grunt) {
 
 	// Test task.
 	grunt.registerTask('test', ['copy:localConfig', 'test:server', 'test:client']);
-	grunt.registerTask('test:server', ['env:development', 'mochaTest']);
+	grunt.registerTask('test:server', ['babel:es6', 'env:development', 'mochaTest']);
 	grunt.registerTask('test:client', ['env:development', 'karma:unit']);
 };

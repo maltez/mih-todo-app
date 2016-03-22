@@ -27,15 +27,16 @@ exports.forgot = function(req, res, next) {
 				done(err, token);
 			});
 		},
-		// Lookup user by username
+		// Lookup user by email
 		function(token, done) {
-			if (req.body.username) {
+			console.log(req.body.email);
+			if (req.body.email) {
 				User.findOne({
-					username: req.body.username
+					email: req.body.email
 				}, '-salt -password', function(err, user) {
 					if (!user) {
 						return res.status(400).send({
-							message: 'No account with that username has been found'
+							message: 'No account with that email has been found'
 						});
 					} else if (user.provider !== 'local') {
 						return res.status(400).send({

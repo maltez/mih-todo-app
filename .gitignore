@@ -43,3 +43,5 @@ mongod
 
 app/logs/
 app/build/
+
+*.compiled.js

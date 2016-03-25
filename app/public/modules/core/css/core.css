@@ -46,7 +46,7 @@ body {
   overflow: hidden;
   position: relative;
 }
-.main-content .container-wrapper > header {
+.main-content .container-wrapper header {
   position: absolute;
   top: 0;
   left: 0;

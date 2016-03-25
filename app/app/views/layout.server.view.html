@@ -54,7 +54,7 @@
 
 	<section class="main-content" ng-controller="MainController as main" ng-class="{'with-sidebar': main.withSidebar}">
 		<div class="container-wrapper">
-			<header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-default"></header>
+			<ng-include src="'/modules/core/views/header.client.view.html'"></ng-include>
 
 			<div class="content container-fluid">
 				{% block content %}{% endblock %}

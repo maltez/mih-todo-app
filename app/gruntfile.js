@@ -179,13 +179,13 @@ module.exports = function(grunt) {
 			}
 		},
 		copy: {
-		    localConfig: {
-	            src: 'config/env/local.example.js',
-	            dest: 'config/env/local.js',
-	            filter: function() {
-	            	return !fs.existsSync('config/env/local.js');
-	            }
-		    }
+			localConfig: {
+				src: 'config/env/local.example.js',
+				dest: 'config/env/local.js',
+				filter: function() {
+					return !fs.existsSync('config/env/local.js');
+				}
+			}
 		}
 	});
 
@@ -218,6 +218,6 @@ module.exports = function(grunt) {
 
 	// Test task.
 	grunt.registerTask('test', ['copy:localConfig', 'test:server', 'test:client']);
-	grunt.registerTask('test:server', ['env:development', 'mochaTest']);
-	grunt.registerTask('test:client', ['env:development', 'karma:unit']);
+	grunt.registerTask('test:server', ['babel:es6', 'env:development', 'mochaTest']);
+	grunt.registerTask('test:client', ['babel:es6', 'env:development', 'karma:unit']);
 };

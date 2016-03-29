@@ -10,6 +10,7 @@ var mongoose = require('mongoose'),
 /**
  * A Validation function for local strategy properties
  */
+
 var validateLocalStrategyProperty = function(property) {
 	return ((this.provider !== 'local' && !this.updated) || property.length);
 };
@@ -28,14 +29,12 @@ var UserSchema = new Schema({
 	firstName: {
 		type: String,
 		trim: true,
-		default: '',
-		validate: [validateLocalStrategyProperty, 'Please fill in your first name']
+		default: ''
 	},
 	lastName: {
 		type: String,
 		trim: true,
-		default: '',
-		validate: [validateLocalStrategyProperty, 'Please fill in your last name']
+		default: ''
 	},
 	displayName: {
 		type: String,
@@ -46,11 +45,11 @@ var UserSchema = new Schema({
 		trim: true,
 		default: '',
 		validate: [validateLocalStrategyProperty, 'Please fill in your email'],
-		match: [/.+\@.+\..+/, 'Please fill a valid email address']
+		match: [/.+\@.+\..+/, 'Please fill a valid email address'],
+		unique: 'Email already registered'
 	},
 	username: {
 		type: String,
-		unique: 'Username already exists',
 		required: 'Please fill in a username',
 		trim: true
 	},

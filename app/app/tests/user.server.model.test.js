@@ -56,12 +56,12 @@ describe('User Model Unit Tests:', function() {
 				user2.save(function(err) {
 					should.exist(err);
 					done();
-				});	
+				});
 			});
 		});
 
-		it('should be able to show an error when try to save without first name', function(done) {
-			user.firstName = '';
+		it('should be able to show an error when try to save without email', function(done) {
+			user.email = '';
 			return user.save(function(err) {
 				should.exist(err);
 				done();
@@ -73,3 +73,4 @@ describe('User Model Unit Tests:', function() {
 		User.remove().exec(done);
 	});
 });
+

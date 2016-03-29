@@ -15,7 +15,7 @@ var _ = require('lodash'),
 exports.signup = function(req, res) {
 	// For security measurement we remove the roles from the req.body object
 	delete req.body.roles;
-
+	console.log('sign up on server');
 	// Init Variables
 	var user = new User(req.body);
 	var message = null;
@@ -27,6 +27,7 @@ exports.signup = function(req, res) {
 	// Then save the user
 	user.save(function(err) {
 		if (err) {
+			console.log('not saved', err);
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
@@ -38,6 +39,7 @@ exports.signup = function(req, res) {
 			req.login(user, function(err) {
 				if (err) {
 					res.status(400).send(err);
+					console.log(err);
 				} else {
 					res.json(user);
 				}

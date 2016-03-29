@@ -1,3 +1,7 @@
+/* Common colors */
+/* Typography */
+/* Variables for authorization pages */
+/* Screens */
 .undecorated-link:hover {
   text-decoration: none;
 }
@@ -21,6 +25,23 @@ body.ng-cloak {
 }
 body {
   background: #fff;
+}
+a {
+  color: #1c84c6;
+}
+.page-wrapper {
+  height: 100%;
+}
+.btn {
+  background-image: none;
+}
+.only-mobile {
+  display: none;
+}
+@media only screen and (max-width: 667px) {
+  .only-mobile {
+    display: block;
+  }
 }
 .left-sidebar {
   position: fixed;
@@ -52,7 +73,7 @@ body {
   overflow: hidden;
   position: relative;
 }
-.main-content .container-wrapper > header {
+.main-content .container-wrapper header {
   position: absolute;
   top: 0;
   left: 0;

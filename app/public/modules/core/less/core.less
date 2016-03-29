@@ -1,19 +1,17 @@
+@import "public/modules/core/less/variables";
+
 .undecorated-link:hover {
 	text-decoration: none;
 }
-
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
 	display: none !important;
 }
-
 .ng-invalid.ng-dirty {
 	border-color: #FA787E;
 }
-
 .ng-valid.ng-dirty {
 	border-color: #78FA89;
 }
-
 .browsehappy.jumbotron.hide,
 body.ng-cloak {
 	display: block;
@@ -21,6 +19,26 @@ body.ng-cloak {
 
 body {
 	background: #fff;
+}
+
+a {
+  color: @link-color;
+}
+
+.page-wrapper {
+  height: 100%;
+}
+
+.btn {
+  background-image: none;
+}
+
+.only-mobile {
+  display: none;
+
+  @media @mobile-display {
+	display: block;
+  }
 }
 
 .left-sidebar {
@@ -57,7 +75,7 @@ body {
 		overflow: hidden;
 		position: relative;
 
-		> header {
+		header {
 			position: absolute;
 			top: 0;
 			left: 0;

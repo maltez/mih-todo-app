@@ -29,7 +29,6 @@ exports.forgot = function(req, res, next) {
 		},
 		// Lookup user by email
 		function(token, done) {
-			console.log(req.body.email);
 			if (req.body.email) {
 				User.findOne({
 					email: req.body.email

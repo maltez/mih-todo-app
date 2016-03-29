@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-let should = require('should'),
+var should = require('should'),
 	mongoose = require('mongoose'),
 	User = mongoose.model('User'),
 	request = require('supertest'),
@@ -13,7 +13,7 @@ let should = require('should'),
 /**
  * Globals
  */
-let user, user2;
+var user, user2;
 
 /**
  * Unit tests
@@ -72,7 +72,7 @@ describe('User Model Unit Tests:', () => {
 		});
 	});
 
-	let originalPassword = '',
+	var originalPassword = '',
 		restToken = '',
 		mockUser = {
 			email: 'test@test.com'
@@ -97,7 +97,7 @@ describe('User Model Unit Tests:', () => {
 		});
 
 		it('password should be changed', done => {
-			let newPassword = {
+			var newPassword = {
 				newPassword: 'newPassword',
 				verifyPassword: 'newPassword'
 			};

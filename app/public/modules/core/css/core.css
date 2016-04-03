@@ -13,6 +13,12 @@
 .x-ng-cloak {
   display: none !important;
 }
+.ng-invalid.ng-dirty {
+  border-color: #FA787E;
+}
+.ng-valid.ng-dirty {
+  border-color: #78FA89;
+}
 .browsehappy.jumbotron.hide,
 body.ng-cloak {
   display: block;
@@ -67,7 +73,7 @@ a {
   overflow: hidden;
   position: relative;
 }
-.main-content .container-wrapper > header {
+.main-content .container-wrapper header {
   position: absolute;
   top: 0;
   left: 0;

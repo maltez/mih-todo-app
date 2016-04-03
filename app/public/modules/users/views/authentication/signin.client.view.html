@@ -4,17 +4,24 @@
 			<div class="auth-form">
 				<h1 class="app-logo only-mobile">Make It Happen</h1>
 				<h2 class="auth-title">Sign in</h2>
-				<form data-ng-submit="signin()" class="signin form-horizontal" autocomplete="off">
+				<form name="signinForm" data-ng-submit="signin(signinForm.$valid)" class="signin form-horizontal" autocomplete="off" novalidate>
 					<fieldset>
-						<div class="form-group">
-							<label for="email">Email</label>
-							<input type="text" id="email" name="email" class="form-control"
-								   data-ng-model="credentials.email" placeholder="Email">
+						<div class="form-group" ng-class="{'has-error': signinForm.submitted && signinForm.email.$invalid || signinForm.email.$dirty && signinForm.email.$invalid}">
+							<label for="email" class="control-label">Email</label>
+							<input type="email" id="email" name="email" class="form-control"
+								   data-ng-model="credentials.email" placeholder="Email" required>
+						  <div ng-show="signinForm.submitted || signinForm.email.$dirty" class="error-message">
+									<p ng-show="signinForm.email.$error.required" class="help-block error-text">Please enter your email</p>
+									<p ng-show="signinForm.email.$error.email" class="help-block error-text">Please enter a valid email</p>
+    				  </div>
 						</div>
-						<div class="form-group">
-							<label for="password">Password</label>
+						<div class="form-group" ng-class="{'has-error': signinForm.submitted && signinForm.password.$invalid}">
+							<label for="password" class="control-label">Password</label>
 							<input type="password" id="password" name="password" class="form-control"
-								   data-ng-model="credentials.password" placeholder="Password">
+								   data-ng-model="credentials.password" placeholder="Password" required>
+							 <div ng-show="signinForm.submitted" class="error-message">
+									<p ng-show="signinForm.password.$error.required" class="help-block error-text">Please enter a password</p>
+							</div>
 						</div>
 						<div class="form-group">
 							<button type="submit" class="btn btn-primary btn-block">Sign in</button>

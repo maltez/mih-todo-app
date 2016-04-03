@@ -1,13 +1,19 @@
 'use strict';
 
-angular.module('users').controller('AuthenticationController', ['$scope', '$http', '$location', 'Authentication',
-	function($scope, $http, $location, Authentication) {
+angular.module('users').controller('AuthenticationController', function($scope, $http, $location, Authentication) {
+
 		$scope.authentication = Authentication;
 
 		// If user is signed in then redirect back home
 		if ($scope.authentication.user) $location.path('/');
 
 		$scope.signup = function() {
+			console.log("$scope", $scope.credentials);
+			$scope.passwordErrors = owaspPasswordStrengthTest.test($scope.credentials.password).errors;
+
+
+			//console.log("result", passwordErrors);
+
 			$http.post('/auth/signup', $scope.credentials).success(function(response) {
 				// If successful we assign the response to the global user model
 				$scope.authentication.user = response;
@@ -16,6 +22,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 				$location.path('/');
 			}).error(function(response) {
 				$scope.error = response.message;
+				console.log('server validation failed');
 			});
 		};
 
@@ -31,4 +38,4 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 			});
 		};
 	}
-]);
+);

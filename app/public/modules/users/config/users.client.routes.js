@@ -42,4 +42,7 @@ angular.module('users').config(['$stateProvider',
 			templateUrl: 'modules/users/views/password/reset-password.client.view.html'
 		});
 	}
+
+
+
 ]);

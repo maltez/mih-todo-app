@@ -16,7 +16,17 @@
 						</div>
 						<div class="form-group">
 							<label for="password">Password</label>
-							<input type="password" id="password" name="password" class="form-control" data-ng-model="credentials.password" placeholder="Password">
+							<input  type="password" id="password" name="password" class="form-control" data-ng-model="credentials.password" placeholder="Password" required custom-popover ng-change="showPopover()">
+							<!--<input  type="password" id="password" name="password" class="form-control" data-ng-model="credentials.password" placeholder="Password" required bs-popover="popover">-->
+							<script type="text/ng-template" id="example.html">
+								<div>
+									<p class="error-popover-title text-danger">
+										<i class="fa fa-exclamation-circle"></i>
+										The password must:</p>
+									<p ng-repeat="error in errors">
+										- {{error}}</p>
+								</div>
+							</script>
 						</div>
 						<div class="text-center form-group">
 							<button type="submit" class="btn btn-large btn-block btn-primary">Sign up</button>&nbsp; or&nbsp;

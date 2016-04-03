@@ -78,3 +78,8 @@
   background: url('/modules/users/img/logo-lg-dark.png') no-repeat;
   background-size: contain;
 }
+
+.auth-page .popover {
+	white-space: nowrap;
+	max-width: none;
+}

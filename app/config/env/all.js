@@ -56,7 +56,10 @@ module.exports = {
 				'public/lib/angular-ui-utils/ui-utils.js',
 				'public/lib/jquery/dist/jquery.js',
 				'public/lib/bootstrap/dist/js/bootstrap.js',
-				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js'
+				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
+				'public/lib/angular-strap/dist/angular-strap.min.js',
+				'public/lib/angular-strap/dist/angular-strap.tpl.min.js',
+				'public/lib/owasp-password-strength-test/owasp-password-strength-test.js'
 			]
 		},
 		css: [

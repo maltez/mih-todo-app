@@ -10,24 +10,24 @@ var passport = require('passport'),
 module.exports = function() {
 	// Use local strategy
 	passport.use(new LocalStrategy({
-			usernameField: 'username',
+			usernameField: 'email',
 			passwordField: 'password'
 		},
-		function(username, password, done) {
+		function(email, password, done) {
 			User.findOne({
-				username: username
+				email: email
 			}, function(err, user) {
 				if (err) {
 					return done(err);
 				}
 				if (!user) {
 					return done(null, false, {
-						message: 'Unknown user or invalid password'
+						message: 'Please check your email and password and try again'
 					});
 				}
 				if (!user.authenticate(password)) {
 					return done(null, false, {
-						message: 'Unknown user or invalid password'
+						message: 'Please check your email and password and try again'
 					});
 				}
 

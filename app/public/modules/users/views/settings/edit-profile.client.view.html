@@ -19,6 +19,24 @@
 					<label for="username">Username</label>
 					<input type="text" id="username" name="username" class="form-control" data-ng-model="user.username" placeholder="Username">
 				</div>
+			</fieldset>
+
+			<fieldset>
+				<div class="form-group">
+					<label for="currentPassword">Current Password</label>
+					<input type="password" id="currentPassword" name="currentPassword" class="form-control" data-ng-model="user.currentPassword" placeholder="Current Password">
+				</div>
+				<div class="form-group">
+					<label for="newPassword">New Password</label>
+					<input type="password" id="newPassword" name="newPassword" class="form-control" data-ng-model="user.newPassword" placeholder="New Password">
+				</div>
+				<div class="form-group">
+					<label for="verifyPassword">Verify Password</label>
+					<input type="password" id="verifyPassword" name="verifyPassword" class="form-control" data-ng-model="user.verifyPassword" placeholder="Verify Password">
+				</div>
+			</fieldset>
+
+			<fieldset>
 				<div class="text-center form-group">
 					<button type="submit" class="btn btn-large btn-primary">Save Profile</button>
 				</div>

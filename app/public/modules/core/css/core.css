@@ -61,12 +61,12 @@ a {
 .main-content {
   height: 100%;
   overflow: hidden;
-  transition: padding .6s;
+  transition: margin .6s;
   position: relative;
   z-index: 2;
 }
 .main-content.with-sidebar {
-  padding-left: 300px;
+  margin-left: 300px;
 }
 .main-content .container-wrapper {
   height: 100%;

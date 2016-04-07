@@ -12,18 +12,17 @@ angular.module('users').factory('PasswordValidator', ['$window',
 			minOptionalTestsToPass : 1
 		});
 
+		owaspPasswordStrengthTest.tests.optional = owaspPasswordStrengthTest.tests.optional.filter(function(val){
+			return !(/one special character/).test(val);
+		});
+
 		return {
 			getResult: function (password) {
 				var result = owaspPasswordStrengthTest.test(password);
-
-				result.errors = result.errors.map(function(el){
-					return el.replace('The password must', '-').replace('The password may', '-');
+				result.errors = result.errors.map(function(val){
+					return val.replace(/The password (must|may)/g, '-');
 				});
 				return result;
-			},
-			getPopoverMsg: function () {
-				var popoverMsg = 'Please enter a passphrase or password with greater than 6 characters, numbers, lowercase, upppercase, and special characters.';
-				return popoverMsg;
 			}
 		};
 	}

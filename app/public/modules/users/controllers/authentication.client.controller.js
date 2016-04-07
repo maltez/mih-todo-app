@@ -7,12 +7,13 @@ angular.module('users').controller('AuthenticationController', function($scope, 
 		// If user is signed in then redirect back home
 		if ($scope.authentication.user) $location.path('/');
 
-		$scope.signup = function() {
-			console.log("$scope", $scope.credentials);
-			$scope.passwordErrors = owaspPasswordStrengthTest.test($scope.credentials.password).errors;
+		$scope.signup = function(isValid) {
 
+			if (!isValid){
+				$scope.userForm.submitted = true;
+				return;
+			}
 
-			//console.log("result", passwordErrors);
 
 			$http.post('/auth/signup', $scope.credentials).success(function(response) {
 				// If successful we assign the response to the global user model
@@ -22,7 +23,6 @@ angular.module('users').controller('AuthenticationController', function($scope, 
 				$location.path('/');
 			}).error(function(response) {
 				$scope.error = response.message;
-				console.log('server validation failed');
 			});
 		};
 

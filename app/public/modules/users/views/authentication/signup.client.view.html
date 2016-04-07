@@ -4,27 +4,41 @@
 			<div class="auth-form">
 				<h1 class="app-logo only-mobile">Make It Happen</h1>
 				<h2 class="auth-title">Registration</h2>
-				<form name="userForm" data-ng-submit="signup()" class="form-horizontal" novalidate autocomplete="off">
+				<form name="userForm" data-ng-submit="signup(userForm.$valid)" class="form-horizontal" novalidate autocomplete="off">
 					<fieldset>
-						<div class="form-group">
+						<div class="form-group" ng-class="{'has-error':  userForm.submitted && userForm.email.$invalid || userForm.email.$dirty && userForm.email.$invalid}">
 							<label for="email">Email</label>
-							<input type="email" id="email" name="email" class="form-control" data-ng-model="credentials.email" placeholder="Email">
+							<input type="email" id="email" name="email" class="form-control" data-ng-model="credentials.email" placeholder="Email" required>
+							<div ng-show="userForm.submitted || userForm.email.$dirty" class="error-message">
+								<p ng-show="userForm.email.$error.required" class="help-block error-text">Please enter your email</p>
+								<p ng-show="userForm.email.$error.email" class="help-block error-text">Please enter a valid email</p>
+							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group" ng-class="{'has-error':  userForm.submitted && userForm.username.$invalid || userForm.username.$dirty && userForm.username.$invalid}">
 							<label for="username">Username</label>
-							<input type="text" id="username" name="username" class="form-control" data-ng-model="credentials.username" placeholder="Username">
+							<input type="text" id="username" name="username" class="form-control" data-ng-model="credentials.username" placeholder="Username" required>
+							<div ng-show="userForm.submitted || userForm.username.$dirty" class="error-message">
+								<p ng-show="userForm.username.$error.required" class="help-block error-text">Please enter your username</p>
+							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group" ng-class="{'has-error':  userForm.submitted && userForm.password.$invalid || userForm.password.$dirty && userForm.password.$invalid}">
 							<label for="password">Password</label>
-							<input  type="password" id="password" name="password" class="form-control" data-ng-model="credentials.password" placeholder="Password" required custom-popover ng-change="showPopover()">
-							<!--<input  type="password" id="password" name="password" class="form-control" data-ng-model="credentials.password" placeholder="Password" required bs-popover="popover">-->
-							<script type="text/ng-template" id="example.html">
-								<div>
+							<input type="password" id="password" name="password" class="form-control" data-ng-model="credentials.password" placeholder="Password" required password-validator ng-change="validatePassword()" ng-blur="notifyIfInvalid()">
+							<div ng-show="userForm.submitted" class="error-message">
+								<p ng-show="userForm.username.$error.required" class="help-block error-text">Please enter your password</p>
+							</div>
+							<script type="text/ng-template" id="validationErrorsTmp.html">
+								<div ng-show="errors.length > 0">
 									<p class="error-popover-title text-danger">
 										<i class="fa fa-exclamation-circle"></i>
 										The password must:</p>
-									<p ng-repeat="error in errors">
-										- {{error}}</p>
+									<p ng-repeat="error in errors">{{error}}</p>
+								</div>
+								<div ng-show="errors.length == 0">
+									<p class="error-popover-title text-navy">
+										<i class="fa fa-exclamation-circle"></i>
+										The password is valid
+									</p>
 								</div>
 							</script>
 						</div>

@@ -26,6 +26,8 @@ exports.getErrorMessage = function(err) {
 	if (err.code) {
 		switch (err.code) {
 			case 11000:
+				message =  'Email already exists';
+				break;
 			case 11001:
 				message = getUniqueErrorMessage(err);
 				break;

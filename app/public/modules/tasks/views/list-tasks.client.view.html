@@ -1,19 +1,27 @@
-<section data-ng-controller="TasksController" data-ng-init="find()">
-    <div class="page-header">
-        <h1>Tasks</h1>
-    </div>
-    <div class="list-group">
-        <a data-ng-repeat="task in tasks" data-ng-href="#!/tasks/{{task._id}}" class="list-group-item">
-			<small class="list-group-item-text">
-				Posted on
-				<span data-ng-bind="task.created | date:'medium'"></span>
-				by
-				<span data-ng-bind="task.user.displayName"></span>
-			</small>
-			<h4 class="list-group-item-heading" data-ng-bind="task.name"></h4>
-        </a>
-    </div>
-    <div class="alert alert-warning text-center" data-ng-hide="!tasks.$resolved || tasks.length">
+<section class="tasks-list-wrapper" data-ng-controller="TasksController" data-ng-init="find()">
+    <header class="task-list-header">
+        <h1>ToDo</h1>
+		<a class="add-task-link" href="/#!/tasks/create"><span class="glyphicon glyphicon-plus"></span></a>
+    </header>
+	<div class="tasks-subtitle-wrapper">
+		<h5 class="tasks-subtitle">Tasks</h5>
+	</div>
+    <ul class="tasks-list">
+		<li data-ng-repeat="task in tasks" class="tasks-list-item">
+				<!--<small class="list-group-item-text">
+                    Posted on
+                    <span data-ng-bind="task.created | date:'medium'"></span>
+                    by
+                    <span data-ng-bind="task.user.displayName"></span>
+                </small>-->
+			<h4 class="tasks-list-item-title">
+				<a data-ng-href="#!/tasks/{{task._id}}" data-ng-bind="task.name"></a>
+			</h4>
+			<span class="glyphicon glyphicon-star tasks-item-priority"></span>
+			<span class="tasks-item-percent">11%</span>
+		</li>
+    </ul>
+    <!--<div class="alert alert-warning text-center" data-ng-hide="!tasks.$resolved || tasks.length">
     	No Tasks yet, why don't you <a href="/#!/tasks/create">create one</a>?
-    </div>
+    </div>-->
 </section>

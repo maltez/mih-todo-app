@@ -58,7 +58,8 @@ module.exports = {
 				'public/lib/jquery/dist/jquery.js',
 				'public/lib/bootstrap/dist/js/bootstrap.js',
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
-				'public/lib/angular-ui-notification/dist/angular-ui-notification.js'
+				'public/lib/angular-ui-notification/dist/angular-ui-notification.js',
+				'public/lib/angular-file-upload/dist/angular-file-upload.js'
 			]
 		},
 		css: [
@@ -76,5 +77,14 @@ module.exports = {
 			'public/lib/angular-mocks/angular-mocks.js',
 			'public/modules/*/tests/*.js'
 		]
+	},
+	profilesFolder: './modules/users/img/profiles/',
+	uploads: {
+		profileUpload: {
+			dest: './public/modules/users/img/profiles/', // Profile upload destination path
+			limits: {
+				fileSize: 3 * 1024 * 1024 // Max file size in bytes (3 MB)
+			}
+		}
 	}
 };

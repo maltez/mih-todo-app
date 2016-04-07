@@ -5,11 +5,8 @@
  */
 
 var should = require('should'),
-    mongoose = require('mongoose'),
-    User = mongoose.model('User'),
-    request = require('supertest'),
-    app = require('../../server'),
-    agent = request.agent(app);
+	mongoose = require('mongoose'),
+	User = mongoose.model('User');
 
 /**
  * Globals
@@ -22,34 +19,28 @@ var user, user2;
 describe('User Model Unit Tests:', function () {
 	before(function (done) {
 		user = new User({
-			firstName: 'Full',
-			lastName: 'Name',
-			displayName: 'Full Name',
-			email: 'test@test.com',
-			username: 'username',
-			password: 'password',
+			firstName: 'User',
+			lastName: 'Model',
+			displayName: 'User Model',
+			email: 'User@Model.com',
+			username: 'UserModel',
+			password: 'UserModel',
 			provider: 'local'
 		});
 		user2 = new User({
-			firstName: 'Full',
-			lastName: 'Name',
-			displayName: 'Full Name',
-			email: 'test@test.com',
-			username: 'username',
-			password: 'password',
+			firstName: 'User',
+			lastName: 'Model',
+			displayName: 'User Model',
+			email: 'User@Model.com',
+			username: 'UserModel',
+			password: 'UserModel',
 			provider: 'local'
 		});
 
 		done();
 	});
 
-	describe('Method Save', function () {
-		it('should begin with no users', function (done) {
-			User.find({}, function (err, users) {
-				users.should.have.length(0);
-				done();
-			});
-		});
+	describe('Method Save', () => {
 
 		it('should be able to save without problems', function (done) {
 			user.save(done);
@@ -69,44 +60,6 @@ describe('User Model Unit Tests:', function () {
 			return user.save(function (err) {
 				should.exist(err);
 				done();
-			});
-		});
-	});
-
-	var originalPassword = '',
-	    restToken = '',
-	    mockUser = {
-		email: 'test@test.com'
-	};
-
-	describe('Forgot password Unit Test', function () {
-		it('should generate reset password token', function (done) {
-			agent.post('/auth/forgot').send(mockUser).expect(200).end(function () {
-				User.findOne(mockUser, function (err, dbUser) {
-					originalPassword = dbUser.password;
-					restToken = dbUser.resetPasswordToken;
-
-					should.not.exist(err);
-					should.exist(dbUser.resetPasswordToken);
-
-					done();
-				});
-			});
-		});
-
-		it('password should be changed', function (done) {
-			var newPassword = {
-				newPassword: 'newPassword',
-				verifyPassword: 'newPassword'
-			};
-
-			agent.post('/auth/reset/' + restToken).send(newPassword).expect(200).end(function () {
-				User.find(mockUser, function (err, dbUser) {
-					should.not.exist(err);
-					should.notEqual(dbUser.password, originalPassword);
-
-					done();
-				});
 			});
 		});
 	});

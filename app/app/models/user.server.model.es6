@@ -61,6 +61,10 @@ var UserSchema = new Schema({
 		default: '',
 		validate: [validateLocalStrategyPassword, 'Password should be longer']
 	},
+	profileImageURL: {
+		type: String,
+		default: './modules/users/img/profiles/default.jpg'
+	},
 	salt: {
 		type: String
 	},

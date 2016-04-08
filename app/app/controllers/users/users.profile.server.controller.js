@@ -14,30 +14,57 @@ var _ = require('lodash'),
  */
 exports.update = function(req, res) {
 	// Init Variables
-	var user = req.user;
-	var message = null;
+	var user = req.user,
+		body = req.body;
 
 	// For security measurement we remove the roles from the req.body object
-	delete req.body.roles;
+	delete body.roles;
 
 	if (user) {
-		// Merge existing user
-		user = _.extend(user, req.body);
-		user.updated = Date.now();
-		user.displayName = user.firstName + ' ' + user.lastName;
+		User.findById(req.user.id, function (err, user) {
+			if (!err && user) {
+				if (body.newPassword || body.currentPassword || body.verifyPassword) {
+					if (user.authenticate(body.currentPassword)) {
+						if (body.newPassword === body.verifyPassword) {
+							body.password = body.newPassword;
 
-		user.save(function(err) {
-			if (err) {
-				return res.status(400).send({
-					message: errorHandler.getErrorMessage(err)
+							delete body.currentPassword;
+							delete body.newPassword;
+							delete body.verifyPassword;
+						} else {
+							return res.status(400).send({
+								message: 'Passwords do not match'
+							});
+						}
+					} else {
+						return res.status(400).send({
+							message: 'Current password is incorrect'
+						});
+					}
+				}
+
+				// Merge existing user
+				user = _.extend(user, body);
+				user.displayName = user.firstName + ' ' + user.lastName;
+
+				user.save(function(err) {
+					if (err) {
+						return res.status(400).send({
+							message: errorHandler.getErrorMessage(err)
+						});
+					} else {
+						req.login(user, function(err) {
+							if (err) {
+								res.status(400).send(err);
+							} else {
+								res.json(user);
+							}
+						});
+					}
 				});
 			} else {
-				req.login(user, function(err) {
-					if (err) {
-						res.status(400).send(err);
-					} else {
-						res.json(user);
-					}
+				res.status(400).send({
+					message: 'User is not found'
 				});
 			}
 		});

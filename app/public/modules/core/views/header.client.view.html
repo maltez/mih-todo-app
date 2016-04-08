@@ -1,26 +1,27 @@
-<div ng-controller="HeaderController">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<span class="menu-btn glyphicon glyphicon-menu-hamburger" ng-click="toggleSidebar()" aria-hidden="true"></span>
-			<h2 class="page-title">User profile</h2>
-		</div>
-		<div class="notification-menu">
-			<span class="glyphicon glyphicon-calendar calendar-btn" aria-hidden="true"></span>
-			<div class="notification-icon">
-				<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
-				<span class="badge">2</span>
+<div data-ng-controller="HeaderController" data-ng-show="authentication.user">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<span class="menu-btn glyphicon glyphicon-menu-hamburger" data-ng-click="toggleSidebar()" aria-hidden="true"></span>
+				<h2 class="page-title">User profile</h2>
 			</div>
+			<div class="notification-menu">
+				<span class="glyphicon glyphicon-calendar calendar-btn" aria-hidden="true"></span>
+				<div class="notification-icon">
+					<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+					<span class="badge">2</span>
+				</div>
 
-			<div class="dropdown nav-user-profile" ng-show="authentication.user">
-				<a class="dropdown-toggle" type="button" data-toggle="dropdown">Username
-					<img src="https://cdn1.iconfinder.com/data/icons/mix-color-4/502/Untitled-1-48.png"
-						 class="profile-image img-circle">
-					<span class="caret"></span></a>
-				<ul class="dropdown-menu">
-					<li><a href="#!/settings/profile">Settings</a></li>
-					<li><a href="/auth/signout">Logout</a></li>
-				</ul>
+				<div class="dropdown nav-user-profile">
+					<a class="dropdown-toggle" type="button" data-toggle="dropdown">Username
+						<img src="modules\core\img\default-user-avatar.png"
+							 class="profile-image img-circle">
+						<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="#!/settings/profile">Settings</a></li>
+						<li><a href="/auth/signout">Logout</a></li>
+					</ul>
+				</div>
 			</div>
 		</div>
-	</div>
 </div>
+

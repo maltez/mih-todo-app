@@ -44,4 +44,6 @@ mongod
 app/logs/
 app/build/
 
-*.compiled.js
+app/app/**/*.js
+app/public/**/*.js
+*.css

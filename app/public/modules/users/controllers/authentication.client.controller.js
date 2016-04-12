@@ -29,7 +29,6 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 				$scope.authentication.user = response;
 
 				// And redirect to the index page
-				$location.path('/');
 				window.location.reload();
 			}).error(function(response) {
 				$scope.error = response.message;

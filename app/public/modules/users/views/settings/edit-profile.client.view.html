@@ -3,7 +3,7 @@
 		<form class="signin form-horizontal">
 			<fieldset>
 				<div class="form-group text-center">
-					<img ng-src="{{profilePicture.imageURL}}" alt="{{profilePicture.user.displayName}}" class="img-thumbnail user-profile-picture">
+					<img ng-src="{{profilePicture.imageURL}}" alt="{{profilePicture.user.username}}" class="img-thumbnail user-profile-picture">
 				</div>
 
 				<div class="text-center form-group" ng-hide="profilePicture.uploader.queue.length">
@@ -34,14 +34,6 @@
 	<div class="col-xs-offset-2 col-xs-8 col-md-offset-5 col-md-2">
 		<form name="userForm" data-ng-submit="updateUserProfile(userForm.$valid)" class="signin form-horizontal" autocomplete="off">
 			<fieldset>
-				<div class="form-group">
-					<label for="firstName">First Name</label>
-					<input type="text" id="firstName" name="firstName" class="form-control" data-ng-model="user.firstName" placeholder="First Name">
-				</div>
-				<div class="form-group">
-					<label for="lastName">Last Name</label>
-					<input type="text" id="lastName" name="lastName" class="form-control" data-ng-model="user.lastName" placeholder="Last Name">
-				</div>
 				<div class="form-group">
 					<label for="email">Email</label>
 					<input type="email" id="email" name="email" class="form-control" data-ng-model="user.email" placeholder="Email">

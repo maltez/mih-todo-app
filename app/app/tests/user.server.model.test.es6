@@ -19,18 +19,12 @@ var user, user2;
 describe('User Model Unit Tests:', function () {
 	before(function (done) {
 		user = new User({
-			firstName: 'User',
-			lastName: 'Model',
-			displayName: 'User Model',
 			email: 'User@Model.com',
 			username: 'UserModel',
 			password: 'UserModel',
 			provider: 'local'
 		});
 		user2 = new User({
-			firstName: 'User',
-			lastName: 'Model',
-			displayName: 'User Model',
 			email: 'User@Model.com',
 			username: 'UserModel',
 			password: 'UserModel',
@@ -55,8 +49,8 @@ describe('User Model Unit Tests:', function () {
 			});
 		});
 
-		it('should be able to show an error when try to save without first name', function (done) {
-			user.firstName = '';
+		it('should be able to show an error when try to save without username name', function (done) {
+			user.username = '';
 			return user.save(function (err) {
 				should.exist(err);
 				done();

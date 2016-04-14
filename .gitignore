@@ -47,4 +47,3 @@ app/build/
 
 app/app/**/*.js
 app/public/**/*.js
-*.css

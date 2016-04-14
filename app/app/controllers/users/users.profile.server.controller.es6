@@ -48,7 +48,6 @@ exports.update = (req, res) => {
 
 				// Merge existing user
 				user = _.extend(user, body);
-				user.displayName = user.firstName + ' ' + user.lastName;
 
 				user.save(err => {
 					if (err) {

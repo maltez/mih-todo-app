@@ -6,7 +6,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 	// If user is not signed in then redirect back home
 	if (!Authentication.user) $location.path('/signin');
 
-	this.withSidebar = false;
+	this.withSidebar = true;
 
 	$scope.$on('toggleSidebar', function () {
 		_this.withSidebar = !_this.withSidebar;

@@ -1,4 +1,4 @@
-<section class="tasks-list-wrapper" data-ng-controller="TasksController" data-ng-init="find()">
+<section class="tasks-list-wrapper" data-ng-controller="TasksListController" data-ng-init="find()">
     <header class="task-list-header">
         <h1>ToDo</h1>
 		<a class="add-task-link" href="/#!/tasks/create"><span class="glyphicon glyphicon-plus"></span></a>
@@ -15,7 +15,14 @@
                     <span data-ng-bind="task.user.displayName"></span>
                 </small>-->
 			<h4 class="tasks-list-item-title">
-				<a data-ng-href="#!/tasks/{{task._id}}" data-ng-bind="task.name"></a>
+				<a data-ng-href="#!/tasks/{{task._id}}" data-ng-bind="task.title"></a>
+				<ul>
+					<li data-ng-bind="task.type"></li>
+					<li data-ng-bind="task.days[0].startTime"></li>
+					<li data-ng-bind="task.days[0].endTime"></li>
+					<li data-ng-bind="task.estimation"></li>
+					<li data-ng-bind="task.notes"></li>
+				</ul>
 			</h4>
 			<span class="glyphicon glyphicon-star tasks-item-priority"></span>
 			<span class="tasks-item-percent">11%</span>

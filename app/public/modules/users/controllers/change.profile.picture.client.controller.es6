@@ -1,37 +1,6 @@
 'use strict';
 
-angular
-	.module('users')
-	.controller('ChangeProfilePictureController', ChangeProfilePictureController);
-
-ChangeProfilePictureController.$inject = ['$scope', '$timeout', '$window', 'Authentication', 'FileUploader'];
-
 function ChangeProfilePictureController($scope, $timeout, $window, Authentication, FileUploader) {
-	var vm = this;
-
-	vm.user = Authentication.user;
-	vm.imageURL = vm.user.profileImageURL;
-	vm.uploadProfilePicture = uploadProfilePicture;
-
-	vm.cancelUpload = cancelUpload;
-	// Create file uploader instance
-	vm.uploader = new FileUploader({
-		url: 'users/picture',
-		alias: 'newProfilePicture',
-		onAfterAddingFile: onAfterAddingFile,
-		onSuccessItem: onSuccessItem,
-		onErrorItem: onErrorItem
-	});
-
-	// Set file uploader image filter
-	vm.uploader.filters.push({
-		name: 'imageFilter',
-		fn (item, options) {
-			var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-			return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
-		}
-	});
-
 	// Called after the user selected a new picture file
 	function onAfterAddingFile(fileItem) {
 		if ($window.FileReader) {
@@ -81,4 +50,35 @@ function ChangeProfilePictureController($scope, $timeout, $window, Authenticatio
 		vm.uploader.clearQueue();
 		vm.imageURL = vm.user.profileImageURL;
 	}
+
+	var vm = this;
+
+	vm.user = Authentication.user;
+	vm.imageURL = vm.user.profileImageURL;
+	vm.uploadProfilePicture = uploadProfilePicture;
+
+	vm.cancelUpload = cancelUpload;
+	// Create file uploader instance
+	vm.uploader = new FileUploader({
+		url: 'users/picture',
+		alias: 'newProfilePicture',
+		onAfterAddingFile: onAfterAddingFile,
+		onSuccessItem: onSuccessItem,
+		onErrorItem: onErrorItem
+	});
+
+	// Set file uploader image filter
+	vm.uploader.filters.push({
+		name: 'imageFilter',
+		fn (item, options) {
+			var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+			return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+		}
+	});
 }
+
+angular
+	.module('users')
+	.controller('ChangeProfilePictureController', ChangeProfilePictureController);
+
+ChangeProfilePictureController.$inject = ['$scope', '$timeout', '$window', 'Authentication', 'FileUploader'];

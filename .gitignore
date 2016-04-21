@@ -47,3 +47,5 @@ app/build/
 
 app/app/**/*.js
 app/public/**/*.js
+app/app/**/*.map
+app/public/**/*.map

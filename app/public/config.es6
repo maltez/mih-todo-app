@@ -2,7 +2,7 @@
 
 // Init the application configuration module for AngularJS application
 
-var ApplicationConfiguration = function () {
+var ApplicationConfiguration = (() => {
 	// Init module configuration options
 	var applicationModuleName = 'mih';
 	var applicationModuleVendorDependencies = ['ngResource', 'ngAnimate', 'ui.router', 'ui.bootstrap', 'ui.utils', 'ui-notification', 'angularFileUpload'];
@@ -21,4 +21,4 @@ var ApplicationConfiguration = function () {
 		applicationModuleVendorDependencies: applicationModuleVendorDependencies,
 		registerModule: registerModule
 	};
-}();
+})();

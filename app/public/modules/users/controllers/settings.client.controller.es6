@@ -5,6 +5,19 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
 
 	if (!$scope.user) $location.path('/');
 
+	$scope.addNewBookedSlot = () => {
+		$scope.user.predefinedSettings.booked.push({
+			startTime: '',
+			endTime: ''
+		});
+	};
+
+	$scope.removeBookedSlot = (index) => {
+		$scope.user.predefinedSettings.booked.splice(index, 1);
+	};
+
+	$scope.workingDays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
 	$scope.updateUserProfile = function (isValid) {
 		if (isValid) {
 			$scope.success = $scope.error = null;

@@ -33,18 +33,33 @@
 			</section>
 
 			<section class="col-md-7 col-md-offset-2" data-ng-controller="SettingsController">
-				<form name="userForm" data-ng-submit="updateUserProfile(userForm.$valid)" class="signin form-horizontal" autocomplete="off">
+				<form name="userForm" data-ng-submit="updateUserProfile(userForm.$valid)" class="signin form-horizontal"
+					  autocomplete="off" novalidate
+				>
 					<fieldset>
 						<div class="form-group">
 							<label for="email" class="col-sm-4 control-label">Email</label>
 							<div class="col-sm-8">
-								<input type="email" id="email" name="email" class="form-control" data-ng-model="user.email" placeholder="Email">
+								<input type="email" id="email" name="email" class="form-control" placeholder="Email"
+									   data-ng-model="user.email" ng-model-options="{ debounce: 400}"
+									   required
+								>
+								<div ng-show="userForm.submitted || userForm.email.$dirty" class="error-message">
+									<p ng-show="userForm.email.$error.required" class="help-block error-text">Please enter your email</p>
+									<p ng-show="userForm.email.$error.email" class="help-block error-text">Please enter a valid email</p>
+								</div>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="username" class="col-sm-4 control-label">Username</label>
 							<div class="col-sm-8">
-								<input type="text" id="username" name="username" class="form-control" data-ng-model="user.username" placeholder="Username">
+								<input type="text" id="username" name="username" class="form-control" placeholder="Username"
+									   data-ng-model="user.username" ng-model-options="{ debounce: 400}"
+									   required
+								>
+								<div ng-show="userForm.submitted || userForm.username.$dirty" class="error-message">
+									<p ng-show="userForm.username.$error.required" class="help-block error-text">Please enter your username</p>
+								</div>
 							</div>
 						</div>
 					</fieldset>
@@ -53,19 +68,25 @@
 						<div class="form-group">
 							<label for="currentPassword" class="col-sm-4 control-label">Current Password</label>
 							<div class="col-sm-8">
-								<input type="password" id="currentPassword" name="currentPassword" class="form-control" data-ng-model="user.currentPassword" placeholder="Current Password">
+								<input type="password" id="currentPassword" name="currentPassword" class="form-control"
+									   placeholder="Current Password" data-ng-model="user.currentPassword"
+								>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="newPassword" class="col-sm-4 control-label">New Password</label>
 							<div class="col-sm-8">
-								<input type="password" id="newPassword" name="newPassword" class="form-control" data-ng-model="user.newPassword" placeholder="New Password">
+								<input type="password" id="newPassword" name="newPassword" class="form-control"
+									   placeholder="New Password" data-ng-model="user.newPassword"
+								>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="verifyPassword" class="col-sm-4 control-label">Verify Password</label>
 							<div class="col-sm-8">
-								<input type="password" id="verifyPassword" name="verifyPassword" class="form-control" data-ng-model="user.verifyPassword" placeholder="Verify Password">
+								<input type="password" id="verifyPassword" name="verifyPassword" class="form-control"
+									   placeholder="Verify Password" data-ng-model="user.verifyPassword"
+								>
 							</div>
 						</div>
 					</fieldset>
@@ -81,29 +102,45 @@
 
 							<div class="col-sm-8">
 								<div class="form-group" ng-repeat="(i, booked) in user.predefinedSettings.booked">
-									<div class="col-sm-5">
-										<div class="row">
-											<label for="booked-start-time" class="col-sm-4 control-label">From: </label>
-											<div class="col-sm-8">
-												<input id="booked-start-time" type="time" class="form-control" data-ng-model="booked.startTime">
+									<ng-form name="bookedTime">
+										<div class="col-sm-5">
+											<div class="row">
+												<label for="booked-start-time-{{$index}}" class="col-sm-4 control-label">From: </label>
+												<div class="col-sm-8">
+													<input id="booked-start-time-{{$index}}" type="time" class="form-control"
+														   required name="startTime"
+														   data-ng-model="booked.startTime" ng-model-options="{ updateOn: 'blur' }"
+													>
+												</div>
+											</div>
+
+											<div ng-show="userForm.submitted || bookedTime.startTime.$dirty" class="error-message">
+												<p ng-show="bookedTime.startTime.$error.required" class="help-block error-text">Please enter start time</p>
 											</div>
 										</div>
-									</div>
 
-									<div class="col-sm-5">
-										<div class="row">
-											<label for="booked-end-time" class="col-sm-4 control-label">To: </label>
-											<div class="col-sm-8">
-												<input id="booked-end-time" type="time" class="form-control" data-ng-model="booked.endTime">
+										<div class="col-sm-5">
+											<div class="row">
+												<label for="booked-end-time{{$index}}" class="col-sm-4 control-label">To: </label>
+												<div class="col-sm-8">
+													<input id="booked-end-time{{$index}}" type="time" class="form-control"
+														   required name="endTime"
+														   data-ng-model="booked.endTime" ng-model-options="{ updateOn: 'blur' }"
+													>
+												</div>
+											</div>
+
+											<div ng-show="userForm.submitted || bookedTime.endTime.$dirty" class="error-message">
+												<p ng-show="bookedTime.endTime.$error.required" class="help-block error-text">Please enter end time</p>
 											</div>
 										</div>
-									</div>
 
-									<div class="col-sm-2 text-right">
-										<button type="button" class="btn btn-default" aria-label="Left Align" ng-click="removeBookedSlot(i)">
-											<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-										</button>
-									</div>
+										<div class="col-sm-2 text-right">
+											<button type="button" class="btn btn-default" aria-label="Left Align" ng-click="removeBookedSlot(i)">
+												<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+											</button>
+										</div>
+									</ng-form>
 								</div>
 							</div>
 						</div>
@@ -113,9 +150,15 @@
 						<div class="form-group">
 							<label for="reminder" class="col-sm-4 control-label">Reminder: </label>
 							<div class="col-sm-2">
-								<input id="reminder" type="number" class="form-control" data-ng-model="user.predefinedSettings.reminder">
+								<input id="reminder" type="number" class="form-control" name="reminder" required
+									   data-ng-model="user.predefinedSettings.reminder" ng-model-options="{ updateOn: 'blur' }"
+								>
 							</div>
-							<div class="col-sm-offset-6"></div>
+							<div class="col-sm-offset-6">
+								<div ng-show="userForm.submitted || userForm.reminder.$dirty" class="error-message">
+									<p ng-show="userForm.reminder.$error.required" class="help-block error-text">Please enter reminder time</p>
+								</div>
+							</div>
 						</div>
 					</fieldset>
 
@@ -125,33 +168,49 @@
 
 							<div class="col-sm-8 working-days">
 								<div class="form-group" ng-repeat="dayName in workingDays" ng-init="dayOpts = user.predefinedSettings.workingHours[dayName]">
-									<div class="col-sm-1">
-										<input type="checkbox" data-ng-model="dayOpts.isWorkingDay" data-ng-checked="dayOpts.isWorkingDay">
-									</div>
+									<ng-form name="workingDay">
+										<div class="col-sm-1">
+											<input type="checkbox" data-ng-model="dayOpts.isWorkingDay" data-ng-checked="dayOpts.isWorkingDay">
+										</div>
 
-									<h3 class="col-sm-1">
-										{{dayName}}
-									</h3>
+										<h3 class="col-sm-1">
+											{{dayName}}
+										</h3>
 
-									<div class="col-sm-5 working-from-wrapper">
-										<div class="row">
-											<label for="working-day-start" class="col-sm-4 control-label">From: </label>
-											<div class="col-sm-8">
-												<input id="working-day-start" type="time" class="form-control"
-													   data-ng-model="dayOpts.start" data-ng-disabled="!dayOpts.isWorkingDay">
+										<div class="col-sm-5 working-from-wrapper">
+											<div class="row">
+												<label for="working-day-start-{{$index}}" class="col-sm-4 control-label">From: </label>
+												<div class="col-sm-8">
+													<input id="working-day-start-{{$index}}" type="time" class="form-control" name="workingDayStart"
+														   data-ng-model="dayOpts.start" data-ng-disabled="!dayOpts.isWorkingDay"
+														   ng-model-options="{ updateOn: 'blur' }"
+														   required
+													>
+												</div>
+											</div>
+
+											<div ng-show="userForm.submitted || workingDay.workingDayStart.$dirty" class="error-message">
+												<p ng-show="workingDay.workingDayStart.$error.required" class="help-block error-text">Please enter start time</p>
 											</div>
 										</div>
-									</div>
 
-									<div class="col-sm-5">
-										<div class="row">
-											<label for="working-day-end" class="col-sm-4 control-label">To: </label>
-											<div class="col-sm-8">
-												<input id="working-day-end" type="time" class="form-control"
-													   data-ng-model="dayOpts.end" data-ng-disabled="!dayOpts.isWorkingDay">
+										<div class="col-sm-5">
+											<div class="row">
+												<label for="working-day-end-{{$index}}" class="col-sm-4 control-label">To: </label>
+												<div class="col-sm-8">
+													<input id="working-day-end-{{$index}}" type="time" class="form-control" name="workingDayEnd"
+														   data-ng-model="dayOpts.end" data-ng-disabled="!dayOpts.isWorkingDay"
+														   ng-model-options="{ updateOn: 'blur' }"
+														   required
+													>
+												</div>
+											</div>
+
+											<div ng-show="userForm.submitted || workingDay.workingDayEnd.$dirty" class="error-message">
+												<p ng-show="workingDay.workingDayEnd.$error.required" class="help-block error-text">Please enter end time</p>
 											</div>
 										</div>
-									</div>
+									</ng-form>
 								</div>
 							</div>
 						</div>

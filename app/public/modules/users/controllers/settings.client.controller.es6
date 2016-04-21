@@ -7,8 +7,8 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
 
 	$scope.addNewBookedSlot = () => {
 		$scope.user.predefinedSettings.booked.push({
-			startTime: '',
-			endTime: ''
+			startTime: '14:00',
+			endTime: '15:00'
 		});
 	};
 

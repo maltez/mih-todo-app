@@ -59,7 +59,8 @@ module.exports = {
 				'public/lib/bootstrap/dist/js/bootstrap.js',
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
 				'public/lib/angular-ui-notification/dist/angular-ui-notification.js',
-				'public/lib/angular-file-upload/dist/angular-file-upload.js'
+				'public/lib/angular-file-upload/dist/angular-file-upload.js',
+				'public/lib/modelOptions/ngModelOptions.js'
 			]
 		},
 		css: [

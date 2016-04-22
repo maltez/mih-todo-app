@@ -49,3 +49,5 @@ app/app/**/*.js
 app/public/**/*.js
 app/app/**/*.map
 app/public/**/*.map
+
+app/public/modules/users/img/profiles/*

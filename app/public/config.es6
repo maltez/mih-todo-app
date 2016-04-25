@@ -5,7 +5,7 @@
 var ApplicationConfiguration = function () {
 	// Init module configuration options
 	var applicationModuleName = 'mih';
-	var applicationModuleVendorDependencies = ['ngResource', 'ngAnimate', 'ui.router', 'ui.bootstrap', 'ui.utils'];
+	var applicationModuleVendorDependencies = ['ngResource', 'ngAnimate', 'ui.router', 'ui.bootstrap', 'ui.utils', 'ui-notification'];
 
 	// Add a new vertical module
 	var registerModule = function registerModule(moduleName, dependencies) {

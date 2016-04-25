@@ -5,9 +5,15 @@
 angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfiguration.applicationModuleVendorDependencies);
 
 // Setting HTML5 Location Mode
-angular.module(ApplicationConfiguration.applicationModuleName).config(['$locationProvider', function ($locationProvider) {
-	$locationProvider.hashPrefix('!');
-}]);
+angular.module(ApplicationConfiguration.applicationModuleName).config(['$locationProvider', 'NotificationProvider',
+	function ($locationProvider, NotificationProvider) {
+		$locationProvider.hashPrefix('!');
+
+		NotificationProvider.setOptions({
+			positionX: 'center',
+			positionY: 'top'
+		});
+	}]);
 
 //Then define the init function for starting up the application
 angular.element(document).ready(function () {

@@ -4475,15 +4475,6 @@ dd.project-people {
     float: right;
     margin-left: 10px;
 }
-.message {
-    background-color: #fff;
-    border: 1px solid #e7eaec;
-    text-align: left;
-    display: block;
-    padding: 10px 20px;
-    position: relative;
-    border-radius: 4px;
-}
 .chat-discussion .chat-message:nth-child(2n+1) .message-date {
     float: right;
 }

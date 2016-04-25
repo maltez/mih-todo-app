@@ -18,23 +18,11 @@ var user, task;
  */
 describe('Task Model Unit Tests:', function() {
 	beforeEach(function(done) {
-		user = new User({
-			firstName: 'Full',
-			lastName: 'Name',
-			displayName: 'Full Name',
-			email: 'test@test.com',
-			username: 'username',
-			password: 'password'
+		task = new Task({
+			title: 'Task Name',
+			user: user
 		});
-
-		user.save(function() { 
-			task = new Task({
-				name: 'Task Name',
-				user: user
-			});
-
-			done();
-		});
+		done();
 	});
 
 	describe('Method Save', function() {
@@ -45,8 +33,8 @@ describe('Task Model Unit Tests:', function() {
 			});
 		});
 
-		it('should be able to show an error when try to save without name', function(done) { 
-			task.name = '';
+		it('should be able to show an error when try to save without title', function(done) {
+			task.title = '';
 
 			return task.save(function(err) {
 				should.exist(err);
@@ -55,7 +43,7 @@ describe('Task Model Unit Tests:', function() {
 		});
 	});
 
-	afterEach(function(done) { 
+	afterEach(function(done) {
 		Task.remove().exec();
 		User.remove().exec();
 

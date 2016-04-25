@@ -16,19 +16,12 @@
                 </small>-->
 			<h4 class="tasks-list-item-title">
 				<a data-ng-href="#!/tasks/{{task._id}}" data-ng-bind="task.title"></a>
-				<ul>
-					<li data-ng-bind="task.type"></li>
-					<li data-ng-bind="task.days[0].startTime"></li>
-					<li data-ng-bind="task.days[0].endTime"></li>
-					<li data-ng-bind="task.estimation"></li>
-					<li data-ng-bind="task.notes"></li>
-				</ul>
 			</h4>
-			<span class="glyphicon glyphicon-star tasks-item-priority"></span>
+			<span class="glyphicon glyphicon-star tasks-item-priority {{'tasks-priority' + task.priority}}" ></span>
 			<span class="tasks-item-percent">11%</span>
 		</li>
     </ul>
-    <!--<div class="alert alert-warning text-center" data-ng-hide="!tasks.$resolved || tasks.length">
-    	No Tasks yet, why don't you <a href="/#!/tasks/create">create one</a>?
-    </div>-->
+    <!--<div class="alert alert-warning text-center" data-ng-hide="!tasks.$resolved || tasks.length">-->
+    	<!--No Tasks yet, why don't you <a href="/#!/tasks/create">create one</a>?-->
+    <!--</div>-->
 </section>

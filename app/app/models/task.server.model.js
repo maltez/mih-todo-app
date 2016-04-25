@@ -27,24 +27,22 @@ var TaskSchema = new Schema({
 	},
 	priority: {
 		type: Number,
+		required: 'Please choose Task priority',
 		default: ''
 	},
 	days:	{
 		startTime: {
 			type: Date,
-			required: 'Please fill start date',
 			default: ''
 		},
 		endTime : {
 			type: Date,
-			required: 'Please fill end date',
 			default: ''
 		}
 	},
 	notes: {
 		type: String,
 		default: '',
-		required: 'Please fill end date',
 		trim: true
 	},
 	parentTaskId: {

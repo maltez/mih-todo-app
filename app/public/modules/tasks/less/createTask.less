@@ -13,7 +13,6 @@
 
 	.column-wrapper {
 		margin:0 40px;
-
 	}
 
 	.label-padding {
@@ -30,6 +29,11 @@
 		border: 1px solid #838383;
 		border-right:none;
 		cursor: pointer;
+
+		&.disabled {
+			pointer-events: none;
+			background: #eee;
+		}
 	}
 
 	.calendar-input {
@@ -54,12 +58,74 @@
 		left:auto!important;
 		right:0!important;
 	}
+	.priority-btn-inner {
+		border:1px dashed #676a6c;
+		display: table;
+		width: 100%;
 
+		.priority-btn-row {
+			display: table-row;
+
+			.priority-btn-cell {
+				display: table-cell;
+				width:50%;
+				padding: 15px 5px 0;
+
+				&:hover, &.active {
+					background-color: #fff;
+				}
+			}
+		}
+
+		.borderRightBottom {
+			border-right:1px dashed #676a6c;
+			border-bottom: 1px dashed #676a6c;
+		}
+		.borderLeftTop {
+			border-left:1px dashed #676a6c;
+			border-top: 1px dashed #676a6c;
+		}
+	}
+	.priority-btn {
+		position: relative;
+
+		input[type='radio'] {
+			position: absolute;
+			visibility: hidden;
+		}
+		.tasks-priority {
+			padding-bottom: 30px;
+			padding-right: 10px;
+			float:left;
+			font-size: 2em;
+		}
+		.radio-inline {
+			padding:0;
+
+			&.tasks-priority1 {
+				color: #ed5565;
+			}
+			&.tasks-priority2 {
+				color: #f3a747;
+			}
+			&.tasks-priority3 {
+				color: #61b394;
+			}
+			&.tasks-priority4 {
+				color: #676a6c;
+			}
+		}
+	}
 	.slots-table {
 		border: 1px solid #838383;
 		td {
 			text-align: center;
 		}
+	}
+
+	.isTemplateChecker {
+		display: inline-block;
+		margin-right: 10px;
 	}
 
 	.ui-datepicker .btn {

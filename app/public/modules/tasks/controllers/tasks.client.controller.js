@@ -3,11 +3,22 @@
 // Tasks controller
 angular.module('tasks').controller('TasksController', ['$scope', '$rootScope', '$stateParams', '$location', 'Authentication', 'Tasks',
 	function($scope, $rootScope, $stateParams, $location, Authentication, Tasks) {
+
 		$scope.authentication = Authentication;
 
 		$scope.dt = {
 			srartDate : new Date(),
 			endDate : new Date()
+		};
+
+		$scope.startDate = {
+			minDate: new Date(),
+			maxDate: new Date( Date.now() + (365*24*60*60*1000))
+		};
+
+		$scope.endDate = {
+			minDate:  new Date(),
+			maxDate: new Date( Date.now() + (365*24*60*60*1000))
 		};
 
 		$scope.clear = function() {
@@ -22,24 +33,32 @@ angular.module('tasks').controller('TasksController', ['$scope', '$rootScope', '
 		$scope.openStart = function($event) {
 			$event.preventDefault();
 			$event.stopPropagation();
-			return $scope.opened.srartDate = true;
+			return $scope.opened = {
+				srartDate : true,
+				endDate : false
+			};
 		};
 		$scope.openEnd = function($event) {
 			$event.preventDefault();
 			$event.stopPropagation();
-			return $scope.opened.endDate = true;
+			$scope.dt.endDate = $scope.dt.srartDate;
+			$scope.endDate.minDate = $scope.dt.srartDate;
+			return $scope.opened = {
+				srartDate : false,
+				endDate : true
+			};
 		};
 
 		$scope.dateOptions = {
 			srartDate : {
 				'year-format': "'yy'",
 				'starting-day': 1
+
 			},
 			endDate : {
 				'year-format': "'yy'",
 				'starting-day': 1
 			}
-
 		};
 
 		$scope.slider = {
@@ -52,32 +71,35 @@ angular.module('tasks').controller('TasksController', ['$scope', '$rootScope', '
 
 		$scope.type = 'task';
 
+
 		// Create new Task
 		$scope.create = function() {
 			// Create new Task object
 			var task = new Tasks ({
 				title: this.title,
 				type: this.type,
+				priority: this.priority,
 				days: {
-					startTime: this.dt.srartDate,
-					endTime: this.dt.endDate
+					startTime: this.withOutDate ? '' : this.dt.srartDate,
+					endTime: this.withOutDate ? '' : this.dt.endDate
 				},
 				estimation : this.slider.value,
 				notes: this.notes
 			});
-			// Redirect after save
+
 			task.$save(function(response) {
 				$location.path('/');
-
-				// Clear form fields
 				$scope.title = '';
-
-				$rootScope.$broadcast('NEW_TASK_ADDED');
+				$rootScope.$broadcast('NEW_TASK_MODIFY');
 
 			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
+				$scope.validationError  = errorResponse.data.message.errors;
 			});
 			$scope.tasks= [];
+		};
+
+		$scope.cancel = function (){
+			$location.path('/');
 		};
 
 		// Remove existing Task
@@ -90,10 +112,12 @@ angular.module('tasks').controller('TasksController', ['$scope', '$rootScope', '
 						$scope.tasks.splice(i, 1);
 					}
 				}
+				$rootScope.$broadcast('NEW_TASK_MODIFY');
 			} else {
 				$scope.task.$remove(function() {
-					$location.path('tasks');
+					$location.path('/');
 				});
+				$rootScope.$broadcast('NEW_TASK_MODIFY');
 			}
 		};
 

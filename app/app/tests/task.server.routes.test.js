@@ -20,7 +20,7 @@ describe('Task CRUD tests', function() {
 	beforeEach(function(done) {
 		// Create user credentials
 		credentials = {
-			username: 'username',
+			email: 'test@test.com',
 			password: 'password'
 		};
 
@@ -29,8 +29,8 @@ describe('Task CRUD tests', function() {
 			firstName: 'Full',
 			lastName: 'Name',
 			displayName: 'Full Name',
-			email: 'test@test.com',
-			username: credentials.username,
+			email: credentials.email,
+			username: 'User name',
 			password: credentials.password,
 			provider: 'local'
 		});
@@ -38,7 +38,7 @@ describe('Task CRUD tests', function() {
 		// Save a user to the test db and create new Task
 		user.save(function() {
 			task = {
-				name: 'Task Name'
+				title: 'Task Name'
 			};
 
 			done();
@@ -75,7 +75,7 @@ describe('Task CRUD tests', function() {
 
 								// Set assertions
 								(tasks[0].user._id).should.equal(userId);
-								(tasks[0].name).should.match('Task Name');
+								(tasks[0].title).should.match('Task Name');
 
 								// Call the assertion callback
 								done();
@@ -94,9 +94,9 @@ describe('Task CRUD tests', function() {
 			});
 	});
 
-	it('should not be able to save Task instance if no name is provided', function(done) {
-		// Invalidate name field
-		task.name = '';
+	it('should not be able to save Task instance if no title is provided', function(done) {
+		// Invalidate title field
+		task.title = '';
 
 		agent.post('/auth/signin')
 			.send(credentials)
@@ -114,8 +114,8 @@ describe('Task CRUD tests', function() {
 					.expect(400)
 					.end(function(taskSaveErr, taskSaveRes) {
 						// Set message assertion
-						(taskSaveRes.body.message).should.match('Please fill Task name');
-						
+						(taskSaveRes.body.message.errors.title.message).should.match('Please fill Task title');
+
 						// Handle Task save error
 						done(taskSaveErr);
 					});
@@ -141,8 +141,8 @@ describe('Task CRUD tests', function() {
 						// Handle Task save error
 						if (taskSaveErr) done(taskSaveErr);
 
-						// Update Task name
-						task.name = 'WHY YOU GOTTA BE SO MEAN?';
+						// Update Task title
+						task.title = 'WHY YOU GOTTA BE SO MEAN?';
 
 						// Update existing Task
 						agent.put('/tasks/' + taskSaveRes.body._id)
@@ -154,7 +154,7 @@ describe('Task CRUD tests', function() {
 
 								// Set assertions
 								(taskUpdateRes.body._id).should.equal(taskSaveRes.body._id);
-								(taskUpdateRes.body.name).should.match('WHY YOU GOTTA BE SO MEAN?');
+								(taskUpdateRes.body.title).should.match('WHY YOU GOTTA BE SO MEAN?');
 
 								// Call the assertion callback
 								done();
@@ -192,7 +192,7 @@ describe('Task CRUD tests', function() {
 			request(app).get('/tasks/' + taskObj._id)
 				.end(function(req, res) {
 					// Set assertion
-					res.body.should.be.an.Object.with.property('name', task.name);
+					res.body.should.be.an.Object.with.property('title', task.title);
 
 					// Call the assertion callback
 					done();
@@ -238,7 +238,7 @@ describe('Task CRUD tests', function() {
 	});
 
 	it('should not be able to delete Task instance if not signed in', function(done) {
-		// Set Task user 
+		// Set Task user
 		task.user = user;
 
 		// Create new Task model instance

@@ -50,30 +50,10 @@
 			});
 		}));
 
-		it('$scope.find() should create an array with at least one Task object fetched from XHR', inject(function(Tasks) {
-			// Create sample Task using the Tasks service
-			var sampleTask = new Tasks({
-				name: 'New Task'
-			});
-
-			// Create a sample Tasks array that includes the new Task
-			var sampleTasks = [sampleTask];
-
-			// Set GET response
-			$httpBackend.expectGET('tasks').respond(sampleTasks);
-
-			// Run controller functionality
-			scope.find();
-			$httpBackend.flush();
-
-			// Test scope value
-			expect(scope.tasks).toEqualData(sampleTasks);
-		}));
-
 		it('$scope.findOne() should create an array with one Task object fetched from XHR using a taskId URL parameter', inject(function(Tasks) {
 			// Define a sample Task object
 			var sampleTask = new Tasks({
-				name: 'New Task'
+				title: 'New Task'
 			});
 
 			// Set the URL parameter
@@ -93,17 +73,36 @@
 		it('$scope.create() with valid form data should send a POST request with the form input values and then locate to new object URL', inject(function(Tasks) {
 			// Create a sample Task object
 			var sampleTaskPostData = new Tasks({
-				name: 'New Task'
+				title: 'New Task',
+				type: 'task',
+				days: {
+					startTime: new Date(),
+					endTime: new Date()
+				},
+				estimation : 12
 			});
 
 			// Create a sample Task response
 			var sampleTaskResponse = new Tasks({
 				_id: '525cf20451979dea2c000001',
-				name: 'New Task'
+				title: 'New Task',
+				type: 'task',
+				days: {
+					startTime: new Date(),
+					endTime: new Date()
+				},
+				estimation : 12
 			});
 
 			// Fixture mock form input values
-			scope.name = 'New Task';
+			scope.title = 'New Task';
+			scope.type = 'task';
+			scope.days = {
+				startTime: new Date(),
+				endTime: new Date()
+			};
+			scope.estimation =  12;
+
 
 			// Set POST response
 			$httpBackend.expectPOST('tasks', sampleTaskPostData).respond(sampleTaskResponse);
@@ -113,17 +112,17 @@
 			$httpBackend.flush();
 
 			// Test form inputs are reset
-			expect(scope.name).toEqual('');
+			expect(scope.title).toEqual('');
 
 			// Test URL redirection after the Task was created
-			expect($location.path()).toBe('/tasks/' + sampleTaskResponse._id);
+			expect($location.path()).toBe('/');
 		}));
 
 		it('$scope.update() should update a valid Task', inject(function(Tasks) {
 			// Define a sample Task put data
 			var sampleTaskPutData = new Tasks({
 				_id: '525cf20451979dea2c000001',
-				name: 'New Task'
+				title: 'New Task'
 			});
 
 			// Mock Task in scope

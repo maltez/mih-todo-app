@@ -1,6 +1,6 @@
 <section class="create-task-wrapper clearfix" data-ng-controller="TasksController">
 	<div class="col-md-12">
-		<form class="form-horizontal"  novalidate>
+		<form class="form-horizontal" novalidate>
 			<fieldset>
 
 				<div class="row">
@@ -8,8 +8,11 @@
 						<div class="column-wrapper">
 							<div class="form-group">
 								<label class="control-label label-padding" for="title">Title*</label>
-								<input type="text" data-ng-model="title" id="title" class="form-control input-round-borders" placeholder="Title"
-									   required>
+								<input type="text" data-ng-model="title"  id="title"
+									   class="form-control input-round-borders" placeholder="Title" required >
+								<div ng-show="validationError.title" class="error">
+									{{validationError.title.message}}
+								</div>
 							</div>
 							<div class="form-group">
 								<div class="btn-group">
@@ -26,8 +29,44 @@
 									</div>
 								</div>
 							</div>
-							<div class="form-group pool-bottom pool-left">
-								<button class="btn btn-default btn-white">Save as draft</button>
+							<div class="form-group">
+								<div class="btn-group priority-btn">
+									<h5><b>Priority*</b></h5>
+									<div class="priority-btn-inner clearfix">
+										<div class="priority-btn-row">
+											<div class="priority-btn-cell borderRightBottom" ng-class="{active: priority == 1}">
+												<label class="radio-inline tasks-priority1">
+													<span class="glyphicon glyphicon-star tasks-priority"></span>
+													<input type="radio"  name="priority" data-ng-model="priority" value="1" required>Urgent and Important
+												</label>
+											</div>
+											<div class="priority-btn-cell" ng-class="{active: priority == 2}">
+												<label class="radio-inline tasks-priority2">
+													<span class="glyphicon glyphicon-star tasks-priority"></span>
+													<input type="radio" name="priority" data-ng-model="priority" value="2" required>Important not Urgent
+												</label>
+											</div>
+										</div>
+										<div class="priority-btn-row">
+											<div class="priority-btn-cell" ng-class="{active: priority == 3}">
+												<label class="radio-inline tasks-priority3">
+													<span class="glyphicon glyphicon-star tasks-priority"></span>
+													<input type="radio"  name="priority" data-ng-model="priority" value="3" required>Urgent not Important
+
+												</label>
+											</div>
+											<div class="priority-btn-cell borderLeftTop" ng-class="{active: priority == 4}">
+												<label class="radio-inline tasks-priority4">
+													<span class="glyphicon glyphicon-star tasks-priority"></span>
+													<input type="radio" name="priority" data-ng-model="priority" value="4" required>Not Important not urgent
+												</label>
+											</div>
+										</div>
+									</div>
+									<div ng-show="validationError.priority" class="error">
+										{{validationError.priority.message}}
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -36,41 +75,49 @@
 							<div class="form-group">
 								<label class="control-label label-padding" for="srartDate">Start date</label>
 								<div class="input-group ui-datepicker">
-									<span class="input-group-addon calendar-btn" ng-click="openStart($event)">
+									<span ng-class="{disabled: withOutDate}"
+										   class="input-group-addon calendar-btn" ng-click="openStart($event)">
 										<i class="fa fa-calendar"></i>
 									</span>
 
-									<input id="srartDate" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy"
-										   ng-model="dt.srartDate" is-open="opened.srartDate" min="minDate" max="'2015-06-22'"
+									<input id="srartDate" data-ng-disabled="withOutDate" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy"
+										   ng-model="dt.srartDate" is-open="opened.srartDate" min-date="startDate.minDate" max-date="startDate.maxDate"
 										   datepicker-options="dateOptions.srartDate" date-disabled="disabled(date, mode)"
-										   ng-required="true" close-text="Close"
+										   close-text="Close"
 										   ng-click="openStart($event)" required/>
-
+								</div>
+								<div ng-show="validationError['days.startTime']" class="error">
+									{{validationError['days.startTime'].message}}
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="control-label label-padding" for="endDate">End date</label>
 								<div class="input-group ui-datepicker">
-									<span class="input-group-addon calendar-btn" ng-click="openEnd($event)">
+									<span  ng-class="{disabled: withOutDate}"
+										   class="input-group-addon calendar-btn" ng-click="openEnd($event)">
 										<i class="fa fa-calendar"></i>
 									</span>
 
-									<input id="endDate" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy"
-										   ng-model="dt.endDate" is-open="opened.endDate" min="minDate" max="'2015-06-22'"
+									<input id="endDate" data-ng-disabled="withOutDate" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy"
+										   ng-model="dt.endDate" is-open="opened.endDate" min-date="endDate.minDate" max-date="endDate.maxDate"
 										   datepicker-options="dateOptions.endDate" date-disabled="disabled(date, mode)"
-										   ng-required="true" close-text="Close"
+										   close-text="Close"
 										   ng-click="openEnd($event)" required/>
 
 								</div>
+								<div ng-show="validationError['days.endTime']" class="error">
+									{{validationError['days.endTime'].message}}
+								</div>
 							</div>
 							<div class="form-group">
-								<input type="checkbox"  data-ng-model="withOutDate" id="withOutDate" placeholder="Name"
-									   required>
-								<label class="control-label" for="withOutDate">Task without date</label>
-
+								<div class="checkbox">
+									<label for="withOutDate">
+										<input type="checkbox" data-ng-model="withOutDate" id="withOutDate">Task without date
+									</label>
+								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label" for="withOutDate">Estimation</label>
+								<label class="control-label">Estimation</label>
 								<div>
 									<rzslider rz-slider-model="slider.value"
 											  rz-slider-options="slider.options">
@@ -87,12 +134,15 @@
 						<div class="column-wrapper">
 							<div class="form-group">
 								<label class="control-label label-padding" for="tags">Tags</label>
-								<input type="text" data-ng-model="tags" id="tags" class="form-control input-round-borders" placeholder="Add tags"
-									   disabled>
+								<input type="text" data-ng-model="tags" id="tags" class="form-control input-round-borders"
+									   placeholder="Add tags"  disabled />
 							</div>
 							<div class="form-group">
 								<label class="control-label label-padding" for="tags">Notes</label>
 								<textarea class="form-control notes-area" data-ng-model="notes"></textarea>
+								<div ng-show="validationError.notes" class="error">
+									{{validationError.notes.message}}
+								</div>
 							</div>
 						</div>
 					</div>
@@ -117,7 +167,12 @@
 								</tr>
 							</table>
 							<div class="form-group btn-holder pool-bottom pool-right">
-								<button class="btn btn-default btn-white">Cancel</button>
+								<div class="checkbox isTemplateChecker">
+									<label for="saveAsDraft">
+										<input type="checkbox" data-ng-model="saveAsDraft" id="saveAsDraft">Save as draft
+									</label>
+								</div>
+								<button class="btn btn-default btn-white" data-ng-click="cancel()">Cancel</button>
 								<input type="submit" data-ng-click="create()" class="btn btn-default btn-white">
 							</div>
 						</div>
@@ -134,9 +189,9 @@
                  <div class="form-group">
                      <input type="submit" class="btn btn-default">
                  </div>-->
-				<div data-ng-show="error" class="text-danger">
+				<!--<div data-ng-show="error" class="text-danger">
 					<strong data-ng-bind="error"></strong>
-				</div>
+				</div>-->
 			</fieldset>
 		</form>
 	</div>

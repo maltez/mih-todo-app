@@ -3,37 +3,29 @@
 	<div class="container">
 		<div class="row">
 			<h1 class="col-md-12 text-center">Edit your profile</h1>
-			<section class="col-md-3" data-ng-controller="ChangeProfilePictureController as profilePicture">
+			<section class="col-md-3">
 				<form class="signin form-horizontal">
 					<fieldset>
 						<div class="form-group text-center">
-							<img ng-src="{{profilePicture.imageURL}}" alt="{{profilePicture.user.displayName}}" class="img-thumbnail user-profile-picture">
+							<img ng-src="{{settings.imageURL}}" alt="{{settings.user.displayName}}" class="img-thumbnail user-profile-picture">
 						</div>
 
-						<div class="text-center form-group" ng-hide="profilePicture.uploader.queue.length">
+						<div class="text-center form-group" ng-hide="settings.uploader.queue.length">
 						  <span class="btn btn-default btn-file">
-							  Select Image <input type="file" nv-file-select uploader="profilePicture.uploader">
+							  Select Image <input type="file" nv-file-select uploader="settings.uploader">
 						  </span>
 						</div>
 
-						<div class="text-center form-group" ng-show="profilePicture.uploader.queue.length">
-							<button class="btn btn-primary" ng-click="profilePicture.uploadProfilePicture();">Upload</button>
-							<button class="btn btn-default" ng-click="profilePicture.cancelUpload();">Cancel</button>
-						</div>
-
-						<div ng-show="profilePicture.success" class="text-center text-success">
-							<strong>Profile Picture Changed Successfully</strong>
-						</div>
-
-						<div ng-show="profilePicture.error" class="text-center text-danger">
-							<strong ng-bind="profilePicture.error"></strong>
+						<div class="text-center form-group" ng-show="settings.uploader.queue.length">
+							<button class="btn btn-primary" ng-click="settings.uploadProfilePicture();">Upload</button>
+							<button class="btn btn-default" ng-click="settings.cancelUpload();">Cancel</button>
 						</div>
 					</fieldset>
 				</form>
 			</section>
 
-			<section class="col-md-7 col-md-offset-2" data-ng-controller="SettingsController">
-				<form name="userForm" data-ng-submit="updateUserProfile(userForm.$valid)" class="signin form-horizontal"
+			<section class="col-md-7 col-md-offset-2">
+				<form name="userForm" data-ng-submit="settings.updateUserProfile(userForm.$valid)" class="signin form-horizontal"
 					  autocomplete="off" novalidate
 				>
 					<fieldset>
@@ -41,7 +33,7 @@
 							<label for="email" class="col-sm-4 control-label">Email</label>
 							<div class="col-sm-8">
 								<input type="email" id="email" name="email" class="form-control" placeholder="Email"
-									   data-ng-model="user.email" ng-model-options="{ debounce: 400}"
+									   data-ng-model="settings.user.email" ng-model-options="{ debounce: 400}"
 									   required
 								>
 								<div ng-show="userForm.submitted || userForm.email.$dirty" class="error-message">
@@ -54,7 +46,7 @@
 							<label for="username" class="col-sm-4 control-label">Username</label>
 							<div class="col-sm-8">
 								<input type="text" id="username" name="username" class="form-control" placeholder="Username"
-									   data-ng-model="user.username" ng-model-options="{ debounce: 400}"
+									   data-ng-model="settings.user.username" ng-model-options="{ debounce: 400}"
 									   required
 								>
 								<div ng-show="userForm.submitted || userForm.username.$dirty" class="error-message">
@@ -69,7 +61,7 @@
 							<label for="currentPassword" class="col-sm-4 control-label">Current Password</label>
 							<div class="col-sm-8">
 								<input type="password" id="currentPassword" name="currentPassword" class="form-control"
-									   placeholder="Current Password" data-ng-model="user.currentPassword"
+									   placeholder="Current Password" data-ng-model="settings.user.currentPassword"
 								>
 							</div>
 						</div>
@@ -77,7 +69,7 @@
 							<label for="newPassword" class="col-sm-4 control-label">New Password</label>
 							<div class="col-sm-8">
 								<input type="password" id="newPassword" name="newPassword" class="form-control"
-									   placeholder="New Password" data-ng-model="user.newPassword"
+									   placeholder="New Password" data-ng-model="settings.user.newPassword"
 								>
 							</div>
 						</div>
@@ -85,7 +77,7 @@
 							<label for="verifyPassword" class="col-sm-4 control-label">Verify Password</label>
 							<div class="col-sm-8">
 								<input type="password" id="verifyPassword" name="verifyPassword" class="form-control"
-									   placeholder="Verify Password" data-ng-model="user.verifyPassword"
+									   placeholder="Verify Password" data-ng-model="settings.user.verifyPassword"
 								>
 							</div>
 						</div>
@@ -95,13 +87,15 @@
 						<div class="form-group">
 							<div class="col-sm-4">
 								<label for="add-new-booked-slot" class="control-label">Don't disturb me</label>
-								<button id="add-new-booked-slot" type="button" class="btn btn-default pull-right" aria-label="Left Align" ng-click="addNewBookedSlot()">
+								<button id="add-new-booked-slot" type="button" class="btn btn-default pull-right"
+										aria-label="Left Align" ng-click="settings.addNewBookedSlot()"
+								>
 									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 								</button>
 							</div>
 
 							<div class="col-sm-8">
-								<div class="form-group" ng-repeat="(i, booked) in user.predefinedSettings.booked">
+								<div class="form-group" ng-repeat="(i, booked) in settings.user.predefinedSettings.booked">
 									<ng-form name="bookedTime">
 										<div class="col-sm-5">
 											<div class="row">
@@ -136,7 +130,7 @@
 										</div>
 
 										<div class="col-sm-2 text-right">
-											<button type="button" class="btn btn-default" aria-label="Left Align" ng-click="removeBookedSlot(i)">
+											<button type="button" class="btn btn-default" aria-label="Left Align" data-ng-click="settings.removeBookedSlot(i)">
 												<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
 											</button>
 										</div>
@@ -151,7 +145,7 @@
 							<label for="reminder" class="col-sm-4 control-label">Reminder: </label>
 							<div class="col-sm-2">
 								<input id="reminder" type="number" class="form-control" name="reminder" required
-									   data-ng-model="user.predefinedSettings.reminder" ng-model-options="{ updateOn: 'blur' }"
+									   data-ng-model="settings.user.predefinedSettings.reminder" ng-model-options="{ updateOn: 'blur' }"
 								>
 							</div>
 							<div class="col-sm-offset-6">
@@ -167,7 +161,7 @@
 							<label class="col-sm-4 control-label">Working time</label>
 
 							<div class="col-sm-8 working-days">
-								<div class="form-group" ng-repeat="dayName in workingDays" ng-init="dayOpts = user.predefinedSettings.workingHours[dayName]">
+								<div class="form-group" ng-repeat="dayName in settings.workingDays" ng-init="dayOpts = settings.user.predefinedSettings.workingHours[dayName]">
 									<ng-form name="workingDay">
 										<div class="col-sm-1">
 											<input type="checkbox" data-ng-model="dayOpts.isWorkingDay" data-ng-checked="dayOpts.isWorkingDay">
@@ -220,11 +214,11 @@
 						<div class="text-right">
 							<button type="submit" class="btn btn-large btn-primary">Save Profile</button>
 						</div>
-						<div data-ng-show="success" class="text-center text-success">
+						<div data-ng-show="settings.success" class="text-center text-success">
 							<strong>Profile Saved Successfully</strong>
 						</div>
-						<div data-ng-show="error" class="text-center text-danger">
-							<strong data-ng-bind="error"></strong>
+						<div data-ng-show="settings.error" class="text-center text-danger">
+							<strong data-ng-bind="settings.error"></strong>
 						</div>
 					</fieldset>
 				</form>

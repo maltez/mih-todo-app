@@ -1,67 +1,102 @@
 'use strict';
 
-angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', 'Users', 'Authentication', function ($scope, $http, $location, Users, Authentication) {
-	$scope.user = Authentication.user;
+class SettingsController {
+	constructor($location, Users, Authentication, $timeout, $window, FileUploader) {
+		if (!Authentication.user) $location.path('/');
 
-	if (!$scope.user) $location.path('/');
+		/*@ngInject*/
+		this.Users = Users;
+		this.user = Authentication.user;
+		this.$timeout = $timeout;
+		this.$window = $window;
+		this.FileUploader = FileUploader;
+		this.imageURL = this.user.profileImageURL;
 
-	$scope.addNewBookedSlot = () => {
-		$scope.user.predefinedSettings.booked.push({
+		/*fields*/
+		this.workingDays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
+		this.initFileUploader();
+	}
+
+	initFileUploader() {
+		var onAfterAddingFile = (fileItem) => {
+			if (this.$window.FileReader) {
+				var fileReader = new this.$window.FileReader();
+				fileReader.readAsDataURL(fileItem._file);
+
+				fileReader.onload = (fileReaderEvent) => {
+					this.$timeout(() => {
+						this.imageURL = fileReaderEvent.target.result;
+					}, 0);
+				};
+			}
+		};
+
+		var onSuccessItem = (fileItem, response, status, headers) => {
+			this.success = true;
+			this.user = this.user = response;
+			this.cancelUpload();
+		};
+
+		var onErrorItem = (fileItem, response, status, headers) => {
+			this.cancelUpload();
+			this.error = response.message;
+		};
+
+		this.uploader = new this.FileUploader({
+			url: 'users/picture',
+			alias: 'newProfilePicture',
+			onAfterAddingFile: onAfterAddingFile,
+			onSuccessItem: onSuccessItem,
+			onErrorItem: onErrorItem
+		});
+
+		// Set file uploader image filter
+		this.uploader.filters.push({
+			name: 'imageFilter',
+			fn (item, options) {
+				var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+				return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+			}
+		});
+	}
+
+	addNewBookedSlot() {
+		this.user.predefinedSettings.booked.push({
 			startTime: '14:00',
 			endTime: '15:00'
 		});
-	};
+	}
 
-	$scope.removeBookedSlot = (index) => {
-		$scope.user.predefinedSettings.booked.splice(index, 1);
-	};
+	removeBookedSlot(index) {
+		this.user.predefinedSettings.booked.splice(index, 1);
+	}
 
-	$scope.workingDays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
-
-	$scope.updateUserProfile = function (isValid) {
+	updateUserProfile(isValid) {
 		if (isValid) {
-			$scope.success = $scope.error = null;
-			var user = new Users($scope.user);
+			this.success = this.error = null;
+			var user = new this.Users(this.user);
 
-			user.$update(function (response) {
-				$scope.success = true;
-				Authentication.user = response;
-			}, function (response) {
-				$scope.error = response.data.message;
+			user.$update(response => {
+				this.success = true;
+				this.user = response;
+			}, response => {
+				this.error = response.data.message;
 			});
 		} else {
-			$scope.submitted = true;
+			this.submitted = true;
 		}
-	};
+	}
 
-	// Check if there are additional accounts
-	$scope.hasConnectedAdditionalSocialAccounts = function (provider) {
-		for (var i in $scope.user.additionalProvidersData) {
-			return true;
-		}
+	uploadProfilePicture() {
+		this.success = this.error = null;
+		this.uploader.uploadAll();
+	}
 
-		return false;
-	};
+	cancelUpload() {
+		this.uploader.clearQueue();
+		this.imageURL = this.user.profileImageURL;
+	}
+}
 
-	// Check if provider is already in use with current user
-	$scope.isConnectedSocialAccount = function (provider) {
-		return $scope.user.provider === provider || $scope.user.additionalProvidersData && $scope.user.additionalProvidersData[provider];
-	};
-
-	// Remove a user social account
-	$scope.removeUserSocialAccount = function (provider) {
-		$scope.success = $scope.error = null;
-
-		$http.delete('/users/accounts', {
-			params: {
-				provider: provider
-			}
-		}).success(function (response) {
-			// If successful show success message and clear form
-			$scope.success = true;
-			$scope.user = Authentication.user = response;
-		}).error(function (response) {
-			$scope.error = response.message;
-		});
-	};
-}]);
+angular.module('users').controller('SettingsController', SettingsController);

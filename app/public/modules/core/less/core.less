@@ -1,4 +1,4 @@
-@import "public/modules/core/less/variables";
+@import "../../core/less/variables";
 
 .undecorated-link:hover {
 	text-decoration: none;
@@ -6,16 +6,14 @@
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
 	display: none !important;
 }
-<<<<<<< HEAD
 
-=======
 .ng-invalid.ng-dirty {
 	border-color: #FA787E;
 }
 .ng-valid.ng-dirty {
 	border-color: #78FA89;
 }
->>>>>>> 0b7c63faf02de277bc34891d8750ca1b85c74854
+
 .browsehappy.jumbotron.hide,
 body.ng-cloak {
 	display: block;
@@ -169,5 +167,31 @@ a {
 		> .dropdown-menu a {
 			font-size: 14px;
 		}
+	}
+}
+
+div.ui-notification {
+	:before {
+		content: '×';
+		right: 5px;
+		top: 0;
+		position: absolute;
+		display: block;
+		font-size: 20px;
+		line-height: 1;
+	}
+
+	&.success {
+		background: #1ab394;
+	}
+
+	.message {
+		background-color: transparent;
+		border: none;
+		text-align: left;
+		display: block;
+		padding: 0;
+		position: relative;
+		border-radius: 0;
 	}
 }

@@ -46,7 +46,8 @@ module.exports = {
 				'public/inspinia/font-awesome/css/font-awesome.css',
 				'public/inspinia/css/bootstrap.css',
 				'public/lib/bootstrap/dist/css/bootstrap.css',
-				'public/lib/bootstrap/dist/css/bootstrap-theme.css'
+				'public/lib/bootstrap/dist/css/bootstrap-theme.css',
+				'public/lib/angular-ui-notification/dist/angular-ui-notification.css'
 			],
 			js: [
 				'public/lib/angular/angular.js',
@@ -56,7 +57,8 @@ module.exports = {
 				'public/lib/angular-ui-utils/ui-utils.js',
 				'public/lib/jquery/dist/jquery.js',
 				'public/lib/bootstrap/dist/js/bootstrap.js',
-				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js'
+				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
+				'public/lib/angular-ui-notification/dist/angular-ui-notification.js'
 			]
 		},
 		css: [

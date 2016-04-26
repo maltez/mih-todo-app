@@ -72,12 +72,13 @@
 
 		it('$scope.create() with valid form data should send a POST request with the form input values and then locate to new object URL', inject(function(Tasks) {
 			// Create a sample Task object
+			var date = new Date();
 			var sampleTaskPostData = new Tasks({
 				title: 'New Task',
 				type: 'task',
 				days: {
-					startTime: new Date(),
-					endTime: new Date()
+					startTime: date,
+					endTime: date
 				},
 				estimation : 12
 			});
@@ -88,8 +89,8 @@
 				title: 'New Task',
 				type: 'task',
 				days: {
-					startTime: new Date(),
-					endTime: new Date()
+					startTime: date,
+					endTime: date
 				},
 				estimation : 12
 			});
@@ -98,8 +99,8 @@
 			scope.title = 'New Task';
 			scope.type = 'task';
 			scope.days = {
-				startTime: new Date(),
-				endTime: new Date()
+				startTime: date,
+				endTime: date
 			};
 			scope.estimation =  12;
 

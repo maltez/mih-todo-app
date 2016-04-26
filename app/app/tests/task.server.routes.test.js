@@ -38,7 +38,8 @@ describe('Task CRUD tests', function() {
 		// Save a user to the test db and create new Task
 		user.save(function() {
 			task = {
-				title: 'Task Name'
+				title: 'Task Name',
+				priority: 1
 			};
 
 			done();

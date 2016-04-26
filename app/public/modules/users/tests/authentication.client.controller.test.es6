@@ -45,7 +45,7 @@
 			// Test expected GET request
 			$httpBackend.when('POST', '/auth/signin').respond(200, 'Fred');
 
-			scope.signin();
+			scope.signin(true);
 			$httpBackend.flush();
 
 			// Test scope value
@@ -59,7 +59,7 @@
 				'message': 'Missing credentials'
 			});
 
-			scope.signin();
+			scope.signin(true);
 			$httpBackend.flush();
 
 			// Test scope value
@@ -76,7 +76,7 @@
 				'message': 'Unknown user'
 			});
 
-			scope.signin();
+			scope.signin(true);
 			$httpBackend.flush();
 
 			// Test scope value

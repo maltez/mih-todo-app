@@ -11,7 +11,7 @@
 								<input type="text" data-ng-model="title"  id="title"
 									   class="form-control input-round-borders" placeholder="Title" required >
 								<div ng-show="validationError.title" class="error">
-									{{validationError.title.message}}
+								!	{{validationError.title.message}}
 								</div>
 							</div>
 							<div class="form-group">
@@ -64,7 +64,7 @@
 										</div>
 									</div>
 									<div ng-show="validationError.priority" class="error">
-										{{validationError.priority.message}}
+									!	{{validationError.priority.message}}
 									</div>
 								</div>
 							</div>
@@ -86,9 +86,6 @@
 										   close-text="Close"
 										   ng-click="openStart($event)" required/>
 								</div>
-								<div ng-show="validationError['days.startTime']" class="error">
-									{{validationError['days.startTime'].message}}
-								</div>
 							</div>
 							<div class="form-group">
 								<label class="control-label label-padding" for="endDate">End date</label>
@@ -103,10 +100,6 @@
 										   datepicker-options="dateOptions.endDate" date-disabled="disabled(date, mode)"
 										   close-text="Close"
 										   ng-click="openEnd($event)" required/>
-
-								</div>
-								<div ng-show="validationError['days.endTime']" class="error">
-									{{validationError['days.endTime'].message}}
 								</div>
 							</div>
 							<div class="form-group">

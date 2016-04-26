@@ -4,21 +4,24 @@
 angular.module('tasks').controller('TasksController', ['$scope', '$rootScope', '$stateParams', '$location', 'Authentication', 'Tasks',
 	function($scope, $rootScope, $stateParams, $location, Authentication, Tasks) {
 
+		var date = new Date(),
+			dateMax = new Date( Date.now() + (365*24*60*60*1000));
+
 		$scope.authentication = Authentication;
 
 		$scope.dt = {
-			srartDate : new Date(),
-			endDate : new Date()
+			srartDate : date,
+			endDate : date
 		};
 
 		$scope.startDate = {
-			minDate: new Date(),
-			maxDate: new Date( Date.now() + (365*24*60*60*1000))
+			minDate: date,
+			maxDate: dateMax
 		};
 
 		$scope.endDate = {
-			minDate:  new Date(),
-			maxDate: new Date( Date.now() + (365*24*60*60*1000))
+			minDate: date,
+			maxDate: dateMax
 		};
 
 		$scope.clear = function() {

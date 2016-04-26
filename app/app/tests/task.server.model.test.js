@@ -20,6 +20,7 @@ describe('Task Model Unit Tests:', function() {
 	beforeEach(function(done) {
 		task = new Task({
 			title: 'Task Name',
+			priority: 1,
 			user: user
 		});
 		done();

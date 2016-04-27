@@ -1,0 +1,73 @@
+.settings-wrapper {
+	min-height: 100%;
+	position: relative;
+
+	.settings-background {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		min-height: 100%;
+		background: url('../img/backgrounds/settings.jpg');
+		background-size: cover;
+		filter: blur(5px);
+	}
+
+	.container {
+		label, h3 {
+			color: #fff;
+			text-align: left;
+		}
+	}
+
+	h1 {
+		color: #fff;
+		margin-bottom: 40px;
+	}
+
+	.btn-file {
+		position: relative;
+		overflow: hidden;
+
+		input[type=file] {
+			position: absolute;
+			top: 0;
+			right: 0;
+			min-width: 100%;
+			min-height: 100%;
+			font-size: 100px;
+			text-align: right;
+			filter: alpha(opacity=0);
+			opacity: 0;
+			background: white;
+			cursor: inherit;
+			display: block;
+		}
+	}
+
+	fieldset {
+		width: 100%;
+	}
+
+	.working-days {
+		label {
+			padding-right: 0;
+			text-align: right;
+		}
+
+		input[type="checkbox"] {
+			margin-top: 8px;
+		}
+
+		//TODO: refactor user settings bootstrap form from horizontal to inline
+		.working-from-wrapper {
+			position: relative;
+			right: -30px;
+		}
+	}
+
+	.error-text {
+		color: #a94442;
+		text-align: center;
+	}
+}

@@ -138,9 +138,6 @@ var UserSchema = new Schema({
 	}
 });
 
-//console.log(UserSchema)
-//UserSchema.predefinedSettings.workingHours.mon = new WorkDay('mon');
-
 /**
  * Hook a pre save method to hash the password
  */

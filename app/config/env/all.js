@@ -46,7 +46,8 @@ module.exports = {
 				'public/inspinia/font-awesome/css/font-awesome.css',
 				'public/inspinia/css/bootstrap.css',
 				'public/lib/bootstrap/dist/css/bootstrap.css',
-				'public/lib/bootstrap/dist/css/bootstrap-theme.css'
+				'public/lib/bootstrap/dist/css/bootstrap-theme.css',
+				'public/lib/fullcalendar/dist/fullcalendar.css'
 			],
 			js: [
 				'public/lib/angular/angular.js',
@@ -59,11 +60,15 @@ module.exports = {
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
 				'public/lib/angular-strap/dist/angular-strap.min.js',
 				'public/lib/angular-strap/dist/angular-strap.tpl.min.js',
-				'public/lib/owasp-password-strength-test/owasp-password-strength-test.js'
+				'public/lib/owasp-password-strength-test/owasp-password-strength-test.js',
+				'public/lib/moment/moment.js',
+				'public/lib/angular-ui-calendar/src/calendar.js',
+				'public/lib/fullcalendar/dist/fullcalendar.js',
+				'public/lib/fullcalendar/dist/gcal.js'
 			]
 		},
 		css: [
-			'public/inspinia/css/**/*.css',
+			'public/inspinia/css/*.css',
 			'public/modules/**/css/*.css'
 		],
 		js: [

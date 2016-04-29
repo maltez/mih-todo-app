@@ -47,6 +47,7 @@ module.exports = {
 				'public/inspinia/css/bootstrap.css',
 				'public/lib/bootstrap/dist/css/bootstrap.css',
 				'public/lib/bootstrap/dist/css/bootstrap-theme.css',
+				'public/lib/angular-ui-notification/dist/angular-ui-notification.css',
 				'public/lib/angularjs-slider/dist/rzslider.min.css'
 			],
 			js: [
@@ -57,8 +58,11 @@ module.exports = {
 				'public/lib/angular-ui-utils/ui-utils.js',
 				'public/lib/jquery/dist/jquery.js',
 				'public/lib/bootstrap/dist/js/bootstrap.js',
+				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
+				'public/lib/angular-ui-notification/dist/angular-ui-notification.js',
+				'public/lib/angular-file-upload/dist/angular-file-upload.js',
 				'public/lib/angularjs-slider/dist/rzslider.js',
-				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js'
+				'public/lib/modelOptions/ngModelOptions.js'
 			]
 		},
 		css: [
@@ -76,5 +80,14 @@ module.exports = {
 			'public/lib/angular-mocks/angular-mocks.js',
 			'public/modules/*/tests/*.js'
 		]
+	},
+	profilesFolder: './modules/users/img/profiles/',
+	uploads: {
+		profileUpload: {
+			dest: './public/modules/users/img/profiles/', // Profile upload destination path
+			limits: {
+				fileSize: 3 * 1024 * 1024 // Max file size in bytes (3 MB)
+			}
+		}
 	}
 };

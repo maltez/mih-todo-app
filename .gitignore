@@ -40,10 +40,14 @@ mongod
 *.tmp
 *.bak
 *.swp
+*.css
 
 app/logs/
 app/build/
 
 app/app/**/*.js
 app/public/**/*.js
-*.css
+app/app/**/*.map
+app/public/**/*.map
+
+app/public/modules/users/img/profiles/*

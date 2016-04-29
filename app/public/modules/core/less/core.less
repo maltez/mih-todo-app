@@ -1,4 +1,4 @@
-@import "public/modules/core/less/variables";
+@import "variables";
 
 .undecorated-link:hover {
 	text-decoration: none;
@@ -167,5 +167,31 @@ a {
 		> .dropdown-menu a {
 			font-size: 14px;
 		}
+	}
+}
+
+div.ui-notification {
+	:before {
+		content: '×';
+		right: 5px;
+		top: 0;
+		position: absolute;
+		display: block;
+		font-size: 20px;
+		line-height: 1;
+	}
+
+	&.success {
+		background: #1ab394;
+	}
+
+	.message {
+		background-color: transparent;
+		border: none;
+		text-align: left;
+		display: block;
+		padding: 0;
+		position: relative;
+		border-radius: 0;
 	}
 }

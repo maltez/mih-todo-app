@@ -10,9 +10,12 @@
     "angular-mocks": "~1.2",
     "angular-bootstrap": "~0.12.0",
     "angular-ui-utils": "~0.1.1",
-    "angular-ui-router": "~0.2.11"
+    "angular-ui-router": "~0.2.11",
+    "angular-ui-notification": "^0.2.0",
+	"angular-file-upload": "^2.2.0",
+	"modelOptions": "ngModelOptions#^0.0.1"
   },
   "devDependencies": {
-    "angularjs-slider": "^2.11.0"
+	"angularjs-slider": "^2.11.0"
   }
 }

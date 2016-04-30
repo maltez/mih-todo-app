@@ -7,6 +7,10 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 	if ($scope.authentication.user) $location.path('/');
 
 	$scope.signup = function () {
+		if (!isValid){
+			$scope.userForm.submitted = true;
+			return;
+		}
 		$http.post('/auth/signup', $scope.credentials).success(function (response) {
 			// If successful we assign the response to the global user model
 			$scope.authentication.user = response;

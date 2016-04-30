@@ -1,0 +1,191 @@
+<section class="create-task-wrapper clearfix" data-ng-controller="TasksController">
+	<div class="col-md-12">
+		<form class="form-horizontal" novalidate>
+			<fieldset>
+
+				<div class="row">
+					<div class="col-xs-6 col-sm-3">
+						<div class="column-wrapper">
+							<div class="form-group">
+								<label class="control-label label-padding" for="title">Title*</label>
+								<input type="text" data-ng-model="title"  id="title"
+									   class="form-control input-round-borders" placeholder="Title" required >
+								<div ng-show="validationError.title" class="error">
+								!	{{validationError.title.message}}
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="btn-group">
+									<h5><b>Type</b></h5>
+									<div class="col-md-6">
+										<label class="radio-inline">
+											<input type="radio"  name="type" data-ng-model="type" value="task">Task
+										</label>
+									</div>
+									<div class="col-md-6">
+										<label class="radio-inline">
+											<input type="radio" name="type" data-ng-model="type" value="event">Event
+										</label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="btn-group priority-btn">
+									<h5><b>Priority*</b></h5>
+									<div class="priority-btn-inner clearfix">
+										<div class="priority-btn-row">
+											<div class="priority-btn-cell borderRightBottom" ng-class="{active: priority == 1}">
+												<label class="radio-inline tasks-priority1">
+													<span class="glyphicon glyphicon-star tasks-priority"></span>
+													<input type="radio"  name="priority" data-ng-model="priority" value="1" required>Urgent and Important
+												</label>
+											</div>
+											<div class="priority-btn-cell" ng-class="{active: priority == 2}">
+												<label class="radio-inline tasks-priority2">
+													<span class="glyphicon glyphicon-star tasks-priority"></span>
+													<input type="radio" name="priority" data-ng-model="priority" value="2" required>Important not Urgent
+												</label>
+											</div>
+										</div>
+										<div class="priority-btn-row">
+											<div class="priority-btn-cell" ng-class="{active: priority == 3}">
+												<label class="radio-inline tasks-priority3">
+													<span class="glyphicon glyphicon-star tasks-priority"></span>
+													<input type="radio"  name="priority" data-ng-model="priority" value="3" required>Urgent not Important
+
+												</label>
+											</div>
+											<div class="priority-btn-cell borderLeftTop" ng-class="{active: priority == 4}">
+												<label class="radio-inline tasks-priority4">
+													<span class="glyphicon glyphicon-star tasks-priority"></span>
+													<input type="radio" name="priority" data-ng-model="priority" value="4" required>Not Important not urgent
+												</label>
+											</div>
+										</div>
+									</div>
+									<div ng-show="validationError.priority" class="error">
+									!	{{validationError.priority.message}}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6 col-sm-3">
+						<div class="column-wrapper">
+							<div class="form-group">
+								<label class="control-label label-padding" for="srartDate">Start date</label>
+								<div class="input-group ui-datepicker">
+									<span ng-class="{disabled: withOutDate}"
+										   class="input-group-addon calendar-btn" ng-click="openStart($event)">
+										<i class="fa fa-calendar"></i>
+									</span>
+
+									<input id="srartDate" data-ng-disabled="withOutDate" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy"
+										   ng-model="dt.srartDate" is-open="opened.srartDate" min-date="startDate.minDate" max-date="startDate.maxDate"
+										   datepicker-options="dateOptions.srartDate" date-disabled="disabled(date, mode)"
+										   close-text="Close"
+										   ng-click="openStart($event)" required/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label label-padding" for="endDate">End date</label>
+								<div class="input-group ui-datepicker">
+									<span  ng-class="{disabled: withOutDate}"
+										   class="input-group-addon calendar-btn" ng-click="openEnd($event)">
+										<i class="fa fa-calendar"></i>
+									</span>
+
+									<input id="endDate" data-ng-disabled="withOutDate" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy"
+										   ng-model="dt.endDate" is-open="opened.endDate" min-date="endDate.minDate" max-date="endDate.maxDate"
+										   datepicker-options="dateOptions.endDate" date-disabled="disabled(date, mode)"
+										   close-text="Close"
+										   ng-click="openEnd($event)" required/>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="checkbox">
+									<label for="withOutDate">
+										<input type="checkbox" data-ng-model="withOutDate" id="withOutDate">Task without date
+									</label>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label">Estimation</label>
+								<div>
+									<rzslider rz-slider-model="slider.value"
+											  rz-slider-options="slider.options">
+									</rzslider>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Add the extra clearfix for only the required viewport -->
+					<div class="clearfix visible-xs-block"></div>
+
+					<div class="col-xs-6 col-sm-3">
+						<div class="column-wrapper">
+							<div class="form-group">
+								<label class="control-label label-padding" for="tags">Tags</label>
+								<input type="text" data-ng-model="tags" id="tags" class="form-control input-round-borders"
+									   placeholder="Add tags"  disabled />
+							</div>
+							<div class="form-group">
+								<label class="control-label label-padding" for="tags">Notes</label>
+								<textarea class="form-control notes-area" data-ng-model="notes"></textarea>
+								<div ng-show="validationError.notes" class="error">
+									{{validationError.notes.message}}
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6 col-sm-3">
+						<div class="column-wrapper">
+							<label class="control-label label-padding">Slots</label>
+							<table class="table table-bordered slots-table">
+								<tr>
+									<td>Monday 22.02</td>
+									<td>16.00-20.00</td>
+									<td>4h</td>
+								</tr>
+								<tr>
+									<td>Tuesday 23.02</td>
+									<td>10.00-14.00</td>
+									<td>4h</td>
+								</tr>
+								<tr>
+									<td>Wednesday 24.02 </td>
+									<td>10.00-14.00</td>
+									<td>4h</td>
+								</tr>
+							</table>
+							<div class="form-group btn-holder pool-bottom pool-right">
+								<div class="checkbox isTemplateChecker">
+									<label for="saveAsDraft">
+										<input type="checkbox" data-ng-model="saveAsDraft" id="saveAsDraft">Save as draft
+									</label>
+								</div>
+								<button class="btn btn-default btn-white" data-ng-click="cancel()">Cancel</button>
+								<input type="submit" data-ng-click="create()" class="btn btn-default btn-white">
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<!-- <div class="form-group">
+                     <label class="control-label" for="name">Name</label>
+                     <div class="controls">
+                         <input type="text" data-ng-model="name" id="name" class="form-control" placeholder="Name" required>
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <input type="submit" class="btn btn-default">
+                 </div>-->
+				<!--<div data-ng-show="error" class="text-danger">
+					<strong data-ng-bind="error"></strong>
+				</div>-->
+			</fieldset>
+		</form>
+	</div>
+</section>

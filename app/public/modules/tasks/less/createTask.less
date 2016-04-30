@@ -1,0 +1,155 @@
+@import "public/modules/core/less/variables";
+
+.create-task-wrapper{
+	background: #eee;
+	border: 1px solid #c6c6c6;
+	margin: 5px 10px -40px;
+	padding: 10px 25px;
+
+	.error {
+		color: red;
+		margin-top: 3px;
+	}
+
+	.col-xs-6 {
+		min-height: 330px;
+		position: relative;
+	}
+
+	.column-wrapper {
+		margin:0 40px;
+	}
+
+	.label-padding {
+		margin-bottom:10px;
+	}
+
+	input[type='text'], .input-round-borders, .notes-area {
+		border-radius: 5px;
+		border: 1px solid #838383;
+	}
+
+	.calendar-btn {
+		border-radius: 5px 0 0 5px;
+		border: 1px solid #838383;
+		border-right:none;
+		cursor: pointer;
+
+		&.disabled {
+			pointer-events: none;
+			background: #eee;
+		}
+	}
+
+	.calendar-input {
+		border-radius: 0 5px 5px 0!important;
+	}
+
+	.btn-holder {
+		text-align: right;
+	}
+
+	.btn-white{
+		background: #fff;
+		border: 1px solid #838383;
+		color: #333;
+	}
+
+	.notes-area{
+		height:150px;
+	}
+
+	.rz-limit:last-child {
+		left:auto!important;
+		right:0!important;
+	}
+	.priority-btn-inner {
+		border:1px dashed #676a6c;
+		display: table;
+		width: 100%;
+
+		.priority-btn-row {
+			display: table-row;
+
+			.priority-btn-cell {
+				display: table-cell;
+				width:50%;
+				padding: 15px 5px 0;
+
+				&:hover, &.active {
+					background-color: #fff;
+				}
+			}
+		}
+
+		.borderRightBottom {
+			border-right:1px dashed #676a6c;
+			border-bottom: 1px dashed #676a6c;
+		}
+		.borderLeftTop {
+			border-left:1px dashed #676a6c;
+			border-top: 1px dashed #676a6c;
+		}
+	}
+	.priority-btn {
+		position: relative;
+
+		input[type='radio'] {
+			position: absolute;
+			visibility: hidden;
+		}
+		.tasks-priority {
+			padding:4px 10px 25px;
+			float:left;
+			font-size: 2em;
+		}
+		.radio-inline {
+			padding:0;
+
+			&.tasks-priority1 {
+				color: #ed5565;
+			}
+			&.tasks-priority2 {
+				color: #f3a747;
+			}
+			&.tasks-priority3 {
+				color: #61b394;
+			}
+			&.tasks-priority4 {
+				color: #676a6c;
+			}
+		}
+	}
+	.slots-table {
+		border: 1px solid #838383;
+		td {
+			text-align: center;
+		}
+	}
+
+	.isTemplateChecker {
+		display: inline-block;
+		margin-right: 10px;
+	}
+
+	.ui-datepicker .btn {
+		background: #fff;
+		color:#333;
+	}
+	.ui-datepicker .btn.active {
+		background: #f8f8f8;
+		color:#000;
+	}
+	.pool-bottom {
+		position: absolute;
+		bottom: 10px;
+	}
+	.pool-left {
+		left: 50px;
+	}
+	.pool-right {
+		right: 70px;
+	}
+}
+
+

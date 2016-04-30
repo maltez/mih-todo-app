@@ -116,7 +116,8 @@ module.exports = function(grunt) {
 					{
 						expand: true,
 						src: watchFiles.allES6,
-						ext: '.compiled.js'
+						ext: '.js',
+						extDot: 'last'
 					}
 				]
 			}
@@ -165,7 +166,10 @@ module.exports = function(grunt) {
 			},
 			production: {
 				NODE_ENV: 'production'
-			}
+			},
+			test: {
+				NODE_ENV: 'test'
+			},
 		},
 		mochaTest: {
 			src: watchFiles.mochaTests,
@@ -219,6 +223,6 @@ module.exports = function(grunt) {
 
 	// Test task.
 	grunt.registerTask('test', ['copy:localConfig', 'test:server', 'test:client']);
-	grunt.registerTask('test:server', ['babel:es6', 'env:development', 'mochaTest']);
-	grunt.registerTask('test:client', ['env:development', 'karma:unit']);
+	grunt.registerTask('test:server', ['babel:es6', 'env:test', 'mochaTest']);
+	grunt.registerTask('test:client', ['babel:es6', 'env:test', 'karma:unit']);
 };

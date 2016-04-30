@@ -1,45 +1,41 @@
 'use strict';
 
-angular.module('users').controller('AuthenticationController', ['$scope', '$http', '$location', 'Authentication',
-	function($scope, $http, $location, Authentication) {
-		$scope.authentication = Authentication;
+angular.module('users').controller('AuthenticationController', ['$scope', '$http', '$location', 'Authentication', function ($scope, $http, $location, Authentication) {
+	$scope.authentication = Authentication;
 
-		// If user is signed in then redirect back home
-		if ($scope.authentication.user) $location.path('/');
+	// If user is signed in then redirect back home
+	if ($scope.authentication.user) $location.path('/');
 
-		$scope.signup = function(isValid) {
+	$scope.signup = function () {
+		if (!isValid){
+			$scope.userForm.submitted = true;
+			return;
+		}
+		$http.post('/auth/signup', $scope.credentials).success(function (response) {
+			// If successful we assign the response to the global user model
+			$scope.authentication.user = response;
 
-			if (!isValid){
-				$scope.userForm.submitted = true;
-				return;
-			}
+			// And redirect to the index page
+			$location.path('/');
+		}).error(function (response) {
+			$scope.error = response.message;
+		});
+	};
 
+	$scope.signin = function (isValid) {
+		if (!isValid) {
+			$scope.signinForm.submitted = true;
+			return false;
+		}
+		$http.post('/auth/signin', $scope.credentials).success(function (response) {
+			// If successful we assign the response to the global user model
+			$scope.authentication.user = response;
 
-			$http.post('/auth/signup', $scope.credentials).success(function(response) {
-				// If successful we assign the response to the global user model
-				$scope.authentication.user = response;
-
-				// And redirect to the index page
-				$location.path('/');
-			}).error(function(response) {
-				$scope.error = response.message;
-			});
-		};
-
-		$scope.signin = function(isValid) {
-			if (!isValid) {
-				$scope.signinForm.submitted = true;
-				return false;
-			}
-			$http.post('/auth/signin', $scope.credentials).success(function(response) {
-				// If successful we assign the response to the global user model
-				$scope.authentication.user = response;
-
-				// And redirect to the index page
-				$location.path('/');
-			}).error(function(response) {
-				$scope.error = response.message;
-			});
-		};
-	}
-]);
+			// And redirect to the index page
+			$location.path('/');
+			window.location.reload();
+		}).error(function (response) {
+			$scope.error = response.message;
+		});
+	};
+}]);

@@ -22,36 +22,26 @@ var validateLocalStrategyPassword = function validateLocalStrategyPassword(passw
 	return this.provider !== 'local' || password && password.length > 6;
 };
 
-var WorkDay = function(dayName, dayIndex) {
-	return {
-		start: {
-			type: String,
-			default: '09:00',
-			required: 'Please fill in a working day start time'
-		},
-
-		end: {
-			type: String,
-			default: '18:00',
-			required: 'Please fill in a working day end time'
-		},
-
-		isWorkingDay: {
-			type: Boolean,
-			default: (dayName != 'sun' && dayName != 'sat')
-		},
-
-		dayIndex: {
-			type: Number,
-			default: dayIndex
-		}
-	}
-};
-
 /**
  * User Schema
  */
 var UserSchema = new Schema({
+	firstName: {
+		type: String,
+		trim: true,
+		default: '',
+		validate: [validateLocalStrategyProperty, 'Please fill in your first name']
+	},
+	lastName: {
+		type: String,
+		trim: true,
+		default: '',
+		validate: [validateLocalStrategyProperty, 'Please fill in your last name']
+	},
+	displayName: {
+		type: String,
+		trim: true
+	},
 	email: {
 		type: String,
 		trim: true,
@@ -75,37 +65,6 @@ var UserSchema = new Schema({
 		type: String,
 		default: './modules/users/img/profiles/default.jpg'
 	},
-	predefinedSettings: {
-		booked: [{
-			startTime: {
-				type: String,
-				required: 'Please fill in a booked time start'
-			},
-			endTime: {
-				type: String,
-				required: 'Please fill in a booked time end'
-			}
-		}],
-
-		workingHours: {
-			'mon': new WorkDay('mon', 1),
-			'tue': new WorkDay('tue', 2),
-			'wed': new WorkDay('wed', 3),
-			'thu': new WorkDay('thu', 4),
-			'fri': new WorkDay('fri', 5),
-			'sat': new WorkDay('sat', 6),
-			'sun': new WorkDay('sun', 7)
-		},
-
-		reminder: {
-			type: Number,
-			default: 15,
-			required: 'Please fill in a reminder time'
-		}
-	},
-
-
-	/*system fields*/
 	salt: {
 		type: String
 	},

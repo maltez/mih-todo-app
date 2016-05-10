@@ -29,6 +29,9 @@ describe('User CRUD tests', () => {
 
 		// Create a new user
 		_user = {
+			firstName: 'User',
+			lastName: 'Routes',
+			displayName: 'User Routes',
 			email: credentials.email,
 			username: 'UserRoutes',
 			password: credentials.password,

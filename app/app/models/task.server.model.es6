@@ -4,21 +4,10 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-	Schema = mongoose.Schema;
+	Schema = mongoose.Schema,
+	_ = require('lodash');
 
-/**
- * Task Schema
- */
-var TaskSchema = new Schema({
-	id:{
-		type: Date,
-		default: Date.now
-	},
-	type: {
-		type: String,
-		default: '',
-		trim: true
-	},
+var taskTemplate = {
 	title: {
 		type: String,
 		default: '',
@@ -30,20 +19,39 @@ var TaskSchema = new Schema({
 		required: 'Please choose Task priority',
 		default: ''
 	},
-	days:	{
-		startTime: {
-			type: Date,
-			default: ''
-		},
-		endTime : {
-			type: Date,
-			default: ''
-		}
-	},
 	notes: {
 		type: String,
 		default: '',
 		trim: true
+	},
+	estimation: {
+		type: Number,
+		default: ''
+	}
+};
+
+/**
+ * Task Schema
+ */
+var TaskSchema = new Schema(_.extend({
+	id:{
+		type: Date,
+		default: Date.now
+	},
+	type: {
+		type: String,
+		default: '',
+		trim: true
+	},
+	days:	{
+		startDate: {
+			type: Date,
+			default: ''
+		},
+		endDate : {
+			type: Date,
+			default: ''
+		}
 	},
 	parentTaskId: {
 		type: Date,
@@ -51,10 +59,6 @@ var TaskSchema = new Schema({
 	},
 	deadline: {
 		type: Date,
-		default: ''
-	},
-	estimation: {
-		type: Number,
 		default: ''
 	},
 	tags: [],
@@ -93,34 +97,8 @@ var TaskSchema = new Schema({
 		type: Schema.ObjectId,
 		ref: 'User'
 	}
-});
+}, taskTemplate));
 
 mongoose.model('Task', TaskSchema);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+exports.taskTemplate = taskTemplate;

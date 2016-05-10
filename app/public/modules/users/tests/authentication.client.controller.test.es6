@@ -88,7 +88,7 @@
 			scope.authentication.user = 'Fred';
 			$httpBackend.when('POST', '/auth/signup').respond(200, 'Fred');
 
-			scope.signup();
+			scope.signup(true);
 			$httpBackend.flush();
 
 			// test scope value
@@ -103,7 +103,7 @@
 				'message': 'Email already exists'
 			});
 
-			scope.signup();
+			scope.signup(true);
 			$httpBackend.flush();
 
 			// Test scope value

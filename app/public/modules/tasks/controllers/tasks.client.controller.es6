@@ -54,12 +54,12 @@ angular.module('tasks').controller('TasksController', ['$scope', '$rootScope', '
 
 		$scope.dateOptions = {
 			srartDate : {
-				'year-format': "'yy'",
+				'year-format': 'yy',
 				'starting-day': 1
 
 			},
 			endDate : {
-				'year-format': "'yy'",
+				'year-format': 'yy',
 				'starting-day': 1
 			}
 		};

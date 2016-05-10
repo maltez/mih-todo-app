@@ -249,14 +249,14 @@ describe('Task CRUD tests', function() {
 		taskObj.save(function() {
 			// Try deleting Task
 			request(app).delete('/tasks/' + taskObj._id)
-			.expect(401)
-			.end(function(taskDeleteErr, taskDeleteRes) {
-				// Set message assertion
-				(taskDeleteRes.body.message).should.match('User is not logged in');
+				.expect(401)
+				.end(function(taskDeleteErr, taskDeleteRes) {
+					// Set message assertion
+					(taskDeleteRes.body.message).should.match('User is not logged in');
 
-				// Handle Task error error
-				done(taskDeleteErr);
-			});
+					// Handle Task error error
+					done(taskDeleteErr);
+				});
 
 		});
 	});

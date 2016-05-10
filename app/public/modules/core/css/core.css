@@ -144,3 +144,24 @@ a {
 .notification-menu .nav-user-profile > .dropdown-menu a {
   font-size: 14px;
 }
+div.ui-notification :before {
+  content: '×';
+  right: 5px;
+  top: 0;
+  position: absolute;
+  display: block;
+  font-size: 20px;
+  line-height: 1;
+}
+div.ui-notification.success {
+  background: #1ab394;
+}
+div.ui-notification .message {
+  background-color: transparent;
+  border: none;
+  text-align: left;
+  display: block;
+  padding: 0;
+  position: relative;
+  border-radius: 0;
+}

@@ -61,7 +61,6 @@ angular.module('calendar')
 
 		$scope.eventSources = [$scope.events];
 
-		/* Calendar config object */
 		$scope.uiConfig = {
 			calendar: {
 				height: 700,
@@ -69,7 +68,7 @@ angular.module('calendar')
 				header: {
 					left: 'today prev,next',
 					center: 'title',
-					right: 'agendaDay, agendaWeek, month '
+					right: 'agendaDay, agendaWeek, month'
 				},
 				businessHours : {
 					start: '10:00',

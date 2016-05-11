@@ -1,0 +1,46 @@
+.calendar-wrapper {
+  width: 97%;
+  margin: 0 auto;
+}
+.fc-button {
+  outline: none;
+  &:not(.fc-state-disabled):hover {
+  	background: #929699;
+  	border-color: #7C8083;
+  	color: #fff;
+	}
+}
+.fc-right {
+  .fc-button {
+	margin: 0;
+	border-radius: 0;
+	&:first-child {
+	  border-top-left-radius: 4px;
+	  border-bottom-left-radius: 4px;
+	}
+	&:last-child {
+	  border-top-right-radius: 4px;
+	  border-bottom-right-radius: 4px;
+	}
+  }
+}
+.fc-event {
+  &.event {
+	background: #1ab394;
+	border-color: #127561;
+  }
+  &.task {
+	background: #1c84c6;
+	border-color: #146699
+  }
+}
+.fc-state-active,
+.fc-state-disabled {
+  background: #929699;
+  border-color: #7C8083;
+  opacity: 1;
+  color: #fff;
+}
+.fc-bgevent {
+  background:#d7d7d7;
+}

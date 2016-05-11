@@ -175,8 +175,7 @@ module.exports = function(grunt) {
 			src: watchFiles.mochaTests,
 			options: {
 				reporter: 'spec',
-				require: 'server.js',
-				timeout: 1000 * 20
+				require: 'server.js'
 			}
 		},
 		karma: {
@@ -185,13 +184,13 @@ module.exports = function(grunt) {
 			}
 		},
 		copy: {
-		    localConfig: {
-	            src: 'config/env/local.example.js',
-	            dest: 'config/env/local.js',
-	            filter: function() {
-	            	return !fs.existsSync('config/env/local.js');
-	            }
-		    }
+			localConfig: {
+				src: 'config/env/local.example.js',
+				dest: 'config/env/local.js',
+				filter: function() {
+					return !fs.existsSync('config/env/local.js');
+				}
+			}
 		}
 	});
 

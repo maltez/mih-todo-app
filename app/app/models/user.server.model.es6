@@ -5,8 +5,8 @@
  */
 
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema,
-    crypto = require('crypto');
+	Schema = mongoose.Schema,
+	crypto = require('crypto');
 
 /**
  * A Validation function for local strategy properties
@@ -56,13 +56,12 @@ var UserSchema = new Schema({
 		type: String,
 		trim: true,
 		default: '',
-		unique: 'Email already exists',
 		validate: [validateLocalStrategyProperty, 'Please fill in your email'],
-		match: [/.+\@.+\..+/, 'Please fill a valid email address']
+		match: [/.+\@.+\..+/, 'Please fill a valid email address'],
+		unique: 'Email already registered'
 	},
 	username: {
 		type: String,
-		unique: 'Username already exists',
 		required: 'Please fill in a username',
 		trim: true
 	},

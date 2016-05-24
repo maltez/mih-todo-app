@@ -6,7 +6,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 	// If user is signed in then redirect back home
 	if ($scope.authentication.user) $location.path('/');
 
-	$scope.signup = function () {
+	$scope.signup = function (isValid) {
 		if (!isValid){
 			$scope.userForm.submitted = true;
 			return;

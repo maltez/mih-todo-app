@@ -19,7 +19,7 @@ var validateLocalStrategyProperty = function validateLocalStrategyProperty(prope
  * A Validation function for local strategy password
  */
 var validateLocalStrategyPassword = function validateLocalStrategyPassword(password) {
-	return this.provider !== 'local' || password && password.length > 6;
+	return this.provider !== 'local' || password && password.length >= 6;
 };
 
 var WorkDay = function(dayName, dayIndex) {

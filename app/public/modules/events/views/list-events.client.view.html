@@ -1,8 +1,12 @@
 <ul class="nav nav-second-level in collapse" data-ng-controller="EventsListController" data-ng-init="find()">
-	<li data-ng-repeat="event in events" class="task-list-item">
-		<a data-ng-href="#!/tasks/{{event._id}}" class="task-list-item">
-			<span class="nav-label task-name" data-ng-bind="event.title"></span>
-			<span class="pull-right label label-danger"> 0% </span>
+	<li data-ng-repeat="event in events | orderBy:'days.startDate'" class="event-list-item">
+		<a data-ng-href="#!/tasks/{{event._id}}" class="clearfix">
+			<span class="nav-label event-name pull-left" data-ng-bind="event.title"></span>
+			<div class="event-date pull-right">
+				<span class="event-day">{{ event.days.startDate | date:'EEEE' }}</span>
+				<span class="event-time">{{ event.days.startDate | date:'HH:mm' }}</span>
+			</div>
+
 		</a>
 	</li>
 </ul>

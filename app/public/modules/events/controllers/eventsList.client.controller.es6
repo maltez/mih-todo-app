@@ -11,7 +11,7 @@ angular.module('events').controller('EventsListController', ['$scope', '$rootSco
 
 		// Find a list of Events
 		$scope.find = function() {
-			$scope.tasks = Events.query();
+			$scope.events = Events.query();
 		};
 
 	}

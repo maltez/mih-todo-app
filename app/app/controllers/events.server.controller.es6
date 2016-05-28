@@ -6,102 +6,102 @@
 var mongoose = require('mongoose'),
 	ObjectId = require("mongodb").ObjectID,
 	errorHandler = require('./errors.server.controller'),
-	Task = mongoose.model('Task'),
+	Event = mongoose.model('Task'),
 	_ = require('lodash');
 
 /**
- * Create a Task
+ * Create a Event
  */
 exports.create = function(req, res) {
-	var task = new Task(req.body);
-	task.user = req.user;
+	var event = new Event(req.body);
+	event.user = req.user;
 
-	task.save(function(err) {
+	event.save(function(err) {
 		if (err) {
 			return res.status(400).send({
-				message: err
+				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(task);
+			res.jsonp(event);
 		}
 	});
 };
 
 /**
- * Show the current Task
+ * Show the current Event
  */
 exports.read = function(req, res) {
-	res.jsonp(req.task);
+	res.jsonp(req.event);
 };
 
 /**
- * Update a Task
+ * Update a Event
  */
 exports.update = function(req, res) {
-	var task = req.task ;
+	var event = req.event ;
 
-	task = _.extend(task , req.body);
+	event = _.extend(event , req.body);
 
-	task.save(function(err) {
+	event.save(function(err) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(task);
+			res.jsonp(event);
 		}
 	});
 };
 
 /**
- * Delete an Task
+ * Delete an Event
  */
 exports.delete = function(req, res) {
-	var task = req.task ;
+	var event = req.event ;
 
-	task.remove(function(err) {
+	event.remove(function(err) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(task);
+			res.jsonp(event);
 		}
 	});
 };
 
 /**
- * List of Tasks
+ * List of Events
  */
 exports.list = function(req, res) {
-	Task.find({'user': ObjectId(req.user._id), 'type': 'task'}).sort('-created').populate('user', 'displayName').exec(function(err, tasks) {
+	Event.find({'user': ObjectId(req.user._id), 'type': 'event'}).sort('-created').populate('user', 'displayName').exec(function(err, events) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(tasks);
+			res.jsonp(events);
 		}
 	});
 };
 
 /**
- * Task middleware
+ * Event middleware
  */
-exports.taskByID = function(req, res, next, id) {
-	Task.findById(id).populate('user', 'displayName').exec(function(err, task) {
+exports.eventByID = function(req, res, next, id) {
+	Event.findById(id).populate('user', 'displayName').exec(function(err, event) {
 		if (err) return next(err);
-		if (! task) return next(new Error('Failed to load Task ' + id));
-		req.task = task ;
+		if (! event) return next(new Error('Failed to load Event ' + id));
+		req.event = event ;
 		next();
 	});
 };
 
 /**
- * Task authorization middleware
+ * Event authorization middleware
  */
 exports.hasAuthorization = function(req, res, next) {
-	if (req.task.user.id !== req.user.id) {
+	if (req.event.user.id !== req.user.id) {
 		return res.status(403).send('User is not authorized');
 	}
 	next();

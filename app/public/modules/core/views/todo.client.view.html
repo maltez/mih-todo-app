@@ -1,0 +1,19 @@
+<ul class="nav">
+	<li class="nav-header nav-title">
+		Todo list
+	</li>
+	<li class="active">
+		<div href="#" class="nav-item">
+			<span class="nav-label">Tasks</span>
+			<a data-ng-href="#!/tasks/create" class="fa fa-plus-circle add-task"></a>
+		</div>
+		<ng-include src="'/modules/tasks/views/list-tasks.client.view.html'"></ng-include>
+	</li>
+	<li class="active">
+		<div href="#" class="nav-item">
+			<span class="nav-label">Events</span>
+			<a data-ng-href="#!/events/create" class="fa fa-plus-circle add-task"></a>
+		</div>
+		<ng-include src="'/modules/events/views/list-events.client.view.html'"></ng-include>
+	</li>
+</ul>

@@ -7,19 +7,32 @@ angular.module('tasks').config(['$stateProvider',
 		$stateProvider.
 		state('listTasks', {
 			url: '/tasks',
-			templateUrl: 'modules/tasks/views/list-tasks.client.view.html'
+			views: {
+				'aside': { templateUrl: 'modules/core/views/todo.client.view.html' },
+				'': { templateUrl: 'modules/tasks/views/list-tasks.client.view.html' }
+			}
 		}).
 		state('createTask', {
 			url: '/tasks/create',
-			templateUrl: 'modules/tasks/views/create-task.client.view.html'
+			views: {
+				'aside': { templateUrl: 'modules/core/views/todo.client.view.html' },
+				'': { templateUrl: 'modules/tasks/views/create-task.client.view.html' }
+			}
+
 		}).
 		state('viewTask', {
 			url: '/tasks/:taskId',
-			templateUrl: 'modules/tasks/views/view-task.client.view.html'
+			views: {
+				'aside': { templateUrl: 'modules/core/views/todo.client.view.html' },
+				'': { templateUrl: 'modules/tasks/views/view-task.client.view.html' }
+			}
 		}).
 		state('editTask', {
 			url: '/tasks/:taskId/edit',
-			templateUrl: 'modules/tasks/views/edit-task.client.view.html'
+			views: {
+				'aside': { templateUrl: 'modules/core/views/todo.client.view.html' },
+				'': { templateUrl: 'modules/tasks/views/edit-task.client.view.html' }
+			}
 		});
 	}
 ]);

@@ -29,12 +29,12 @@
 								<div class="btn-group priority-btn">
 									<h5><b>Priority*</b></h5>
 									<span>
-										<span ng-show="priority == '1'" class="glyphicon tasks-priority1 glyphicon-star tasks-priority ng-hide"></span>
-										<span ng-show="priority == '2'" class="glyphicon tasks-priority2 glyphicon-star tasks-priority ng-hide"></span>
-										<span ng-show="priority == '3'" class="glyphicon tasks-priority3 glyphicon-star tasks-priority ng-hide"></span>
-										<span ng-show="priority == '4'" class="glyphicon tasks-priority4 glyphicon-star tasks-priority ng-hide"></span>
+										<span ng-show="newTask.priority == '1'" class="glyphicon tasks-priority1 glyphicon-star tasks-priority ng-hide"></span>
+										<span ng-show="newTask.priority == '2'" class="glyphicon tasks-priority2 glyphicon-star tasks-priority ng-hide"></span>
+										<span ng-show="newTask.priority == '3'" class="glyphicon tasks-priority3 glyphicon-star tasks-priority ng-hide"></span>
+										<span ng-show="newTask.priority == '4'" class="glyphicon tasks-priority4 glyphicon-star tasks-priority ng-hide"></span>
 									</span>
-									<select name="priority" data-ng-model="newTask.priority" ng-init="priority='1'">
+									<select name="priority" data-ng-model="newTask.priority" ng-init="newTask.priority='1'">
 										<option value="1">Urgent and Important</option>
 										<option value="2">Important not Urgent</option>
 										<option value="3">Urgent not Important</option>

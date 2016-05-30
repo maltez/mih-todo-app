@@ -16,9 +16,6 @@
 .ng-invalid.ng-dirty {
   border-color: #FA787E;
 }
-.ng-valid.ng-dirty {
-  border-color: #78FA89;
-}
 .browsehappy.jumbotron.hide,
 body.ng-cloak {
   display: block;
@@ -73,7 +70,7 @@ a {
   overflow: hidden;
   position: relative;
 }
-.main-content .container-wrapper header {
+.main-content .container-wrapper .navbar-default {
   position: absolute;
   top: 0;
   left: 0;
@@ -92,7 +89,7 @@ a {
   left: 0;
   right: 0;
   overflow: auto;
-  background: #fff;
+  background: #F5F5F5;
 }
 .navbar-header > .page-title {
   display: inline-block;
@@ -170,4 +167,7 @@ div.ui-notification .message {
   padding: 0;
   position: relative;
   border-radius: 0;
+}
+.error-message .error-text {
+  color: #a94442;
 }

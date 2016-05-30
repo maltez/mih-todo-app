@@ -21,32 +21,40 @@ ol, ul, li {
 		vertical-align: middle;
 		color: #fff;
 	}
+}
+
+.tasks-subtitle-wrapper {
+	padding:10px;
+	background-color: #3d3d3d;
+	text-align: right;
+
+	> .tasks-subtitle {
+		color: #eee;
+		font-size: 1.5em;
+		float:left;
+	}
 
 	> .add-task-link {
-		display: table-cell;
-		vertical-align: middle;
-		text-align: center;
+		float: right;
 		> span {
 			font-size: 1.5em;
 			color: #fff;
 		}
 	}
 }
+.task-list-show-completed{
+	padding: 0 10px;
 
-.tasks-subtitle-wrapper {
-	padding:10px;
-	background-color: #3d3d3d;
-
-	> .tasks-subtitle {
-		text-align: right;
-		color: #eee;
-		font-size: 1em;
+	label {
+		color:#fff;
 	}
 }
 
 .tasks-list {
 	padding:10px;
 	background-color: #3d3d3d;
+	height: 255px;
+	overflow: auto;
 
 	> .tasks-list-item {
 		overflow: hidden;
@@ -58,7 +66,7 @@ ol, ul, li {
 			display: inline-block;
 			font-size: 1.5em;
 			color: #fff;
-			margin: 0 15px;
+			margin: 0 10px;
 			vertical-align: middle;
 
 				&.tasks-priority1 {
@@ -103,3 +111,5 @@ ol, ul, li {
 	}
 
 }
+
+

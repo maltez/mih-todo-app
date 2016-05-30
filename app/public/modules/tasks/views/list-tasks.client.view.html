@@ -1,13 +1,29 @@
 <section class="tasks-list-wrapper" data-ng-controller="TasksListController" data-ng-init="find()">
     <header class="task-list-header">
         <h1>ToDo</h1>
-		<a class="add-task-link" href="/#!/tasks/create"><span class="glyphicon glyphicon-plus"></span></a>
     </header>
-	<div class="tasks-subtitle-wrapper">
+	<div class="tasks-subtitle-wrapper clear">
 		<h5 class="tasks-subtitle">Tasks</h5>
+		<a class="add-task-link" href="/#!/tasks/create"><span class="glyphicon glyphicon-plus"></span></a>
+	</div>
+	<div class="form-group task-list-show-completed">
+		<div class="checkbox">
+			<label for="showCompleted">
+				<input type="checkbox" data-ng-model="showCompleted"  id="showCompleted"> Show completed tasks
+			</label>
+		</div>
+		<div class="btn-group">
+			<label class="">
+				<input type="radio" id="sortByDeadline" data-ng-model="sortBy.type" value="deadline" /> Sort by deadline
+			</label>
+			<label class="">
+				<input type="radio" id="sortByPriority" data-ng-model="sortBy.type"  value="priority" /> Sort by priority
+			</label>
+		</div>
 	</div>
     <ul class="tasks-list">
-		<li data-ng-repeat="task in tasks" class="tasks-list-item">
+		<li data-ng-repeat="task in tasks | filter: showCompleted ? {status: 'completed'} : {} | orderBy: sortBy.type === 'priority' ? 'priority' : 'days.endTime'"
+			class="tasks-list-item">
 				<!--<small class="list-group-item-text">
                     Posted on
                     <span data-ng-bind="task.created | date:'medium'"></span>

@@ -27,5 +27,10 @@ angular.module('users').config(['$stateProvider', function ($stateProvider) {
 	}).state('reset', {
 		url: '/password/reset/:token',
 		templateUrl: 'modules/users/views/password/reset-password.client.view.html'
+	}).state('templates', {
+		url: '/templates',
+		templateUrl: 'modules/tasks/views/templates-tasks.client.view.html',
+		controller: 'TemplatesController',
+		controllerAs: 'templates'
 	});
 }]);

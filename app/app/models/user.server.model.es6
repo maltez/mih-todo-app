@@ -6,7 +6,8 @@
 
 var mongoose = require('mongoose'),
 	Schema = mongoose.Schema,
-	crypto = require('crypto');
+	crypto = require('crypto'),
+	taskTemplate = require('./task.server.model').taskTemplate;
 
 /**
  * A Validation function for local strategy properties
@@ -19,7 +20,7 @@ var validateLocalStrategyProperty = function validateLocalStrategyProperty(prope
  * A Validation function for local strategy password
  */
 var validateLocalStrategyPassword = function validateLocalStrategyPassword(password) {
-	return this.provider !== 'local' || password && password.length > 6;
+	return this.provider !== 'local' || password && password.length >= 6;
 };
 
 var WorkDay = function(dayName, dayIndex) {
@@ -103,6 +104,7 @@ var UserSchema = new Schema({
 		}
 	},
 
+	templates: [taskTemplate],
 
 	/*system fields*/
 	salt: {

@@ -6,8 +6,8 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 	// If user is signed in then redirect back home
 	if ($scope.authentication.user) $location.path('/');
 
-	$scope.signup = function () {
-		if (!isValid){
+	$scope.signup = function (isValid) {
+		if (!isValid) {
 			$scope.userForm.submitted = true;
 			return;
 		}
@@ -17,6 +17,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 
 			// And redirect to the index page
 			$location.path('/');
+			window.location.reload();
 		}).error(function (response) {
 			$scope.error = response.message;
 		});

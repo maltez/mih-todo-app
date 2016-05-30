@@ -2,14 +2,24 @@
 	<div class="col-md-12">
 		<form class="form-horizontal" novalidate>
 			<fieldset>
+				<div class="row">
+					<div class="col-xs-6 col-sm-3">
+						<div class="form-group">
+							<select class="form-control input-round-borders" data-ng-change="loadTaskTemplate(selectedTemplate)"
+									data-ng-model="selectedTemplate" data-ng-options="template.title for template in user.templates"
+							>
+								<option value="">Select template</option>
+							</select>
+						</div>
+					</div>
+				</div>
 
 				<div class="row">
-
 					<div class="col-xs-6 col-sm-3">
 						<div class="column-wrapper">
 							<div class="form-group" ng-class="{ error: validationError.title }">
 								<label class="control-label label-padding" for="title">Title*</label>
-								<input type="text" data-ng-model="title"  id="title"
+								<input type="text" data-ng-model="newTask.title"  id="title"
 									   class="form-control input-round-borders" placeholder="Title" required >
 								<div ng-show="validationError.title" class="error">
 								{{validationError.title.message}}
@@ -56,14 +66,14 @@
 							<div class="form-group form-group-time-select">
 								<label class="control-label label-padding" for="srartDate">Start date</label>
 								<div class="input-group ui-datepicker">
-									<span ng-class="{disabled: withOutDate}"
+									<span ng-class="{disabled: newTask.withOutDate}"
 										   class="input-group-addon calendar-btn" ng-click="openStart($event)">
 										<i class="fa fa-calendar"></i>
 									</span>
 
-									<input id="srartDate" data-ng-disabled="withOutDate" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy"
-										   ng-model="dt.srartDate" is-open="opened.srartDate" min-date="startDate.minDate" max-date="startDate.maxDate"
-										   datepicker-options="dateOptions.srartDate" date-disabled="disabled(date, mode)"
+									<input id="startDate" data-ng-disabled="newTask.withOutDate" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy"
+										   data-ng-model="newTask.days.startDate" is-open="opened.startDate" min-date="startDate.minDate" max-date="startDate.maxDate"
+										   datepicker-options="dateOptions.startDate" date-disabled="disabled(date, mode)"
 										   close-text="Close"
 										   ng-click="openStart($event)" required/>
 								</div>
@@ -73,13 +83,13 @@
 							<div class="form-group form-group-time-select">
 								<label class="control-label label-padding" for="endDate">End date</label>
 								<div class="input-group ui-datepicker">
-									<span  ng-class="{disabled: withOutDate}"
+									<span  ng-class="{disabled: newTask.withOutDate}"
 										   class="input-group-addon calendar-btn" ng-click="openEnd($event)">
 										<i class="fa fa-calendar"></i>
 									</span>
 
-									<input id="endDate" data-ng-disabled="withOutDate" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy"
-										   ng-model="dt.endDate" is-open="opened.endDate" min-date="endDate.minDate" max-date="endDate.maxDate"
+									<input id="endDate" data-ng-disabled="newTask.withOutDate" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy"
+										   data-ng-model="newTask.days.endDate" is-open="opened.endDate" min-date="endDate.minDate" max-date="endDate.maxDate"
 										   datepicker-options="dateOptions.endDate" date-disabled="disabled(date, mode)"
 										   close-text="Close"
 										   ng-click="openEnd($event)" required/>
@@ -89,7 +99,7 @@
 							<div class="form-group">
 								<label class="control-label">Estimation (hours)</label>
 								<div>
-									<rzslider rz-slider-model="slider.value"
+									<rzslider rz-slider-model="newTask.estimation"
 											  rz-slider-options="slider.options">
 									</rzslider>
 								</div>
@@ -104,7 +114,7 @@
 						<div class="column-wrapper">
 							<div class="form-group">
 								<label class="control-label label-padding">Notes</label>
-								<textarea class="form-control notes-area" data-ng-model="notes"></textarea>
+								<textarea class="form-control notes-area" data-ng-model="newTask.notes"></textarea>
 								<div ng-show="validationError.notes" class="error">
 									{{validationError.notes.message}}
 								</div>

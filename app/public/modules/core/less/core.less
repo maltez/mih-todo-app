@@ -10,9 +10,6 @@
 .ng-invalid.ng-dirty {
 	border-color: #FA787E;
 }
-.ng-valid.ng-dirty {
-	border-color: #78FA89;
-}
 
 .browsehappy.jumbotron.hide,
 body.ng-cloak {
@@ -77,7 +74,7 @@ a {
 		overflow: hidden;
 		position: relative;
 
-		header {
+		.navbar-default {
 			position: absolute;
 			top: 0;
 			left: 0;
@@ -97,7 +94,7 @@ a {
 			left: 0;
 			right: 0;
 			overflow: auto;
-			background: #fff;
+			background: @main-bg-color;
 		}
 	}
 }
@@ -193,5 +190,11 @@ div.ui-notification {
 		padding: 0;
 		position: relative;
 		border-radius: 0;
+	}
+}
+
+.error-message {
+	.error-text {
+		color: @error-message-color;
 	}
 }

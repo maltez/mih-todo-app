@@ -73,6 +73,9 @@ angular.module('tasks').controller('TasksController', ['$scope', '$rootScope', '
 		};
 
 		$scope.type = 'task';
+		$scope.taskConfig = {
+			priority: 1
+		};
 
 
 		// Create new Task

@@ -7,9 +7,9 @@ var mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
 
 /**
- * Task Schema
+ * Activity Schema
  */
-var TaskSchema = new Schema({
+var ActivitySchema = new Schema({
 	id:{
 		type: Date,
 		default: Date.now
@@ -17,17 +17,17 @@ var TaskSchema = new Schema({
 	type: {
 		type: String,
 		default: '',
-		trim: true
+		trim: true,
+		required: 'Type of activity is not specified'
 	},
 	title: {
 		type: String,
 		default: '',
-		required: 'Please fill Task title',
+		required: 'Please fill the Title',
 		trim: true
 	},
 	priority: {
 		type: Number,
-		required: 'Please choose Task priority',
 		default: ''
 	},
 	days:	{
@@ -92,35 +92,11 @@ var TaskSchema = new Schema({
 	user: {
 		type: Schema.ObjectId,
 		ref: 'User'
+	},
+	isATemplate : {
+		type : Boolean,
+		default : false
 	}
 });
 
-mongoose.model('Task', TaskSchema);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+mongoose.model('Activity', ActivitySchema);

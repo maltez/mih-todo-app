@@ -210,7 +210,7 @@ module.exports = function(grunt) {
 	});
 
 	// Default task(s).
-	grunt.registerTask('default', ['env:development', 'lint', 'copy:localConfig', 'concurrent:default']);
+	grunt.registerTask('default', ['env:development', 'lint', 'copy:localConfig', 'concurrent:default', 'babel:es6']);
 
 	// Debug task.
 	grunt.registerTask('debug', ['lint', 'copy:localConfig', 'concurrent:debug']);

@@ -91,6 +91,8 @@
 										<rzslider rz-slider-model="newTask.estimation"
 												  rz-slider-options="slider.options">
 										</rzslider>
+										<input type="number" min="{{slider.options.floor}}" max="{{slider.options.ceil}}"
+											   ng-model="newTask.estimation" data-ng-pattern="/^\d+$/">
 									</div>
 								</div>
 							</div>

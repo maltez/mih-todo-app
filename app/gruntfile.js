@@ -216,7 +216,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('debug', ['lint', 'copy:localConfig', 'concurrent:debug']);
 
 	// Lint task(s).
-	grunt.registerTask('lint', ['less']);
+	grunt.registerTask('lint', ['less', 'jshint', 'csslint']);
 
 	// Build task(s).
 	grunt.registerTask('build', ['lint', 'babel:es6', 'loadConfig', 'ngAnnotate', 'uglify', 'cssmin']);

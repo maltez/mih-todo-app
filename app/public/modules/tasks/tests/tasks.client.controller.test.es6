@@ -96,14 +96,15 @@
 			});
 
 			// Fixture mock form input values
-			scope.title = 'New Task';
-			scope.type = 'task';
-			scope.days = {
-				startTime: date,
-				endTime: date
+			scope.newTask = {
+				title: 'New Task',
+				type: 'task',
+				days: {
+					startTime: date,
+					endTime: date
+				},
+				estimation:  12
 			};
-			scope.estimation =  12;
-
 
 			// Set POST response
 			$httpBackend.expectPOST('tasks', sampleTaskPostData).respond(sampleTaskResponse);

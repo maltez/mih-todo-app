@@ -4,12 +4,36 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-	Schema = mongoose.Schema;
+	Schema = mongoose.Schema,
+	_ = require('lodash');
+
+var taskTemplate = {
+	title: {
+		type: String,
+		default: '',
+		required: 'Please fill Task title',
+		trim: true
+	},
+	priority: {
+		type: Number,
+		required: 'Please choose Task priority',
+		default: ''
+	},
+	notes: {
+		type: String,
+		default: '',
+		trim: true
+	},
+	estimation: {
+		type: Number,
+		default: ''
+	}
+};
 
 /**
  * Activity Schema
  */
-var ActivitySchema = new Schema({
+var ActivitySchema = new Schema(_.extend({
 	id:{
 		type: Date,
 		default: Date.now
@@ -97,6 +121,7 @@ var ActivitySchema = new Schema({
 		type : Boolean,
 		default : false
 	}
-});
+}, taskTemplate));
 
 mongoose.model('Activity', ActivitySchema);
+exports.taskTemplate = taskTemplate;

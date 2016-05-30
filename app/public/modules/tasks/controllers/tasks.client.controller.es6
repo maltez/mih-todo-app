@@ -1,16 +1,18 @@
 'use strict';
 
 // Tasks controller
-angular.module('tasks').controller('TasksController', ['$scope', '$rootScope', '$stateParams', '$location', 'Authentication', 'Tasks',
-	function($scope, $rootScope, $stateParams, $location, Authentication, Tasks) {
-
+angular.module('tasks').controller('TasksController', ['$scope', '$rootScope', '$stateParams', '$location', 'Authentication', 'Tasks', 'Users',
+	function($scope, $rootScope, $stateParams, $location, Authentication, Tasks, Users) {
 		var date = new Date(),
 			dateMax = new Date( Date.now() + (365*24*60*60*1000));
 
 		$scope.authentication = Authentication;
+		$scope.saveAsDraft = false;
+		$scope.user = Authentication.user;
+		$scope.selectedTemplate = {};
 
 		$scope.dt = {
-			srartDate : date,
+			startDate : date,
 			endDate : date
 		};
 
@@ -29,7 +31,7 @@ angular.module('tasks').controller('TasksController', ['$scope', '$rootScope', '
 		};
 
 		$scope.opened = {
-			srartDate : false,
+			startDate : false,
 			endDate : false
 		};
 
@@ -37,23 +39,23 @@ angular.module('tasks').controller('TasksController', ['$scope', '$rootScope', '
 			$event.preventDefault();
 			$event.stopPropagation();
 			return $scope.opened = {
-				srartDate : true,
+				startDate : true,
 				endDate : false
 			};
 		};
 		$scope.openEnd = function($event) {
 			$event.preventDefault();
 			$event.stopPropagation();
-			$scope.dt.endDate = $scope.dt.srartDate;
-			$scope.endDate.minDate = $scope.dt.srartDate;
+			$scope.dt.endDate = $scope.dt.startDate;
+			$scope.endDate.minDate = $scope.dt.startDate;
 			return $scope.opened = {
-				srartDate : false,
+				startDate : false,
 				endDate : true
 			};
 		};
 
 		$scope.dateOptions = {
-			srartDate : {
+			startDate : {
 				'year-format': 'yy',
 				'starting-day': 1
 
@@ -72,35 +74,48 @@ angular.module('tasks').controller('TasksController', ['$scope', '$rootScope', '
 			}
 		};
 
-		$scope.type = 'task';
-		$scope.taskConfig = {
-			priority: 1
+		var newTask = {
+			type: 'task',
+			title: '',
+			priority: 1,
+			estimation: 12,
+			notes: '',
+			days: {
+				startDate: $scope.dt.startDate,
+				endDate: $scope.dt.endDate
+			},
+			withOutDate: false
 		};
 
+		$scope.newTask = angular.copy(newTask);
 
 		// Create new Task
 		$scope.create = function() {
 			// Create new Task object
-			var task = new Tasks ({
-				title: this.title,
-				type: this.type,
-				priority: this.priority,
-				days: {
-					startTime: this.withOutDate ? '' : this.dt.srartDate,
-					endTime: this.withOutDate ? '' : this.dt.endDate
-				},
-				estimation : this.slider.value,
-				notes: this.notes
-			});
+			var task = new Tasks($scope.newTask);
+
+			if ($scope.withOutDate) {
+				task.days.startDate = task.days.endDate = '';
+			}
 
 			task.$save(function(response) {
 				$location.path('/');
 				$scope.title = '';
 				$rootScope.$broadcast('NEW_TASK_MODIFY');
-
 			}, function(errorResponse) {
-				$scope.validationError  = errorResponse.data.message.errors;
+				$scope.validationError = errorResponse.data.message.errors;
 			});
+
+			if ($scope.saveAsDraft) { //Add task to user templates
+				var user = new Users($scope.user);
+
+				user.templates.push($scope.newTask);
+
+				user.$update(response => {
+					Authentication.user = response;
+				}, err => console.error(err));
+			}
+
 			$scope.tasks= [];
 		};
 
@@ -144,5 +159,13 @@ angular.module('tasks').controller('TasksController', ['$scope', '$rootScope', '
 				taskId: $stateParams.taskId
 			});
 		};
+
+		$scope.loadTaskTemplate = (selectedTemplate) => {
+			if (selectedTemplate) {
+				$.extend($scope.newTask, selectedTemplate);
+			} else {
+				$scope.newTask = angular.copy(newTask);
+			}
+		}
 	}
 ]);

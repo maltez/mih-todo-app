@@ -74,7 +74,7 @@ a {
 		overflow: hidden;
 		position: relative;
 
-		header {
+		.navbar-default {
 			position: absolute;
 			top: 0;
 			left: 0;
@@ -94,7 +94,7 @@ a {
 			left: 0;
 			right: 0;
 			overflow: auto;
-			background: #fff;
+			background: @main-bg-color;
 		}
 	}
 }
@@ -190,5 +190,11 @@ div.ui-notification {
 		padding: 0;
 		position: relative;
 		border-radius: 0;
+	}
+}
+
+.error-message {
+	.error-text {
+		color: @error-message-color;
 	}
 }

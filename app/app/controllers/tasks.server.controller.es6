@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
+	ObjectId = require("mongodb").ObjectID,
 	errorHandler = require('./errors.server.controller'),
 	Task = mongoose.model('Activity'),
 	_ = require('lodash');
@@ -73,7 +74,7 @@ exports.delete = function(req, res) {
  * List of Tasks
  */
 exports.list = function(req, res) {
-	Task.find().sort('-created').populate('user', 'displayName').exec(function(err, tasks) {
+	Task.find({'user': ObjectId(req.user._id)}).sort('-created').populate('user', 'displayName').exec(function(err, tasks) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)

@@ -174,20 +174,14 @@ angular.module('tasks').controller('TasksController', ['$scope', '$rootScope', '
 			taskId: $stateParams.taskId
 		});
 	};
-}]);
-		// Find existing Task
-		$scope.findOne = function() {
-			$scope.task = Tasks.get({
-				taskId: $stateParams.taskId
-			});
-		};
 
-		$scope.loadTaskTemplate = (selectedTemplate) => {
-			if (selectedTemplate) {
-				$.extend($scope.newTask, selectedTemplate);
-			} else {
-				$scope.newTask = angular.copy(newTask);
-			}
+	$scope.loadTaskTemplate = (selectedTemplate) => {
+		if (selectedTemplate) {
+			$.extend($scope.newTask, selectedTemplate);
+		} else {
+			$scope.newTask = angular.copy(newTask);
 		}
 	}
-]);
+}]);
+
+

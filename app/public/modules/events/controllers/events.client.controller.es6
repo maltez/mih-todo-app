@@ -1,8 +1,8 @@
 'use strict';
 
 // Events controller
-angular.module('events').controller('EventsController', ['$scope', '$location', 'Events',
-	function ($scope, $location, Events) {
+angular.module('events').controller('EventsController', ['$scope', '$stateParams', '$location', 'Events',
+	function ($scope, $stateParams, $location, Events) {
 		var currentDate = new Date(),
 			defaultEventData = {
 				startDate : currentDate,
@@ -51,14 +51,36 @@ angular.module('events').controller('EventsController', ['$scope', '$location', 
 					endTime: $scope.eventData.withoutDates ? '' : $scope.eventData.endDate
 				},
 				notes: $scope.eventData.notes,
-				isATemplate : $scope.eventData.isATemplate
+				isATemplate : $scope.eventData.isATemplate,
+				withoutDates: $scope.eventData.withoutDates
 			});
 			event.$save(function() {
 				$location.path('/');
 			}, function(err) {
+				console.log('error', err);
 				$scope.eventData.validationError  = err.data.message.errors.title;
 			});
 			$scope.events= [];
+		};
+		// Find existing Event
+		$scope.findEvent = function() {
+			$scope.event = Events.get({
+				eventId: $stateParams.eventId
+			});
+		};
+		$scope.updateEvent = function() {
+			var event = $scope.event;
+
+			event.$update(function() {
+				$location.path('events/' + event._id);
+			}, function(errorResponse) {
+				$scope.error = errorResponse.data.message;
+			});
+		};
+		$scope.deleteEvent = function() {
+			$scope.event.$remove(function() {
+				$location.path('/');
+			});
 		};
 		$scope.closeEventForm = function (){
 			$location.path('/');

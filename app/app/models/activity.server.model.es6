@@ -16,7 +16,6 @@ var taskTemplate = {
 	},
 	priority: {
 		type: Number,
-		required: 'Please choose Task priority',
 		default: ''
 	},
 	notes: {
@@ -118,6 +117,10 @@ var ActivitySchema = new Schema(_.extend({
 		ref: 'User'
 	},
 	isATemplate : {
+		type : Boolean,
+		default : false
+	},
+	withoutDates : {
 		type : Boolean,
 		default : false
 	}

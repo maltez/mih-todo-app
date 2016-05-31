@@ -57,7 +57,6 @@ angular.module('events').controller('EventsController', ['$scope', '$stateParams
 			event.$save(function() {
 				$location.path('/');
 			}, function(err) {
-				console.log('error', err);
 				$scope.eventData.validationError  = err.data.message.errors.title;
 			});
 			$scope.events= [];

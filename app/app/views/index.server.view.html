@@ -2,9 +2,8 @@
 {% block content %}
 	{% if user %}
 		<section class="page-wrapper">
-			<aside class="left-sidebar">
-				<section data-ng-include="'/modules/tasks/views/list-tasks.client.view.html'">
-				</section>
+			<aside class="left-sidebar navbar-default navbar-static-side">
+				<div class="sidebar-collapse" ui-view="aside"></div>
 			</aside>
 
 			<section class="main-content" ng-controller="HomeController as home" ng-class="{'with-sidebar': home.withSidebar}">

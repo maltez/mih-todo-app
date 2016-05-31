@@ -3,14 +3,28 @@
 //Setting up route
 angular.module('events').config(['$stateProvider',
 	function($stateProvider) {
+		// Events state routing
 		$stateProvider.
+		state('listEvents', {
+			url: '/events',
+			views: {
+				'aside': {templateUrl: 'modules/core/views/todo.client.view.html'},
+				'': {templateUrl: 'modules/events/views/list-events.client.view.html'}
+			}
+		}).
 		state('createEvent', {
 			url: '/events/create',
-			templateUrl: 'modules/events/views/create-event.client.view.html'
+			views: {
+				'aside': {templateUrl: 'modules/core/views/todo.client.view.html'},
+				'': { templateUrl: 'modules/events/views/create-event.client.view.html' }
+			}
 		}).
 		state('editEvent', {
 			url: '/events/:eventId/edit',
-			templateUrl: 'modules/events/views/edit-event.client.view.html'
+			views: {
+				'aside': {templateUrl: 'modules/core/views/todo.client.view.html'},
+				'': {templateUrl: 'modules/events/views/edit-event.client.view.html'}
+			}
 		});
 	}
 ]);

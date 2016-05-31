@@ -6,9 +6,14 @@ angular.module('users').config(['$stateProvider', function ($stateProvider) {
 	// Users state routing
 	$stateProvider.state('profile', {
 		url: '/settings/profile',
-		templateUrl: 'modules/users/views/settings/edit-profile.client.view.html',
-		controller: 'SettingsController',
-		controllerAs: 'settings'
+		views: {
+			'aside': { templateUrl: 'modules/core/views/todo.client.view.html' },
+			'': {
+				templateUrl: 'modules/users/views/settings/edit-profile.client.view.html',
+				controller: 'SettingsController',
+				controllerAs: 'settings'
+			}
+		}
 	}).state('signup', {
 		url: '/signup',
 		templateUrl: 'modules/users/views/authentication/signup.client.view.html'

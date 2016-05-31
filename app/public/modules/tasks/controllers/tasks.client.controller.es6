@@ -67,6 +67,7 @@ angular.module('tasks').controller('TasksController', ['$scope', '$rootScope', '
 		};
 
 		$scope.slider = {
+			value: 12,
 			options: {
 				floor: 0,
 				ceil: 24
@@ -76,7 +77,7 @@ angular.module('tasks').controller('TasksController', ['$scope', '$rootScope', '
 		var newTask = {
 			type: 'task',
 			title: '',
-			priority: 0,
+			priority: 1,
 			estimation: 12,
 			notes: '',
 			days: {

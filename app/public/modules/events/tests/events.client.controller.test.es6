@@ -50,9 +50,9 @@
 			});
 		}));
 
-		it('$scope.find() should create an array with at least one Event object fetched from XHR', inject(function(Events) {
+		it('$scope.find() should create an array with at least one Event object fetched from XHR', inject(function(Activity) {
 			// Create sample Event using the Events service
-			var sampleEvent = new Events({
+			var sampleEvent = new Activity({
 				name: 'New Event'
 			});
 
@@ -70,9 +70,9 @@
 			expect(scope.events).toEqualData(sampleEvents);
 		}));
 
-		it('$scope.findOne() should create an array with one Event object fetched from XHR using a eventId URL parameter', inject(function(Events) {
+		it('$scope.findOne() should create an array with one Event object fetched from XHR using a eventId URL parameter', inject(function(Activity) {
 			// Define a sample Event object
-			var sampleEvent = new Events({
+			var sampleEvent = new Activity({
 				name: 'New Event'
 			});
 
@@ -90,14 +90,14 @@
 			expect(scope.event).toEqualData(sampleEvent);
 		}));
 
-		it('$scope.create() with valid form data should send a POST request with the form input values and then locate to new object URL', inject(function(Events) {
+		it('$scope.create() with valid form data should send a POST request with the form input values and then locate to new object URL', inject(function(Activity) {
 			// Create a sample Event object
-			var sampleEventPostData = new Events({
+			var sampleEventPostData = new Activity({
 				name: 'New Event'
 			});
 
 			// Create a sample Event response
-			var sampleEventResponse = new Events({
+			var sampleEventResponse = new Activity({
 				_id: '525cf20451979dea2c000001',
 				name: 'New Event'
 			});
@@ -119,9 +119,9 @@
 			expect($location.path()).toBe('/events/' + sampleEventResponse._id);
 		}));
 
-		it('$scope.update() should update a valid Event', inject(function(Events) {
+		it('$scope.update() should update a valid Event', inject(function(Activity) {
 			// Define a sample Event put data
-			var sampleEventPutData = new Events({
+			var sampleEventPutData = new Activity({
 				_id: '525cf20451979dea2c000001',
 				name: 'New Event'
 			});

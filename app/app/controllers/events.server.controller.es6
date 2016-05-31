@@ -1,47 +1,29 @@
 'use strict';
 
-/**
- * Module dependencies.
- */
 var mongoose = require('mongoose'),
-	ObjectId = require("mongodb").ObjectID,
 	errorHandler = require('./errors.server.controller'),
-	Event = mongoose.model('Task'),
+	Event = mongoose.model('Activity'),
 	_ = require('lodash');
 
-/**
- * Create a Event
- */
 exports.create = function(req, res) {
 	var event = new Event(req.body);
 	event.user = req.user;
-
 	event.save(function(err) {
 		if (err) {
 			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
+				message: err
 			});
 		} else {
 			res.jsonp(event);
 		}
 	});
 };
-
-/**
- * Show the current Event
- */
 exports.read = function(req, res) {
 	res.jsonp(req.event);
 };
-
-/**
- * Update a Event
- */
 exports.update = function(req, res) {
 	var event = req.event ;
-
 	event = _.extend(event , req.body);
-
 	event.save(function(err) {
 		if (err) {
 			return res.status(400).send({
@@ -52,13 +34,8 @@ exports.update = function(req, res) {
 		}
 	});
 };
-
-/**
- * Delete an Event
- */
 exports.delete = function(req, res) {
 	var event = req.event ;
-
 	event.remove(function(err) {
 		if (err) {
 			return res.status(400).send({
@@ -74,7 +51,7 @@ exports.delete = function(req, res) {
  * List of Events
  */
 exports.list = function(req, res) {
-	Event.find({'user': ObjectId(req.user._id), 'type': 'event'}).sort('-created').populate('user', 'displayName').exec(function(err, events) {
+	Event.find().sort('-created').populate('user', 'displayName').exec(function(err, events) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
@@ -88,11 +65,11 @@ exports.list = function(req, res) {
 /**
  * Event middleware
  */
-exports.eventByID = function(req, res, next, id) {
-	Event.findById(id).populate('user', 'displayName').exec(function(err, event) {
+exports.eventByID = function (req, res, next, id) {
+	Event.findById(id).populate('user', 'displayName').exec(function (err, event) {
 		if (err) return next(err);
-		if (! event) return next(new Error('Failed to load Event ' + id));
-		req.event = event ;
+		if (!event) return next(new Error('Failed to load Event ' + id));
+		req.event = event;
 		next();
 	});
 };
@@ -106,3 +83,4 @@ exports.hasAuthorization = function(req, res, next) {
 	}
 	next();
 };
+

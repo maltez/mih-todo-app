@@ -1,47 +1,73 @@
 'use strict';
 
 // Events controller
-angular.module('events').controller('EventsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Events',
-	function($scope, $stateParams, $location, Authentication, Events) {
-		$scope.authentication = Authentication;
-
-		// Create new Event
-		$scope.create = function() {
-			// Create new Event object
-			var event = new Events ({
-				name: this.name
-			});
-
-			// Redirect after save
-			event.$save(function(response) {
-				$location.path('events/' + response._id);
-
-				// Clear form fields
-				$scope.name = '';
-			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
-			});
-		};
-
-		// Remove existing Event
-		$scope.remove = function(event) {
-			if ( event ) {
-				event.$remove();
-
-				for (var i in $scope.events) {
-					if ($scope.events [i] === event) {
-						$scope.events.splice(i, 1);
-					}
-				}
-			} else {
-				$scope.event.$remove(function() {
-					$location.path('events');
-				});
+angular.module('events').controller('EventsController', ['$scope', '$stateParams', '$location', 'Events',
+	function ($scope, $stateParams, $location, Events) {
+		var currentDate = new Date(),
+			defaultEventData = {
+				startDate : currentDate,
+				endDate : currentDate,
+				type : 'event',
+				isATemplate : false,
+				withoutDates : false,
+				title : undefined,
+				validationError : undefined,
+				notes : undefined
+			};
+		$scope.datepicker = {
+			options : {
+				'year-format': 'yy',
+				'starting-day': 1
+			},
+			currentDate : currentDate,
+			startDate : {
+				isOpened : false
+			},
+			endDate : {
+				isOpened : false
 			}
 		};
+		$scope.openDatepicker = function($event, openedDatepicker) {
+			var closedDatepicker = openedDatepicker == 'startDate' ? 'endDate' : 'startDate';
+			$event.preventDefault();
+			$event.stopPropagation();
+			$scope.datepicker[openedDatepicker].isOpened = true;
+			$scope.datepicker[closedDatepicker].isOpened = false;
+		};
 
-		// Update existing Event
-		$scope.update = function() {
+		$scope.eventData = JSON.parse(JSON.stringify(defaultEventData));
+		$scope.createEvent = function() {
+			if (!$scope.eventData.title){
+				$scope.eventData.validationError = {
+					message : 'Please fill the Title'
+				};
+				return;
+			}
+			var event = new Events ({
+				title: $scope.eventData.title,
+				type:  $scope.eventData.type,
+				days: {
+					startTime: $scope.eventData.withoutDates ? '' : $scope.eventData.startDate,
+					endTime: $scope.eventData.withoutDates ? '' : $scope.eventData.endDate
+				},
+				notes: $scope.eventData.notes,
+				isATemplate : $scope.eventData.isATemplate,
+				withoutDates: $scope.eventData.withoutDates
+			});
+			event.$save(function() {
+				$location.path('/');
+			}, function(err) {
+				$scope.eventData.validationError  = err.data.message.errors.title;
+			});
+			$scope.events= [];
+		};
+		// Find existing Event
+		$scope.findEvent = function() {
+			$scope.event = Events.get({
+				eventId: $stateParams.eventId
+			});
+		};
+		$scope.updateEvent = function() {
 			var event = $scope.event;
 
 			event.$update(function() {
@@ -50,40 +76,15 @@ angular.module('events').controller('EventsController', ['$scope', '$stateParams
 				$scope.error = errorResponse.data.message;
 			});
 		};
-
-		// Find a list of Events
-		$scope.find = function() {
-			$scope.events = Events.query();
-		};
-
-		// Find existing Event
-		$scope.findOne = function() {
-			$scope.event = Events.get({
-				eventId: $stateParams.eventId
-			});
-		};
-
-		// Create new Event
-		$scope.create = function() {
-			// Create new Task object
-			var event = new Events ({
-				title: 'Example',
-				type: 'event',
-				days: {
-					startTime: 'today',
-					endTime: 'tomorrow'
-				}
-			});
-
-			event.$save(function(response) {
+		$scope.deleteEvent = function() {
+			$scope.event.$remove(function() {
 				$location.path('/');
-				$scope.title = '';
-				$rootScope.$broadcast('NEW_TASK_MODIFY');
-
-			}, function(errorResponse) {
-				$scope.validationError  = errorResponse.data.message.errors;
 			});
-			$scope.events=[];
 		};
-	}
-]);
+		$scope.closeEventForm = function (){
+			$location.path('/');
+		};
+		$scope.clearFormData = function() {
+			$scope.eventData =  JSON.parse(JSON.stringify(defaultEventData));
+		};
+	}]);

@@ -1,23 +1,65 @@
-<section data-ng-controller="EventsController">
-    <div class="page-header">
-        <h1>New Event</h1>
-    </div>
-    <div class="col-md-12">
-        <form class="form-horizontal" data-ng-submit="create()" novalidate>
-            <fieldset>
-                <div class="form-group">
-                    <label class="control-label" for="name">Name</label>
-                    <div class="controls">
-                        <input type="text" data-ng-model="name" id="name" class="form-control" placeholder="Name" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <input type="submit" class="btn btn-default">
-                </div>
-				<div data-ng-show="error" class="text-danger">
-					<strong data-ng-bind="error"></strong>
+<section class="create-event-wrapper clearfix" data-ng-controller="EventsController">
+	<div class="col-md-12">
+		<form novalidate>
+			<fieldset class="row">
+				<div class="form-holder clearfix">
+					<div class="column-wrapper col-xs-6 col-sm-4">
+						<div class="form-group">
+							<label for="title">Title*</label>
+							<input type="text" data-ng-model="eventData.title" id="title" class="form-control input-round-borders" placeholder="Title"/>
+							<div ng-show="eventData.validationError" class="error-text">
+								{{eventData.validationError.message}}
+							</div>
+						</div>
+						<div class="form-group checkbox">
+							<label for="saveAsTemplate">
+								<input type="checkbox" data-ng-model="eventData.isATemplate" id="saveAsTemplate"/>
+								Save as a new template
+							</label>
+						</div>
+						<div class="form-group">
+							<div class="checkbox">
+								<label for="withoutDates">
+									<input type="checkbox" data-ng-model="eventData.withoutDates" id="withoutDates"/>
+									Event without dates
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="column-wrapper col-xs-6 col-sm-4">
+						<div class="form-group">
+							<label class="control-label label-padding" for="startDate">Start date</label>
+							<div class="input-group ui-datepicker">
+								<span ng-class="{disabled: eventData.withoutDates}" class="input-group-addon calendar-btn" ng-click="openDatepicker($event, 'startDate')">
+									<i class="fa fa-calendar"></i>
+								</span>
+								<input id="startDate" data-ng-disabled="eventData.withoutDates" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy" ng-model="eventData.startDate" is-open="datepicker.startDate.isOpened" min-date="datepicker.currentDate" datepicker-options="datepicker.options" date-disabled="disabled(date, mode)"  close-text="Close" ng-click="openDatepicker($event, 'startDate')" required/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="endDate">End date</label>
+							<div class="input-group ui-datepicker">
+								<span ng-class="{disabled: eventData.withoutDates}" class="input-group-addon calendar-btn" ng-click="openDatepicker($event, 'endDate')">
+									<i class="fa fa-calendar"></i>
+								</span>
+								<input id="endDate" data-ng-disabled="eventData.withoutDates" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy" ng-model="eventData.endDate" is-open="datepicker.endDate.isOpened" min-date="eventData.startDate" datepicker-options="datepicker.options" date-disabled="disabled(date, mode)" close-text="Close" ng-click="openDatepicker($event, 'endDate')" required/>
+							</div>
+						</div>
+					</div>
+					<div class="column-wrapper col-xs-6 col-sm-4">
+						<div class="form-group">
+							<label for="notes">Notes</label>
+							<textarea id="notes" class="form-control" data-ng-model="eventData.notes"></textarea>
+						</div>
+					</div>
 				</div>
-            </fieldset>
-        </form>
-    </div>
+				<div class=" pull-right">
+					<button class="btn btn-white" data-ng-click="clearFormData()">Clear</button>
+					<button class="btn btn-white" data-ng-click="closeEventForm()">Close</button>
+					<button class="btn btn-white" data-ng-click="createEvent()">Submit</button>
+				</div>
+			</fieldset>
+		</form>
+	</div>
 </section>
+<div ng-include="'/modules/calendar/views/calendar.client.view.html'"></div>

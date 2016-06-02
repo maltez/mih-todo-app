@@ -7,7 +7,7 @@
 var mongoose = require('mongoose'),
 	Schema = mongoose.Schema,
 	crypto = require('crypto'),
-	taskTemplate = require('./task.server.model').taskTemplate;
+	taskTemplate = require('./activity.server.model').taskTemplate;
 
 /**
  * A Validation function for local strategy properties

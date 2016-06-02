@@ -1,0 +1,68 @@
+.create-event-wrapper {
+  	background: #eee;
+  	padding: 20px 1.5%;
+    .form-holder {
+		margin-bottom: 20px;
+  	}
+  	.column-wrapper {
+  		padding : 0 20px;
+	  	&:first-child {
+		  padding-left: 0;
+		}
+	  	&:last-child {
+		  padding-right: 0;
+		}
+	  	.calendar-btn {
+		  cursor: pointer;
+		}
+		.dropdown-menu {
+		   table[role='grid'] {
+			outline: none;
+		  }
+		  table[role='grid']:focus {
+			 outline: none;
+		   }
+		  .btn-default {
+			background-color: #fff;
+			color: #676A6C;
+			opacity: 1;
+			border-radius: 0;
+			&[disabled] {
+			  background: #f3f3f3 ;
+			}
+			&.active {
+			  box-shadow: none;
+			}
+			.text-info {
+			  color: #1ab394;
+			  font-weight: bold;
+			}
+		  }
+		  .btn-group {
+			.btn {
+			  margin-bottom: 10px;
+			  background-color: #1ab394;
+			  border-color: #1ab394;
+			  color: #fff;
+			}
+			.btn-danger {
+			  display: none;
+			}
+		  }
+		}
+	}
+	.error-text {
+	  color : #FA787E;
+	  margin-top: 5px;
+	}
+  	.btn-white {
+	  border-color: #dbdcdd;
+	  &:hover {
+	  	background: #1ab394;
+		color: #fff;
+	  }
+	  &:focus {
+		outline: none;
+	  }
+	}
+}

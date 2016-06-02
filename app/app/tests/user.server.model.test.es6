@@ -23,10 +23,10 @@ describe('User Model Unit Tests:', function () {
 			username: 'UserModel',
 			password: 'UserModel',
 			provider: 'local',
-			"predefinedSettings": {
-				"reminder": 15,
-				"workingHours": { "mon": { "dayIndex": 1, "isWorkingDay": true, "start": "09:00", "end": "18:00" }},
-				"booked": [{ "startTime": "14:00", "endTime": "15:00"}]
+			'predefinedSettings': {
+				'reminder': 15,
+				'workingHours': { 'mon': { 'dayIndex': 1, 'isWorkingDay': true, 'start': '09:00', 'end': '18:00' }},
+				'booked': [{ 'startTime': '14:00', 'endTime': '15:00'}]
 			}
 		};
 

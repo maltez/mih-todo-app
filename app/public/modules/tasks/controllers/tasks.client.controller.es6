@@ -89,7 +89,7 @@ angular.module('tasks').controller('TasksController', ['$scope', '$rootScope', '
 		var newTask = {
 			type: 'task',
 			title: '',
-			priority: 0,
+			priority: 1,
 			estimation: 12,
 			notes: '',
 			days: {
@@ -182,6 +182,4 @@ angular.module('tasks').controller('TasksController', ['$scope', '$rootScope', '
 			$scope.newTask = angular.copy(newTask);
 		}
 	}
-}]);
-
-
+]);

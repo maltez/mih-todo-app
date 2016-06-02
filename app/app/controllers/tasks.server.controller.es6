@@ -6,7 +6,7 @@
 var mongoose = require('mongoose'),
 	ObjectId = require("mongodb").ObjectID,
 	errorHandler = require('./errors.server.controller'),
-	Task = mongoose.model('Task'),
+	Task = mongoose.model('Activity'),
 	_ = require('lodash');
 
 /**

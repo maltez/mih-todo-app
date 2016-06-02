@@ -21,23 +21,13 @@
 			</label>
 		</div>
 	</div>
-    <ul class="tasks-list">
-		<li data-ng-repeat="task in tasks | filter: showCompleted ? {status: 'completed'} : {} | orderBy: sortBy.type === 'priority' ? 'priority' : 'days.endTime'"
-			class="tasks-list-item">
-				<!--<small class="list-group-item-text">
-                    Posted on
-                    <span data-ng-bind="task.created | date:'medium'"></span>
-                    by
-                    <span data-ng-bind="task.user.displayName"></span>
-                </small>-->
-			<h4 class="tasks-list-item-title">
-				<a data-ng-href="#!/tasks/{{task._id}}" data-ng-bind="task.title"></a>
-			</h4>
-			<span class="glyphicon glyphicon-star tasks-item-priority {{'tasks-priority' + task.priority}}" ></span>
-			<span class="tasks-item-percent">11%</span>
+	<ul class="nav nav-second-level in collapse">
+		<li data-ng-repeat="task in tasks | filter: showCompleted ? {status: 'completed'} : {} | orderBy: sortBy.type === 'priority' ? 'priority' : 'days.endTime'" class="task-list-item">
+			<a data-ng-href="#!/tasks/{{task._id}}" class="task-list-item">
+				<span class="task-priority fa fa-circle {{'task-priority-' + task.priority}}"></span>
+				<span class="nav-label task-name" data-ng-bind="task.title"></span>
+				<span class="pull-right label label-danger"> 0% </span>
+			</a>
 		</li>
-    </ul>
-    <!--<div class="alert alert-warning text-center" data-ng-hide="!tasks.$resolved || tasks.length">-->
-    	<!--No Tasks yet, why don't you <a href="/#!/tasks/create">create one</a>?-->
-    <!--</div>-->
+	</ul>
 </section>

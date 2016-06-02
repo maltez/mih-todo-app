@@ -16,7 +16,6 @@ var taskTemplate = {
 	},
 	priority: {
 		type: Number,
-		required: 'Please choose Task priority',
 		default: ''
 	},
 	notes: {
@@ -31,9 +30,9 @@ var taskTemplate = {
 };
 
 /**
- * Task Schema
+ * Activity Schema
  */
-var TaskSchema = new Schema(_.extend({
+var ActivitySchema = new Schema(_.extend({
 	id:{
 		type: Date,
 		default: Date.now
@@ -41,17 +40,33 @@ var TaskSchema = new Schema(_.extend({
 	type: {
 		type: String,
 		default: '',
+		trim: true,
+		required: 'Type of activity is not specified'
+	},
+	title: {
+		type: String,
+		default: '',
+		required: 'Please fill the Title',
 		trim: true
 	},
+	priority: {
+		type: Number,
+		default: ''
+	},
 	days:	{
-		startDate: {
+		startTime: {
 			type: Date,
 			default: ''
 		},
-		endDate : {
+		endTime : {
 			type: Date,
 			default: ''
 		}
+	},
+	notes: {
+		type: String,
+		default: '',
+		trim: true
 	},
 	parentTaskId: {
 		type: Date,
@@ -59,6 +74,10 @@ var TaskSchema = new Schema(_.extend({
 	},
 	deadline: {
 		type: Date,
+		default: ''
+	},
+	estimation: {
+		type: Number,
 		default: ''
 	},
 	tags: [],
@@ -96,9 +115,16 @@ var TaskSchema = new Schema(_.extend({
 	user: {
 		type: Schema.ObjectId,
 		ref: 'User'
+	},
+	isATemplate : {
+		type : Boolean,
+		default : false
+	},
+	withoutDates : {
+		type : Boolean,
+		default : false
 	}
 }, taskTemplate));
 
-mongoose.model('Task', TaskSchema);
-
+mongoose.model('Activity', ActivitySchema);
 exports.taskTemplate = taskTemplate;

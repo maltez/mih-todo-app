@@ -5,7 +5,7 @@ var should = require('should'),
 	app = require('../../server'),
 	mongoose = require('mongoose'),
 	User = mongoose.model('User'),
-	Task = mongoose.model('Task'),
+	Task = mongoose.model('Activity'),
 	agent = request.agent(app);
 
 /**

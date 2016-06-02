@@ -43,11 +43,40 @@ a {
 .left-sidebar {
   position: fixed;
   z-index: 1;
-  background: #3D3D3D;
+  background: #2f4050;
   top: 0;
   left: 0;
   height: 100%;
   width: 300px;
+}
+.nav-header {
+  background-repeat: repeat;
+}
+.nav-title {
+  font-size: 1.5em;
+  color: #fff;
+  text-transform: uppercase;
+}
+.add-task {
+  float: right;
+  color: #fff;
+  font-size: 1.3em;
+}
+.add-task:hover {
+  color: #1ab394;
+}
+.nav-item {
+  color: #fff;
+  padding: 14px 20px 14px 25px;
+  position: relative;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+.nav-item:hover {
+  background: #293846;
+}
+.task-list-item .task-priority {
+  margin-right: 10px;
 }
 .main-view-container {
   height: 100%;

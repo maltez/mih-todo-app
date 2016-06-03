@@ -17,74 +17,54 @@
 				<div class="row">
 					<div class="col-xs-6 col-sm-3">
 						<div class="column-wrapper">
-							<div class="form-group">
+							<div class="form-group" ng-class="{ error: validationError.title }">
 								<label class="control-label label-padding" for="title">Title*</label>
 								<input type="text" data-ng-model="newTask.title"  id="title"
 									   class="form-control input-round-borders" placeholder="Title" required >
 								<div ng-show="validationError.title" class="error">
-								!	{{validationError.title.message}}
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="btn-group">
-									<h5><b>Type</b></h5>
-									<div class="col-md-6">
-										<label class="radio-inline">
-											<input type="radio"  name="type" data-ng-model="newTask.type" value="task">Task
-										</label>
-									</div>
-									<div class="col-md-6">
-										<label class="radio-inline">
-											<input type="radio" name="type" data-ng-model="newTask.type" value="event">Event
-										</label>
-									</div>
+								{{validationError.title.message}}
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="btn-group priority-btn">
 									<h5><b>Priority*</b></h5>
-									<div class="priority-btn-inner clearfix">
-										<div class="priority-btn-row">
-											<div class="priority-btn-cell borderRightBottom" ng-class="{active: newTask.priority == 1}">
-												<label class="radio-inline tasks-priority1">
-													<span class="glyphicon glyphicon-star tasks-priority"></span>
-													<input type="radio"  name="priority" data-ng-model="newTask.priority" value="1" required>Urgent and Important
-												</label>
-											</div>
-											<div class="priority-btn-cell" ng-class="{active: newTask.priority == 2}">
-												<label class="radio-inline tasks-priority2">
-													<span class="glyphicon glyphicon-star tasks-priority"></span>
-													<input type="radio" name="priority" data-ng-model="newTask.priority" value="2" required>Important not Urgent
-												</label>
-											</div>
-										</div>
-										<div class="priority-btn-row">
-											<div class="priority-btn-cell" ng-class="{active: newTask.priority == 3}">
-												<label class="radio-inline tasks-priority3">
-													<span class="glyphicon glyphicon-star tasks-priority"></span>
-													<input type="radio"  name="priority" data-ng-model="newTask.priority" value="3" required>Urgent not Important
-
-												</label>
-											</div>
-											<div class="priority-btn-cell borderLeftTop" ng-class="{active: newTask.priority == 4}">
-												<label class="radio-inline tasks-priority4">
-													<span class="glyphicon glyphicon-star tasks-priority"></span>
-													<input type="radio" name="priority" data-ng-model="newTask.priority" value="4" required>Not Important not urgent
-												</label>
-											</div>
-										</div>
-									</div>
+									<span>
+										<span ng-show="newTask.priority == '1'" class="glyphicon tasks-priority1 glyphicon-star tasks-priority ng-hide"></span>
+										<span ng-show="newTask.priority == '2'" class="glyphicon tasks-priority2 glyphicon-star tasks-priority ng-hide"></span>
+										<span ng-show="newTask.priority == '3'" class="glyphicon tasks-priority3 glyphicon-star tasks-priority ng-hide"></span>
+										<span ng-show="newTask.priority == '4'" class="glyphicon tasks-priority4 glyphicon-star tasks-priority ng-hide"></span>
+									</span>
+									<select name="priority" data-ng-model="newTask.priority" ng-init="newTask.priority='1'">
+										<option value="1">Urgent and Important</option>
+										<option value="2">Important not Urgent</option>
+										<option value="3">Urgent not Important</option>
+										<option value="4">Not Important not urgent</option>
+									</select>
 									<div ng-show="validationError.priority" class="error">
 									{{validationError.priority.message}}
 									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="checkbox isTemplateChecker">
+									<label for="saveAsDraft">
+										<input type="checkbox" data-ng-model="newTask.saveAsDraft" id="saveAsDraft">Save as template
+									</label>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="checkbox">
+									<label for="withOutDate">
+										<input type="checkbox" data-ng-model="newTask.withOutDate" id="withOutDate">Task without date
+									</label>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="col-xs-6 col-sm-3">
 						<div class="column-wrapper">
-							<div class="form-group">
-								<label class="control-label label-padding" for="startDate">Start date</label>
+							<div class="form-group form-group-time-select">
+								<label class="control-label label-padding">Start date</label>
 								<div class="input-group ui-datepicker">
 									<span ng-class="{disabled: newTask.withOutDate}"
 										   class="input-group-addon calendar-btn" ng-click="openStart($event)">
@@ -97,8 +77,10 @@
 										   close-text="Close"
 										   ng-click="openStart($event)" required/>
 								</div>
+								<timepicker class="select-time" ng-model="newTask.startTime" minute-step="15" show-meridian="true"></timepicker>
 							</div>
-							<div class="form-group">
+							<br>
+							<div class="form-group form-group-time-select">
 								<label class="control-label label-padding" for="endDate">End date</label>
 								<div class="input-group ui-datepicker">
 									<span  ng-class="{disabled: newTask.withOutDate}"
@@ -112,16 +94,10 @@
 										   close-text="Close"
 										   ng-click="openEnd($event)" required/>
 								</div>
+								<timepicker class="select-time" ng-model="newTask.endTime" minute-step="15" show-meridian="true"></timepicker>
 							</div>
 							<div class="form-group">
-								<div class="checkbox">
-									<label for="withOutDate">
-										<input type="checkbox" data-ng-model="newTask.withOutDate" id="withOutDate">Task without date
-									</label>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="control-label">Estimation</label>
+								<label class="control-label">Estimation (hours)</label>
 								<div>
 									<rzslider rz-slider-model="newTask.estimation"
 											  rz-slider-options="slider.options">
@@ -137,12 +113,7 @@
 					<div class="col-xs-6 col-sm-3">
 						<div class="column-wrapper">
 							<div class="form-group">
-								<label class="control-label label-padding" for="tags">Tags</label>
-								<input type="text" data-ng-model="tags" id="tags" class="form-control input-round-borders"
-									   placeholder="Add tags"  disabled />
-							</div>
-							<div class="form-group">
-								<label class="control-label label-padding" for="tags">Notes</label>
+								<label class="control-label label-padding">Notes</label>
 								<textarea class="form-control notes-area" data-ng-model="newTask.notes"></textarea>
 								<div ng-show="validationError.notes" class="error">
 									{{validationError.notes.message}}
@@ -150,9 +121,21 @@
 							</div>
 						</div>
 					</div>
+
 					<div class="col-xs-6 col-sm-3">
 						<div class="column-wrapper">
-							<label class="control-label label-padding">Slots</label>
+							<table class="slots-table-header">
+								<tr>
+									<td>
+										<label class="control-label label-padding">Slots</label>
+									</td>
+									<td style="text-align: right">
+										<a href="#" title="Generate slots">
+											<span class="glyphicon glyphicon-refresh"></span>
+										</a>
+									</td>
+								</tr>
+							</table>
 							<table class="table table-bordered slots-table">
 								<tr>
 									<td>Monday 22.02</td>
@@ -171,11 +154,6 @@
 								</tr>
 							</table>
 							<div class="form-group btn-holder pool-bottom pool-right">
-								<div class="checkbox isTemplateChecker">
-									<label for="saveAsDraft">
-										<input type="checkbox" data-ng-model="saveAsDraft" id="saveAsDraft">Save as draft
-									</label>
-								</div>
 								<button class="btn btn-default btn-white" data-ng-click="cancel()">Cancel</button>
 								<input type="submit" data-ng-click="create()" class="btn btn-default btn-white">
 							</div>

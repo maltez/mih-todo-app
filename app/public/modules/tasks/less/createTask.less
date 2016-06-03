@@ -8,6 +8,9 @@
 	.error {
 		color: red;
 		margin-top: 3px;
+		> .form-control{
+			border-color: red;
+		}
 	}
 
 	.col-xs-6 {
@@ -99,27 +102,40 @@
 		.tasks-priority {
 			padding:4px 10px 25px;
 			float:left;
-			font-size: 2em;
+			font-size: 1em;
 		}
-		.radio-inline {
-			padding:0;
 
-			&.tasks-priority1 {
-				color: #ed5565;
-			}
-			&.tasks-priority2 {
-				color: #f3a747;
-			}
-			&.tasks-priority3 {
-				color: #61b394;
-			}
-			&.tasks-priority4 {
-				color: #676a6c;
-			}
+
+		.tasks-priority1 {
+			color: #ed5565;
+		}
+		.tasks-priority2 {
+			color: #f3a747;
+		}
+		.tasks-priority3 {
+			color: #61b394;
+		}
+		.tasks-priority4 {
+			color: #676a6c;
+		}
+
+	}
+
+	.slots-table-header {
+		width: 100%;
+		background: #fff;
+		border-bottom:1px solid #838383;
+		margin-bottom:5px;
+
+		td {
+			width: 50%;
+			padding: 0 20px;
 		}
 	}
+
 	.slots-table {
 		border: 1px solid #838383;
+		background: #fff;
 		td {
 			text-align: center;
 		}
@@ -128,6 +144,19 @@
 	.isTemplateChecker {
 		display: inline-block;
 		margin-right: 10px;
+	}
+
+	.input-group.ui-datepicker {
+		width: 50%;
+	}
+
+	.form-group-time-select {
+		position: relative;
+	}
+	.select-time{
+		position: absolute;
+		top:0;
+		right: 0;
 	}
 
 	.ui-datepicker .btn {

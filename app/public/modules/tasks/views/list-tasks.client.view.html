@@ -1,9 +1,26 @@
-<ul class="nav nav-second-level in collapse" data-ng-controller="TasksListController" data-ng-init="find()">
-	<li data-ng-repeat="task in tasks" class="task-list-item">
-		<a data-ng-href="#!/tasks/{{task._id}}" class="task-list-item">
-			<span class="task-priority fa fa-circle {{'task-priority-' + task.priority}}"></span>
-			<span class="nav-label task-name" data-ng-bind="task.title"></span>
-			<span class="pull-right label label-danger"> 0% </span>
-		</a>
-	</li>
-</ul>
+<section class="tasks-list-wrapper" data-ng-controller="TasksListController" data-ng-init="find()">
+	<div class="form-group task-list-show-completed">
+		<div class="checkbox">
+			<label for="showCompleted">
+				<input type="checkbox" data-ng-model="showCompleted"  id="showCompleted"> Show completed tasks
+			</label>
+		</div>
+		<div class="btn-group">
+			<label class="">
+				<input type="radio" id="sortByDeadline" data-ng-model="sortBy.type" value="deadline" /> Sort by deadline
+			</label>
+			<label class="">
+				<input type="radio" id="sortByPriority" data-ng-model="sortBy.type"  value="priority" /> Sort by priority
+			</label>
+		</div>
+	</div>
+	<ul class="nav nav-second-level in collapse">
+		<li data-ng-repeat="task in tasks | filter: showCompleted ? {status: 'completed'} : {} | orderBy: sortBy.type === 'priority' ? 'priority' : 'days.endTime'" class="task-list-item">
+			<a data-ng-href="#!/tasks/{{task._id}}" class="task-list-item">
+				<span class="task-priority fa fa-circle {{'task-priority-' + task.priority}}"></span>
+				<span class="nav-label task-name" data-ng-bind="task.title"></span>
+				<span class="pull-right label label-danger"> 0% </span>
+			</a>
+		</li>
+	</ul>
+</section>

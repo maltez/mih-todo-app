@@ -9,10 +9,12 @@ angular.module('tasks').controller('TasksListController', ['$scope', '$rootScope
 		$scope.find();
 	});
 
-	$scope.showCompleted = false;
+	$scope.sortType = 'deadline';
+	$scope.sortReverse = false;
 
-	$scope.sortBy = {
-		type: 'deadline'
+	$scope.sortListBy = function(type){
+		$scope.sortType = type;
+		$scope.sortReverse = !$scope.sortReverse;
 	};
 
 	// Find a list of Tasks

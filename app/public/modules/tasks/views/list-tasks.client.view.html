@@ -1,21 +1,17 @@
-<section class="tasks-list-wrapper" data-ng-controller="TasksListController" data-ng-init="find()">
-	<div class="form-group task-list-show-completed">
-		<div class="checkbox">
-			<label for="showCompleted">
-				<input type="checkbox" data-ng-model="showCompleted"  id="showCompleted"> Show completed tasks
-			</label>
-		</div>
-		<div class="btn-group">
-			<label class="">
-				<input type="radio" id="sortByDeadline" data-ng-model="sortBy.type" value="deadline" /> Sort by deadline
-			</label>
-			<label class="">
-				<input type="radio" id="sortByPriority" data-ng-model="sortBy.type"  value="priority" /> Sort by priority
-			</label>
-		</div>
+<section class="tasks-list-wrapper" ng-controller="TasksListController" ng-init="find()">
+	<div class="form-group todo-list-controls">
+		<a class="controls-link" ng-click="sortListBy('priority')">
+			<i class="fa fa-sort-amount-desc" aria-hidden="true" ng-hide="sortType ==='priority' && sortReverse === true"></i>
+			<i class="fa fa-sort-amount-asc" aria-hidden="true" ng-show="sortType ==='priority' && sortReverse === true"></i>
+		</a>
+		<a class="controls-link" ng-click="sortListBy('days.endTime')">
+			<i class="fa fa-long-arrow-up" aria-hidden="true" ng-hide="sortType ==='days.endTime' && sortReverse === true"></i>
+			<i class="fa fa-long-arrow-down" aria-hidden="true" ng-show="sortType ==='days.endTime' && sortReverse === true"></i>
+			<i class="fa fa-clock-o" aria-hidden="true"></i>
+		</a>
 	</div>
 	<ul class="nav nav-second-level in collapse">
-		<li data-ng-repeat="task in tasks | filter: showCompleted ? {status: 'completed'} : {} | orderBy: sortBy.type === 'priority' ? 'priority' : 'days.endTime'" class="task-list-item">
+		<li data-ng-repeat="task in tasks | orderBy: sortType : sortReverse" class="task-list-item">
 			<a data-ng-href="#!/tasks/{{task._id}}" class="task-list-item">
 				<span class="task-priority fa fa-circle {{'task-priority-' + task.priority}}"></span>
 				<span class="nav-label task-name" data-ng-bind="task.title"></span>

@@ -106,7 +106,7 @@ function($scope, $rootScope, $stateParams, $location, Authentication, Tasks, Use
 		// Create new Task object
 		var task = new Tasks($scope.newTask);
 
-		if ($scope.withOutDate) {
+		if ($scope.newTask.withOutDate) {
 			task.days.startDate = task.days.endDate = '';
 		}
 
@@ -118,7 +118,7 @@ function($scope, $rootScope, $stateParams, $location, Authentication, Tasks, Use
 			$scope.validationError = errorResponse.data.message.errors;
 		});
 
-		if ($scope.saveAsDraft) { //Add task to user templates
+		if ($scope.newTask.saveAsDraft) { //Add task to user templates
 			var user = new Users($scope.user);
 
 			user.templates.push($scope.newTask);

@@ -1,167 +1,158 @@
-<section class="create-task-wrapper clearfix" data-ng-controller="TasksController">
-	<div class="col-md-12">
-		<form class="form-horizontal" novalidate>
-			<fieldset>
-				<div class="row">
-					<div class="col-xs-6 col-sm-3">
-						<div class="form-group">
-							<select class="form-control input-round-borders" data-ng-change="loadTaskTemplate(selectedTemplate)"
-									data-ng-model="selectedTemplate" data-ng-options="template.title for template in user.templates"
-							>
-								<option value="">Select template</option>
-							</select>
-						</div>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-xs-6 col-sm-3">
-						<div class="column-wrapper">
-							<div class="form-group" ng-class="{ error: validationError.title }">
-								<label class="control-label label-padding" for="title">Title*</label>
-								<input type="text" data-ng-model="newTask.title"  id="title"
-									   class="form-control input-round-borders" placeholder="Title" required >
-								<div ng-show="validationError.title" class="error">
-								{{validationError.title.message}}
+<div class="wrapper">
+	<section class="create-task-wrapper row clearfix" data-ng-controller="TasksController">
+		<div class="col-lg-12 col-md-12 ibox">
+			<form class="form-horizontal ibox-content" novalidate>
+				<fieldset>
+					<div class="row">
+						<div class="col-xs-6 col-sm-3">
+							<div class="column-wrapper">
+								<div class="form-group" ng-class="{ error: validationError.title }">
+									<label class="control-label label-padding" for="title">Title*</label>
+									<input type="text" data-ng-model="newTask.title"  id="title"
+										   class="form-control input-round-borders" placeholder="Title" required >
+									<div ng-show="validationError.title" class="error">
+										{{validationError.title.message}}
+									</div>
 								</div>
-							</div>
-							<div class="form-group">
-								<div class="btn-group priority-btn">
-									<h5><b>Priority*</b></h5>
-									<span>
-										<span ng-show="newTask.priority == '1'" class="glyphicon tasks-priority1 glyphicon-star tasks-priority ng-hide"></span>
-										<span ng-show="newTask.priority == '2'" class="glyphicon tasks-priority2 glyphicon-star tasks-priority ng-hide"></span>
-										<span ng-show="newTask.priority == '3'" class="glyphicon tasks-priority3 glyphicon-star tasks-priority ng-hide"></span>
-										<span ng-show="newTask.priority == '4'" class="glyphicon tasks-priority4 glyphicon-star tasks-priority ng-hide"></span>
-									</span>
-									<select name="priority" data-ng-model="newTask.priority" ng-init="newTask.priority='1'">
+								<div class="form-group">
+									<label class="control-label label-padding" for="title">Template</label>
+									<select class="form-control" data-ng-change="loadTaskTemplate(selectedTemplate)"
+											data-ng-model="selectedTemplate" data-ng-options="template.title for template in user.templates"
+									>
+										<option value="">Select template</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label class="control-label label-padding" for="title">Priority*</label>
+									<select name="priority" class="form-control" data-ng-model="newTask.priority" ng-init="newTask.priority='1'">
 										<option value="1">Urgent and Important</option>
 										<option value="2">Important not Urgent</option>
 										<option value="3">Urgent not Important</option>
 										<option value="4">Not Important not urgent</option>
 									</select>
 									<div ng-show="validationError.priority" class="error">
-									{{validationError.priority.message}}
+										{{validationError.priority.message}}
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="checkbox isTemplateChecker">
+										<label for="saveAsDraft">
+											<input type="checkbox" data-ng-model="newTask.saveAsDraft" id="saveAsDraft">Save as template
+										</label>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="checkbox">
+										<label for="withOutDate">
+											<input type="checkbox" data-ng-model="newTask.withOutDate" id="withOutDate">Task without date
+										</label>
 									</div>
 								</div>
 							</div>
-							<div class="form-group">
-								<div class="checkbox isTemplateChecker">
-									<label for="saveAsDraft">
-										<input type="checkbox" data-ng-model="newTask.saveAsDraft" id="saveAsDraft">Save as template
-									</label>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="checkbox">
-									<label for="withOutDate">
-										<input type="checkbox" data-ng-model="newTask.withOutDate" id="withOutDate">Task without date
-									</label>
-								</div>
-							</div>
 						</div>
-					</div>
-					<div class="col-xs-6 col-sm-3">
-						<div class="column-wrapper">
-							<div class="form-group form-group-time-select">
-								<label class="control-label label-padding">Start date</label>
-								<div class="input-group ui-datepicker">
+						<div class="col-xs-6 col-sm-3">
+							<div class="column-wrapper">
+								<div class="form-group form-group-time-select">
+									<label class="control-label label-padding">Start date</label>
+									<div class="input-group ui-datepicker">
 									<span ng-class="{disabled: newTask.withOutDate}"
-										   class="input-group-addon calendar-btn" ng-click="openStart($event)">
+										  class="input-group-addon calendar-btn" ng-click="openStart($event)">
 										<i class="fa fa-calendar"></i>
 									</span>
 
-									<input id="startDate" data-ng-disabled="newTask.withOutDate" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy"
-										   data-ng-model="newTask.days.startDate" is-open="opened.startDate" min-date="startDate.minDate" max-date="startDate.maxDate"
-										   datepicker-options="dateOptions.startDate" date-disabled="disabled(date, mode)"
-										   close-text="Close"
-										   ng-click="openStart($event)" required/>
+										<input id="startDate" data-ng-disabled="newTask.withOutDate" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy"
+											   data-ng-model="newTask.days.startDate" is-open="opened.startDate" min-date="startDate.minDate" max-date="startDate.maxDate"
+											   datepicker-options="dateOptions.startDate" date-disabled="disabled(date, mode)"
+											   close-text="Close"
+											   ng-click="openStart($event)" required/>
+									</div>
+									<timepicker class="select-time" ng-model="newTask.startTime" minute-step="15" show-meridian="true"></timepicker>
 								</div>
-								<timepicker class="select-time" ng-model="newTask.startTime" minute-step="15" show-meridian="true"></timepicker>
-							</div>
-							<br>
-							<div class="form-group form-group-time-select">
-								<label class="control-label label-padding" for="endDate">End date</label>
-								<div class="input-group ui-datepicker">
+								<br>
+								<div class="form-group form-group-time-select">
+									<label class="control-label label-padding" for="endDate">End date</label>
+									<div class="input-group ui-datepicker">
 									<span  ng-class="{disabled: newTask.withOutDate}"
 										   class="input-group-addon calendar-btn" ng-click="openEnd($event)">
 										<i class="fa fa-calendar"></i>
 									</span>
 
-									<input id="endDate" data-ng-disabled="newTask.withOutDate" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy"
-										   data-ng-model="newTask.days.endDate" is-open="opened.endDate" min-date="endDate.minDate" max-date="endDate.maxDate"
-										   datepicker-options="dateOptions.endDate" date-disabled="disabled(date, mode)"
-										   close-text="Close"
-										   ng-click="openEnd($event)" required/>
+										<input id="endDate" data-ng-disabled="newTask.withOutDate" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy"
+											   data-ng-model="newTask.days.endDate" is-open="opened.endDate" min-date="endDate.minDate" max-date="endDate.maxDate"
+											   datepicker-options="dateOptions.endDate" date-disabled="disabled(date, mode)"
+											   close-text="Close"
+											   ng-click="openEnd($event)" required/>
+									</div>
+									<timepicker class="select-time" ng-model="newTask.endTime" minute-step="15" show-meridian="true"></timepicker>
 								</div>
-								<timepicker class="select-time" ng-model="newTask.endTime" minute-step="15" show-meridian="true"></timepicker>
+								<div class="form-group">
+									<label class="control-label">Estimation (hours)</label>
+									<div>
+										<rzslider rz-slider-model="newTask.estimation"
+												  rz-slider-options="slider.options">
+										</rzslider>
+									</div>
+								</div>
 							</div>
-							<div class="form-group">
-								<label class="control-label">Estimation (hours)</label>
-								<div>
-									<rzslider rz-slider-model="newTask.estimation"
-											  rz-slider-options="slider.options">
-									</rzslider>
+						</div>
+
+						<!-- Add the extra clearfix for only the required viewport -->
+						<div class="clearfix visible-xs-block"></div>
+
+						<div class="col-xs-6 col-sm-3">
+							<div class="column-wrapper">
+								<div class="form-group">
+									<label class="control-label label-padding">Notes</label>
+									<textarea class="form-control notes-area" data-ng-model="newTask.notes"></textarea>
+									<div ng-show="validationError.notes" class="error">
+										{{validationError.notes.message}}
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xs-6 col-sm-3">
+							<div class="column-wrapper">
+								<table class="slots-table-header">
+									<tr>
+										<td>
+											<label class="control-label label-padding">Slots</label>
+										</td>
+										<td style="text-align: right">
+											<a href="#" title="Generate slots">
+												<span class="glyphicon glyphicon-refresh"></span>
+											</a>
+										</td>
+									</tr>
+								</table>
+								<table class="table table-bordered slots-table">
+									<tr>
+										<td>Monday 22.02</td>
+										<td>16.00-20.00</td>
+										<td>4h</td>
+									</tr>
+									<tr>
+										<td>Tuesday 23.02</td>
+										<td>10.00-14.00</td>
+										<td>4h</td>
+									</tr>
+									<tr>
+										<td>Wednesday 24.02 </td>
+										<td>10.00-14.00</td>
+										<td>4h</td>
+									</tr>
+								</table>
+								<div class="form-group btn-holder pool-bottom pool-right">
+									<button class="btn btn-white" data-ng-click="cancel()">Cancel</button>
+									<button type="submit" data-ng-click="create()" class="btn btn-primary">Create</button>
 								</div>
 							</div>
 						</div>
 					</div>
+				</fieldset>
+			</form>
+		</div>
+	</section>
+</div>
 
-					<!-- Add the extra clearfix for only the required viewport -->
-					<div class="clearfix visible-xs-block"></div>
-
-					<div class="col-xs-6 col-sm-3">
-						<div class="column-wrapper">
-							<div class="form-group">
-								<label class="control-label label-padding">Notes</label>
-								<textarea class="form-control notes-area" data-ng-model="newTask.notes"></textarea>
-								<div ng-show="validationError.notes" class="error">
-									{{validationError.notes.message}}
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-xs-6 col-sm-3">
-						<div class="column-wrapper">
-							<table class="slots-table-header">
-								<tr>
-									<td>
-										<label class="control-label label-padding">Slots</label>
-									</td>
-									<td style="text-align: right">
-										<a href="#" title="Generate slots">
-											<span class="glyphicon glyphicon-refresh"></span>
-										</a>
-									</td>
-								</tr>
-							</table>
-							<table class="table table-bordered slots-table">
-								<tr>
-									<td>Monday 22.02</td>
-									<td>16.00-20.00</td>
-									<td>4h</td>
-								</tr>
-								<tr>
-									<td>Tuesday 23.02</td>
-									<td>10.00-14.00</td>
-									<td>4h</td>
-								</tr>
-								<tr>
-									<td>Wednesday 24.02 </td>
-									<td>10.00-14.00</td>
-									<td>4h</td>
-								</tr>
-							</table>
-							<div class="form-group btn-holder pool-bottom pool-right">
-								<button class="btn btn-default btn-white" data-ng-click="cancel()">Cancel</button>
-								<input type="submit" data-ng-click="create()" class="btn btn-default btn-white">
-							</div>
-						</div>
-					</div>
-				</div>
-			</fieldset>
-		</form>
-	</div>
-</section>
 <div ng-include="'/modules/calendar/views/calendar.client.view.html'"></div>

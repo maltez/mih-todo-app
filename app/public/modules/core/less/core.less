@@ -17,7 +17,7 @@ body.ng-cloak {
 }
 
 body {
-	background: #fff;
+	background: #f3f3f4;
 }
 
 a {
@@ -26,6 +26,10 @@ a {
 
 .page-wrapper {
   height: 100%;
+}
+
+.container-wrapper {
+  background: #f3f3f4;
 }
 
 .btn {
@@ -111,28 +115,29 @@ a {
 		position: relative;
 
 		.navbar-default {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			margin: 0;
-			background: #F0F0F0;
-			border-bottom: 1px solid;
-			border-radius: 0;
-			height: 70px;
-			z-index: 2;
-		}
-
-		> .content {
-			position: absolute;
-			top: 70px;
-			bottom: 0;
-			left: 0;
-			right: 0;
-			overflow: auto;
-			background: @main-bg-color;
+			background: #fff;
+			box-shadow: none;
+		  	padding: 0 15px;
+		  	box-sizing: border-box;
 		}
 	}
+}
+
+.notifications-info .label {
+  line-height: 12px;
+  padding: 2px 5px;
+  position: absolute;
+  right: 6px;
+  top: 12px;
+}
+
+.navbar {
+  background: #fff;
+  padding: 0 15px;
+}
+
+.navbar-right i{
+  font-size: 20px;
 }
 
 .navbar-header {
@@ -140,7 +145,7 @@ a {
 		display: inline-block;
 		vertical-align: middle;
 		margin: 0 0 0 15px;
-		line-height: 20px;
+		line-height: 50px;
 	}
 	> .menu-btn {
 		display: inline-block;
@@ -151,55 +156,21 @@ a {
 
 }
 
-.navbar-header:before,
-.notification-menu:before {
-	content: "";
+.nav-user-profile {
 	display: inline-block;
 	vertical-align: middle;
-	min-height: 70px;
-}
 
-.notification-menu {
-	float: right;
-	min-height: 70px;
-	margin: 0 20px 0 0;
-
-	> .calendar-btn {
-		cursor: pointer;
-		font-size: 2em;
-		display: inline-block;
-		vertical-align: middle;
-		margin: 0 15px 0 0;
+	> .dropdown-toggle {
+		color: #676a6c;
+		font-size: 16px;
+	  padding: 0;
 	}
 
-	.notification-icon {
-		position: relative;
-		display: inline-block;
-		font-size: 2em;
-		vertical-align: middle;
-		padding-top: 5px;
-		margin: 0 25px 0 0;
-		cursor: pointer;
-
-		> .badge {
-			position: absolute;
-			top: 0;
-			right: -5px;
-		}
+	> .dropdown-menu a {
+		font-size: 14px;
 	}
-
-	.nav-user-profile {
-		display: inline-block;
-		vertical-align: middle;
-
-		> .dropdown-toggle {
-			color: #676a6c;
-			font-size: 16px;
-		}
-
-		> .dropdown-menu a {
-			font-size: 14px;
-		}
+	.profile-image {
+	  height: 48px;
 	}
 }
 

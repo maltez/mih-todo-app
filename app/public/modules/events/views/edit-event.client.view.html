@@ -1,6 +1,7 @@
-<section class="create-event-wrapper clearfix" data-ng-controller="EventsController" data-ng-init="findEvent()">
-	<div class="col-md-12">
-		<form novalidate>
+<div class="wrapper">
+	<section class="create-event-wrapper row clearfix" data-ng-controller="EventsController" data-ng-init="findEvent()">
+	<div class="col-md-12 ibox">
+		<form novalidate class="ibox-content">
 			<fieldset class="row">
 				<div class="form-holder clearfix">
 					<div class="column-wrapper col-xs-6 col-sm-4">
@@ -59,4 +60,5 @@
 		</form>
 	</div>
 </section>
+</div>
 <div ng-include="'/modules/calendar/views/calendar.client.view.html'"></div>

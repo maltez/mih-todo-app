@@ -1,6 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose'),
+	ObjectId = require("mongodb").ObjectID,
 	errorHandler = require('./errors.server.controller'),
 	Event = mongoose.model('Activity'),
 	_ = require('lodash');
@@ -51,7 +52,7 @@ exports.delete = function(req, res) {
  * List of Events
  */
 exports.list = function(req, res) {
-	Event.find().sort('-created').populate('user', 'displayName').exec(function(err, events) {
+	Event.find({'user': ObjectId(req.user._id), 'type': 'event'}).sort('-created').populate('user', 'displayName').exec(function(err, events) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)

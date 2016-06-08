@@ -13,11 +13,47 @@
 				<i class="fa fa-calendar calendar-btn" aria-hidden="true"></i>
 			</a>
 		</li>
-		<li>
-			<a ui-sref="home" class="notifications-info">
+		<li class="dropdown nav-notifications">
+			<a class="notifications-info" data-toggle="dropdown">
 				<i class="fa fa-bell" aria-hidden="true"></i>
 				<span class="label label-primary">2</span>
 			</a>
+			<!-- TODO: to change logic for notifications module -->
+			<ul class="dropdown-menu dropdown-alerts notification-dropdown">
+				<li ng-controller="TasksListController" data-ng-init="find()" ng-show="tasks.length">
+					<strong class="dropdown-header">Tasks</strong>
+					<div class="divider"></div>
+					<ul>
+						<li data-ng-repeat="task in tasks | limitTo: 3">
+							<a data-ng-href="#!/tasks/{{task._id}}" class="clearfix">
+								<span class="pull-left notification-title" data-ng-bind="task.title"></span>
+								<span class="pull-right small">3 days ago</span>
+							</a>
+							<div class="divider"></div>
+						</li>
+					</ul>
+				</li>
+				<li data-ng-controller="EventsListController" data-ng-init="find()" ng-show="events.length">
+					<strong class="dropdown-header">Events</strong>
+					<div class="divider"></div>
+					<ul>
+						<li data-ng-repeat="event in events | limitTo: 3">
+							<a data-ng-href="#!/events/{{event._id}}/edit" class="clearfix">
+								<span class="pull-left notification-title" data-ng-bind="event.title"></span>
+								<span class="pull-right small">12 minutes ago</span>
+							</a>
+							<div class="divider"></div>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<div class="text-center notifications-all-control">
+						<a href="#!/notifications">
+							<strong>See all notifications ></strong>
+						</a>
+					</div>
+				</li>
+			</ul>
 		</li>
 
 		<li class="dropdown nav-user-profile">
@@ -33,4 +69,3 @@
 		</li>
 	</ul>
 </div>
-

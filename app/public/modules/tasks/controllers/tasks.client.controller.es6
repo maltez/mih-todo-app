@@ -82,7 +82,10 @@ function($scope, $rootScope, $stateParams, $location, Authentication, Tasks, Use
 		value: 12,
 		options: {
 			floor: 0,
-			ceil: 24
+			ceil: 24,
+			translate(unit) {
+				return unit + 'h';
+			}
 		}
 	};
 

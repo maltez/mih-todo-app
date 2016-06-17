@@ -26,13 +26,11 @@
 			<script type="text/ng-template" id="validationErrorsTmp.html">
 				<div ng-show="errors.length > 0">
 					<p class="error-popover-title text-danger">
-						<i class="fa fa-exclamation-circle"></i>
 						The password must:</p>
 					<p ng-repeat="error in errors">{{error}}</p>
 				</div>
 				<div ng-show="errors.length == 0">
 					<p class="error-popover-title text-navy">
-						<i class="fa fa-exclamation-circle"></i>
 						The password is valid
 					</p>
 				</div>

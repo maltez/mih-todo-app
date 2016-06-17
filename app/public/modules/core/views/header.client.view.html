@@ -1,4 +1,5 @@
-<div data-ng-controller="HeaderController" data-ng-show="authentication.user" class="navbar navbar-static-top border-bottom">
+<div data-ng-controller="HeaderController" data-ng-show="authentication.user"
+	 class="navbar navbar-static-top border-bottom">
 	<div class="navbar-header">
 		<a class="navbar-minimalize minimalize-styl-2 btn btn-primary" data-ng-click="toggleSidebar()">
 			<i class="fa fa-bars" aria-hidden="true"></i>
@@ -13,41 +14,26 @@
 				<i class="fa fa-calendar calendar-btn" aria-hidden="true"></i>
 			</a>
 		</li>
-		<li class="dropdown nav-notifications">
-			<a class="notifications-info" data-toggle="dropdown">
+		<!--TODO: rewrite logic according to notifications-->
+		<li class="dropdown nav-notifications" ng-controller="NotificationsController" data-ng-init="find()">
+			<a class="notifications-info" data-ng-class="{disable: !notifications.length}" data-toggle="dropdown">
 				<i class="fa fa-bell" aria-hidden="true"></i>
-				<span class="label label-primary">2</span>
+				<span class="label"
+					  data-ng-class="notifications.length ? 'label-primary' : 'label-default'"
+					  data-ng-bind="notifications.length">
+				</span>
 			</a>
-			<!-- TODO: to change logic for notifications module -->
-			<ul class="dropdown-menu dropdown-alerts notification-dropdown">
-				<li ng-controller="TasksListController" data-ng-init="find()" ng-show="tasks.length">
-					<strong class="dropdown-header">Tasks</strong>
+			<!-- TODO: rewrite static to data from model -->
+			<ul data-ng-show="notifications.length" class="dropdown-menu dropdown-alerts notifications-dropdown">
+				<li data-ng-repeat="notification in notifications | limitTo: 3">
+					<a data-ng-href="#!/notifications/{{notification._id}}" class="clearfix">
+						<span class="pull-left notification-title" data-ng-bind="notification.title"></span>
+						<span class="pull-right small">3 days ago</span>
+					</a>
 					<div class="divider"></div>
-					<ul>
-						<li data-ng-repeat="task in tasks | limitTo: 3">
-							<a data-ng-href="#!/tasks/{{task._id}}" class="clearfix">
-								<span class="pull-left notification-title" data-ng-bind="task.title"></span>
-								<span class="pull-right small">3 days ago</span>
-							</a>
-							<div class="divider"></div>
-						</li>
-					</ul>
 				</li>
-				<li data-ng-controller="EventsListController" data-ng-init="find()" ng-show="events.length">
-					<strong class="dropdown-header">Events</strong>
-					<div class="divider"></div>
-					<ul>
-						<li data-ng-repeat="event in events | limitTo: 3">
-							<a data-ng-href="#!/events/{{event._id}}/edit" class="clearfix">
-								<span class="pull-left notification-title" data-ng-bind="event.title"></span>
-								<span class="pull-right small">12 minutes ago</span>
-							</a>
-							<div class="divider"></div>
-						</li>
-					</ul>
-				</li>
-				<li>
-					<div class="text-center notifications-all-control">
+				<li class="text-center notifications-dropdown__control">
+					<div class="text-center link-block">
 						<a href="#!/notifications">
 							<strong>See all notifications ></strong>
 						</a>

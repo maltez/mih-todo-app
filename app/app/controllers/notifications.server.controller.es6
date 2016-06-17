@@ -73,7 +73,7 @@ exports.delete = function(req, res) {
  * List of Notifications
  */
 exports.list = function(req, res) { 
-	Notification.find().sort('-created').populate('user', 'displayName').exec(function(err, notifications) {
+	Notification.find({'type': 'task'}).sort('-created').populate('user', 'displayName').exec(function(err, notifications) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)

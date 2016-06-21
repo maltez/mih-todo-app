@@ -1,9 +1,12 @@
 'use strict';
 
 // Notifications controller
-angular.module('notifications').controller('NotificationsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Notifications',
-	function($scope, $stateParams, $location, Authentication, Notifications) {
+angular.module('notifications').controller('NotificationsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Notifications', '$interval',
+	function($scope, $stateParams, $location, Authentication, Notifications, $interval) {
 		$scope.authentication = Authentication;
+
+        // TODO: move to common app config
+        var notificationsInterval = 1800000; // 30 min
 
 		// Create new Notification
 		$scope.create = function() {
@@ -54,6 +57,10 @@ angular.module('notifications').controller('NotificationsController', ['$scope',
 		// Find a list of Notifications
 		$scope.find = function() {
 			$scope.notifications = Notifications.query();
+
+            $interval(function(){
+                $scope.notifications = Notifications.query();
+            }, notificationsInterval);
 		};
 
 		// Find existing Notification

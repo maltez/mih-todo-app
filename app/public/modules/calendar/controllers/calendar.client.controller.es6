@@ -1,67 +1,23 @@
 'use strict';
 
-angular.module('calendar')
-.controller('CalendarController',
-	function ($scope) {
+// Task example
+/*{
+	'type':'task',
+	'title':'Set up meetings',
+	'start':'2016-06-16T10:00:00+08:00',
+	'end':'2016-06-16T12:00:00+08:00',
+	'className' : 'task'
+}*/
 
-		/* Mocked Events and tasks */
-		$scope.events = [
-			{
-				'id':'1',
-				'type':'event',
-				'title':'JS Meetup',
-				'start':'2016-05-03T10:00:00+08:00',
-				'end':'2016-05-03T11:00:00+08:00',
-				'className':'event',
-				'allDay':false
-			},
-			{
-				'id':'2',
-				'type':'event',
-				'title':'Weekly catch-up',
-				'start':'2016-05-10T09:00:00+08:00',
-				'end':'2016-05-10T10:00:00+08:00',
-				'className':'event',
-				'allDay':false,
-				dow : [5]
-			},
-			{
-				'id':'3',
-				'type':'event',
-				'title':'One to one with John',
-				'start':'2016-05-09T14:00:00+08:00',
-				'end':'2016-05-09T15:00:00+08:00',
-				'className':'event',
-				'allDay':false
-			},
-			{
-				'id':'4',
-				'type':'event',
-				'title':'Sick leave',
-				'start':'2016-05-11T9:00:00+08:00',
-				'end':'2016-05-11T18:00:00+08:00',
-				'className':'event',
-				'allDay':true
-			},
-			{
-				start: '2016-05-11T00:00:00',
-				end: '2016-05-11T23:59:59',
-				rendering: 'background'
-			},
-			{
-				'id':'5',
-				'type':'task',
-				'title':'Set up meetings',
-				'start':'2016-05-12T10:00:00+08:00',
-				'end':'2016-05-12T12:00:00+08:00',
-				'className' : 'task',
-				'allDay':false
-			}
-		];
+class Calendar {
+		constructor($scope, Days, Algorithm) {
+		this.$scope = $scope;
+		this.algorithm = Algorithm;
 
-		$scope.eventSources = [$scope.events];
-
-		$scope.uiConfig = {
+		this.days = {}; //To track remaining time for each day
+		this.events = [];
+		this.eventSources = [this.events];
+		this.uiConfig = {
 			calendar: {
 				height: 700,
 				editable: true,
@@ -71,12 +27,12 @@ angular.module('calendar')
 					right: 'agendaDay, agendaWeek, month'
 				},
 				businessHours : {
-					start: '10:00',
+					start: '09:00',
 					end: '18:00',
 					dow: [ 1, 2, 3, 4, 5 ]
 				},
 				firstDay : 1,
-				defaultView: 'month',
+				defaultView: 'agendaWeek',
 				droppable: true,
 				dropAccept: '.draggable',
 				drop: function (date, jsEvent, ui) {
@@ -88,4 +44,60 @@ angular.module('calendar')
 				}
 			}
 		};
-	});
+
+		Days.query(Calendar.getFirstAndLastWeekDay(), days => this.renderDays(days));
+		this.setSlotGenerationWatcher();
+	}
+
+	setSlotGenerationWatcher() {
+		var reservedSlotsIndexes = [];
+
+		this.$scope.$watch(() => this.algorithm.daysRange, (newValue, oldValue) => {
+			if (reservedSlotsIndexes.length) { //Clean previous slots
+				var offsetIndex = 1;
+				reservedSlotsIndexes.forEach(slotIndex => {
+					this.events.splice(slotIndex - offsetIndex, 1);
+					offsetIndex++;
+				});
+				reservedSlotsIndexes = [];
+			}
+
+			newValue.forEach(day => {
+				day = new Day(day);
+				reservedSlotsIndexes.push(
+					this.events.push(day.createCalendarSlot(day.reservedSlot))
+				);
+			});
+		});
+	}
+
+
+	renderDays(days) {
+		days.forEach(day => {
+			day = new Day(day);
+			day.bookedSlots.forEach(slot => {
+				this.events.push(day.createCalendarSlot(slot));
+			});
+		});
+	}
+
+	static getFirstAndLastWeekDay() {
+		var curr = new Date,
+			first = (curr.getDate() - curr.getDay()) + 1,
+			last = first + 6;
+
+		var firstDay = new Date(curr.setDate(first)),
+			lastDay = new Date(curr.setDate(last));
+
+		firstDay.setHours(0,0,0,0);
+		lastDay.setHours(0,0,0,0);
+
+		return {
+			startDate: firstDay,
+			endDate: lastDay
+		}
+	}
+}
+
+Calendar.$inject = ['$scope', 'Days', 'Algorithm'];
+angular.module('calendar').controller('CalendarController', Calendar);

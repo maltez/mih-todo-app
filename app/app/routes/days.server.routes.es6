@@ -4,8 +4,6 @@ module.exports = function (app) {
 	var days = require('../../app/controllers/days.server.controller').DaysServerController;
 	var users = require('../../app/controllers/users.server.controller');
 
-
-console.log(days);
 	// Days Routes
 	app.route('/days')
 		.get(days.list)

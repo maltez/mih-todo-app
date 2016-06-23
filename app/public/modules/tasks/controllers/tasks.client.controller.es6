@@ -188,7 +188,6 @@ angular.module('tasks').controller('TasksController',
 				}
 
 				task.$save(function (response) {
-					console.log(response._id)
 					$scope.daysRange.forEach(day => day.bookSlot(response._id));
 
 					var days = new Days($scope.daysRange);

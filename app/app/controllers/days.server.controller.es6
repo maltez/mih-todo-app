@@ -20,19 +20,28 @@ export class DaysServerController {
 	}
 
 	static create(req, res) {
-		Object.keys(req.body).forEach(key => {
-			var day = new Day(req.body[key]);
-			day.user = req.user;
+		var promises = [];
 
-			day.save(function(err) {
-				if (err) {
-					return res.status(400).send({
-						message: err
-					});
-				} else {
-					res.jsonp(day);
-				}
-			});
+		Object.keys(req.body).forEach(key => {
+			var day = req.body[key],
+				query = {_id: mongoose.Types.ObjectId(day._id)},
+				options = { upsert: true, new: true, setDefaultsOnInsert: true };
+
+			delete day.__v;
+			promises.push(new Promise(resolve => {
+				Day.findOneAndUpdate(query, day, options, (error, result) => {
+					error ? resolve(false) : resolve(true);
+				});
+			}));
+		});
+		Promise.all(promises).then(result => {
+			if (result.indexOf(false) == -1) {
+				return res.status(200).send({});
+			} else {
+				return res.status(400).send({
+					message: err
+				});
+			}
 		});
 	}
 

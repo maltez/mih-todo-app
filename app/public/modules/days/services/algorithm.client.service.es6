@@ -1,4 +1,5 @@
 'use strict';
+
 class TimeSlot {
 	constructor(duration) {
 		this.duration = duration;
@@ -6,12 +7,22 @@ class TimeSlot {
 }
 
 class Day {
-	constructor(date, freeTime, bookedSlots) {
-		this.date = new Date(date);
-		this.freeTime = freeTime;
-		this.bookedSlots = bookedSlots || [];
+	static get daysMap() {
+		return { 0: 'sun', 1: 'mon', 2: 'tue', 3: 'wed', 4: 'thu',  5: 'fri', 6: 'sat' };
+	};
 
+	constructor(data) {
+		Object.assign(this, data);
+		this.date = new Date(this.date);
+		this.settings = window.user.predefinedSettings.workingHours[Day.daysMap[this.date.getDay()]];
 		this.date.setHours(0,0,0,0); //Day in database shouldn't have special time, for search methods
+
+		if (!this.freeTime)	this.freeTime = (Algorithm.timeToMinutes(this.settings.end) - Algorithm.timeToMinutes(this.settings.start)) / 60;
+		if (!this.bookedSlots) this.bookedSlots = [];
+		if (!this.freeTimeStart) {
+			this.freeTimeStart = new Date(this.date);
+			this.freeTimeStart.setMinutes(Algorithm.timeToMinutes(this.settings.start));
+		}
 	}
 
 	reserveSlot(duration) {
@@ -25,14 +36,25 @@ class Day {
 		delete this.reservedSlot;
 	}
 
-	static timeToMinutes(time) {
-		return time.split(':').reduce((prev, cur) => (parseInt(prev, 10)) + parseInt(cur, 10));
-	};
+	createCalendarSlot(slot) {
+		var freeTimeStart = new Date(this.freeTimeStart),
+			freeTimeEnd = new Date(freeTimeStart);
+
+		freeTimeEnd.setMinutes(freeTimeEnd.getMinutes() + slot.duration * 60);
+		this.freeTimeStart = freeTimeEnd;
+
+		return {
+			type: slot.type || 'task',
+			title: slot.title || 'temp',
+			start: freeTimeStart,
+			end: freeTimeEnd,
+			className: slot.type || 'task'
+		};
+	}
 }
 
 class Algorithm {
 	constructor(Days, Authentication) {
-		this.daysMap = { 0: 'sun', 1: 'mon', 2: 'tue', 3: 'wed', 4: 'thu',  5: 'fri', 6: 'sat' };
 		this.Days = Days;
 		this.user = Authentication.user;
 		this.daysRange = [];
@@ -45,7 +67,8 @@ class Algorithm {
 		return new Promise(resolve => {
 			this.Days.query({startDate: startDate, endDate: endDate}, days => {
 				this.fillEmptyDaysRange(startDate, endDate, days);
-				resolve(this.getSuitableSlots(priority, estimation));
+				this.getSuitableSlots(priority, estimation);
+				resolve(this.daysRange);
 			});
 		});
 	}
@@ -55,16 +78,19 @@ class Algorithm {
 			startDate = new Date(from),
 			userSettings = this.user.predefinedSettings;
 
-		days.forEach(day => daysRange[new Date(day.date)] = new Day(day.date, day.freeTime, day.bookedSlots));
+		days.forEach(day => {
+			daysRange[new Date(day.date)] = new Day(day);
+			daysRange[new Date(day.date)]._id = day._id;
+		});
 
 		while(startDate <= to) {
 			if (!daysRange[startDate]) {
-				let daySettings = userSettings.workingHours[this.daysMap[startDate.getDay()]];
+				let day = new Day({
+					date: new Date(startDate)
+				});
 
-				if (daySettings.isWorkingDay) {
-					var freeTime = Day.timeToMinutes(daySettings.end) - Day.timeToMinutes(daySettings.start);
-
-					daysRange[startDate] = new Day(new Date(startDate), freeTime);
+				if (day.settings.isWorkingDay) {
+					daysRange[startDate] = day;
 				}
 			}
 
@@ -116,11 +142,21 @@ class Algorithm {
 				});
 
 				break;
-
 		}
 
-		return suitableDays;
+		this.daysRange = suitableDays;
 	}
+
+	static timeToMinutes(time) {
+		return time.split(':').reduce((prev, cur) => ((parseInt(prev, 10)) * 60) + parseInt(cur, 10));
+	};
+
+	static minutesToTime(minutes) {
+		return [
+			('0' + Math.floor(minutes / 60)).substr(-2),
+			('0' + minutes % 60).substr(-2)
+		].join(':');
+	};
 }
 
 /*class TimeSlot {

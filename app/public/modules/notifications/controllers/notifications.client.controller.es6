@@ -1,10 +1,13 @@
 'use strict';
 
 // Notifications controller
-angular.module('notifications').controller('NotificationsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Notifications', '$interval',
-	function($scope, $stateParams, $location, Authentication, Notifications, $interval) {
+angular.module('notifications').controller('NotificationsController',
+	['$scope', '$rootScope', '$stateParams', '$location', 'Authentication', 'Notifications', '$interval',
+	function($scope, $rootScope, $stateParams, $location, Authentication, Notifications, $interval) {
 		$scope.authentication = Authentication;
-
+		
+		$rootScope.$broadcast('setAsideCategory', 'notifications');
+		
         // TODO: move to common app config
         var notificationsInterval = 1800000; // 30 min
 
@@ -68,6 +71,22 @@ angular.module('notifications').controller('NotificationsController', ['$scope',
 			$scope.notification = Notifications.get({ 
 				notificationId: $stateParams.notificationId
 			});
+		};
+
+		$scope.closeView = function () {
+			$location.path('/');
+		};
+
+		// todo: move to progress controller; rewrite static
+		$scope.progressChart = {
+			data: [
+				{label: "Completed", value: 50},
+				{label: "To do", value: 50}
+			],
+			colors: ["#31C0BE", "#c7254e"],
+			formatter: function (input) {
+				return input + '%';
+			}
 		};
 	}
 ]);

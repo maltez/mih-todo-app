@@ -1,8 +1,10 @@
 'use strict';
 
 // Events controller
-angular.module('events').controller('EventsController', ['$scope', '$stateParams', '$location', 'Events',
-	function ($scope, $stateParams, $location, Events) {
+angular.module('events').controller('EventsController', ['$scope', '$rootScope', '$stateParams', '$location', 'Events',
+	function ($scope, $rootScope, $stateParams, $location, Events) {
+		$rootScope.$broadcast('setAsideCategory', 'todo');
+
 		var currentDate = new Date(),
 			defaultEventData = {
 				startDate : currentDate,

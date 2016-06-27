@@ -59,6 +59,8 @@ angular.module('tasks').controller('TasksController',
 		$scope.saveAsDraft = false;
 		$scope.user = Authentication.user;
 		$scope.selectedTemplate = {};
+		
+		$rootScope.$broadcast('setAsideCategory', 'todo');
 
 		var date = new Date(),
 			dateMax = new Date( Date.now() + (365*24*60*60*1000));

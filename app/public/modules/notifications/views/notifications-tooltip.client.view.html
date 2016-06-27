@@ -7,15 +7,7 @@
 </a>
 
 <ul data-ng-init="find()" data-ng-show="notifications.length" class="dropdown-menu dropdown-alerts notifications-dropdown">
-    <li class="dropdown-title" ng-if="(notifications| filter: { type: 'task' }).length">Tasks</li>
-    <li data-ng-repeat="notification in notifications | limitTo: 3 | filter: { type: 'task' }">
-        <a data-ng-href="#!/notifications/{{notification._id}}" class="clearfix">
-            <span class="pull-left notification-title" data-ng-bind="notification.title"></span>
-            <span class="pull-right small">3 days ago</span>
-        </a>
-    </li>
-    <li class="dropdown-title" ng-if="(notifications | filter: { type: 'event' }).length">Events</li>
-    <li data-ng-repeat="notification in notifications | limitTo: 3 | filter: { type: 'event' }">
+    <li data-ng-repeat="notification in notifications | limitTo: 3 ">
         <a data-ng-href="#!/notifications/{{notification._id}}" class="clearfix">
             <span class="pull-left notification-title" data-ng-bind="notification.title"></span>
             <span class="pull-right small">3 days ago</span>

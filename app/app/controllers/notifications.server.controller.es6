@@ -76,6 +76,7 @@ exports.delete = function(req, res) {
 exports.list = function(req, res) {
     Notification.find({
         'user': ObjectId(req.user._id),
+		'type': 'task',
         'days.endTime' : {
             $lt: new Date(req.query.time)
         }

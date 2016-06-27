@@ -1,7 +1,7 @@
 'use strict';
 
 class SettingsController {
-	constructor($location, Users, Authentication, $timeout, $window, FileUploader) {
+	constructor($location, Users, Authentication, $timeout, $window, FileUploader, MIHUtils) {
 		if (!Authentication.user) $location.path('/');
 
 		/*@ngInject*/
@@ -11,6 +11,9 @@ class SettingsController {
 		this.$window = $window;
 		this.FileUploader = FileUploader;
 		this.imageURL = this.user.profileImageURL;
+		// TODO: move to root controller + share
+		// TODO: refactor into directive so that we do not need to always inject it
+		this.MIHUtils = MIHUtils;
 
 		/*fields*/
 		this.workingDays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];

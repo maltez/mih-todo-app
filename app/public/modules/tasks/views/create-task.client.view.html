@@ -2,15 +2,13 @@
 	<form class="form-horizontal" novalidate>
 		<fieldset>
 			<div class="row">
-				<div class="col-md-7 col-sm-6 col-xs-12 p-r-1">
+				<div class="col-md-7 col-sm-6 col-xs-12">
 					<div class="ibox task-details">
-						<div class="ibox-title">
-							<h5>New task</h5>
-						</div>
+						<h4 class="ibox-title">New task</h4>
 						<div class="ibox-content row">
 							<div class="col-md-4 col-sm-12">
 								<div class="field-group" ng-class="{ error: validationError.title }">
-									<label class="field-label" for="title">Title*</label>
+									<label class="control-label label-padding" for="title">Title*</label>
 									<input type="text" data-ng-model="newTask.title"  id="title"
 										   class="form-control input-round-borders" placeholder="Title" required >
 									<div ng-show="validationError.title" class="error">
@@ -18,7 +16,7 @@
 									</div>
 								</div>
 								<div class="field-group">
-									<label class="field-label" for="title">Template</label>
+									<label class="control-label label-padding" for="title">Template</label>
 									<select class="form-control" data-ng-change="loadTaskTemplate(selectedTemplate)"
 											data-ng-model="selectedTemplate" data-ng-options="template.title for template in user.templates"
 									>
@@ -26,7 +24,7 @@
 									</select>
 								</div>
 								<div class="field-group">
-									<label class="field-label" for="title">Priority*</label>
+									<label class="control-label label-padding" for="title">Priority*</label>
 									<select name="priority" class="form-control" data-ng-model="newTask.priority" ng-init="newTask.priority='1'">
 										<option value="1">Urgent and Important</option>
 										<option value="2">Important not Urgent</option>
@@ -38,7 +36,7 @@
 									</div>
 								</div>
 								<div class="field-group">
-									<div class="checkbox">
+									<div class="checkbox isTemplateChecker">
 										<label for="saveAsDraft">
 											<input type="checkbox" data-ng-model="newTask.saveAsDraft" id="saveAsDraft">Save as template
 										</label>
@@ -54,7 +52,7 @@
 							</div>
 							<div class="col-md-4 col-sm-12">
 								<div class="field-group">
-									<label class="field-label">Start date</label>
+									<label class="control-label label-padding">Start date</label>
 									<div class="input-group ui-datepicker">
 										<span ng-class="{disabled: newTask.withOutDate}"
 											  class="input-group-addon calendar-btn" ng-click="openStart($event)">
@@ -70,7 +68,7 @@
 									<!--<timepicker class="select-time" ng-model="newTask.startTime" minute-step="15" show-meridian="true"></timepicker>-->
 								</div>
 								<div class="field-group form-group-time-select">
-									<label class="field-label" for="endDate">End date</label>
+									<label class="control-label label-padding" for="endDate">End date</label>
 									<div class="input-group ui-datepicker">
 										<span  ng-class="{disabled: newTask.withOutDate}"
 											   class="input-group-addon calendar-btn" ng-click="openEnd($event)">
@@ -86,7 +84,7 @@
 									<!--<timepicker class="select-time" ng-model="newTask.endTime" minute-step="15" show-meridian="true"></timepicker>-->
 								</div>
 								<div class="field-group">
-									<label class="field-label">Estimation (hours)</label>
+									<label class="control-label">Estimation (hours)</label>
 									<div>
 										<rzslider rz-slider-model="newTask.estimation"
 												  rz-slider-options="slider.options">
@@ -98,7 +96,7 @@
 							</div>
 							<div class="col-md-4 col-sm-12">
 								<div class="field-group">
-									<label class="field-label">Notes</label>
+									<label class="control-label label-padding">Notes</label>
 									<textarea class="form-control notes-area" data-ng-model="newTask.notes"></textarea>
 									<div ng-show="validationError.notes" class="error">
 										{{validationError.notes.message}}
@@ -112,14 +110,17 @@
 				<div class="col-md-5 col-sm-6 col-xs-12">
 					<!--Slots start-->
 					<div class="row">
-						<div class="col-md-8 col-sm-12 p-1">
-							<task-slots></task-slots>
-						</div>
-						<div class="col-md-4 col-sm-12 p-l-1">
+						<div class="col-md-8 col-sm-12">
 							<div class="ibox">
-								<div class="ibox-title">
-									<h5>Progress</h5>
+								<h4 class="ibox-title">Slots</h4>
+								<div class="ibox-content">
+									table slots
 								</div>
+							</div>
+						</div>
+						<div class="col-md-4 col-sm-12">
+							<div class="ibox">
+								<h4 class="ibox-title">Progress</h4>
 								<div class="ibox-content">
 									Task progress
 								</div>

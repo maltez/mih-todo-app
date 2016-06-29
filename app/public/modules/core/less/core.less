@@ -20,6 +20,10 @@ a {
   color: @link-color;
 }
 
+textarea {
+  resize: none;
+}
+
 .page-wrapper {
   height: 100%;
 }
@@ -55,6 +59,15 @@ a {
 	left: 0;
 	height: 100%;
 	width: 300px;
+
+  &__category-control {
+	width: 100%;
+	border: none;
+
+	option {
+	  background-color: #2f4050;
+	}
+  }
 }
 
 .nav-header {

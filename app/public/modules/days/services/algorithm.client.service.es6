@@ -105,8 +105,8 @@ class Algorithm {
 
 		switch (priority) {
 			//Fill empty slots as quick as possible
-			case 1:
-			case 3:
+			case '1':
+			case '3':
 				Object.keys(this.daysRange).forEach(dayId => {
 					let day = this.daysRange[dayId];
 
@@ -122,7 +122,7 @@ class Algorithm {
 				break;
 
 			//Fill empty slots balanced
-			case 2:
+			case '2':
 				var optimalSlotDuration = (estimation /  Object.keys(this.daysRange).length );
 
 				optimalSlotDuration =(optimalSlotDuration < 2) ? 2 :  Math.ceil(optimalSlotDuration);

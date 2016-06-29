@@ -1,19 +1,15 @@
 <section data-ng-controller="NotificationsController" data-ng-init="find()">
-    <div class="page-header">
-        <h1>Notifications</h1>
-    </div>
-    <div class="list-group">
-        <a data-ng-repeat="notification in notifications" data-ng-href="#!/notifications/{{notification._id}}" class="list-group-item">
-			<small class="list-group-item-text">
-				Posted on
-				<span data-ng-bind="notification.created | date:'medium'"></span>
-				by
-				<span data-ng-bind="notification.user.displayName"></span>
-			</small>
-			<h4 class="list-group-item-heading" data-ng-bind="notification.name"></h4>
-        </a>
-    </div>
-    <div class="alert alert-warning text-center" data-ng-hide="!notifications.$resolved || notifications.length">
-    	No Notifications yet, why don't you <a href="/#!/notifications/create">create one</a>?
-    </div>
+	<ul class="nav nav-second-level in collapse">
+		<li data-ng-repeat="notification in notifications">
+			<a data-ng-href="#!/notifications/{{notification._id}}" class="task-list-item">
+				<span class="task-priority fa fa-circle {{'task-priority-' + notification.priority}}"></span>
+				<span class="nav-label task-name" data-ng-bind="notification.title"></span>
+				<span class="pull-right label label-danger"> 0% </span>
+			</a>
+		</li>
+	</ul>
+	<div class="text-center"
+		 data-ng-hide="!notifications.$resolved || notifications.length">
+		No Notifications yet
+	</div>
 </section>

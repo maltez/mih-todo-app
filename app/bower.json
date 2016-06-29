@@ -18,7 +18,8 @@
     "angular-strap": "2.3.8",
     "angular-ui-calendar": "~1.0.1",
     "fullcalendar": "~2.6.1",
-    "angular-bootstrap-datetimepicker": "^1.0.1"
+    "angular-bootstrap-datetimepicker": "^1.0.1",
+	"angular-morris-chart": "^1.2.0"
   },
   "devDependencies": {
     "angularjs-slider": "^2.11.0"

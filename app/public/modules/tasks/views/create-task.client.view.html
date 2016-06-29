@@ -60,41 +60,43 @@
 										<i class="fa fa-calendar"></i>
 									</span>
 
-										<input id="startDate" data-ng-disabled="newTask.withOutDate" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy"
-											   data-ng-model="newTask.days.startDate" is-open="opened.startDate" min-date="startDate.minDate" max-date="startDate.maxDate"
-											   datepicker-options="dateOptions.startDate" date-disabled="disabled(date, mode)"
-											   close-text="Close"
-											   ng-click="openStart($event)" required/>
-									</div>
-									<timepicker class="select-time" ng-model="newTask.startTime" minute-step="15" show-meridian="true"></timepicker>
+									<input id="startDate" data-ng-disabled="newTask.withOutDate" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy"
+										   data-ng-model="newTask.days.startDate" is-open="opened.startDate" min-date="startDate.minDate" max-date="startDate.maxDate"
+										   datepicker-options="dateOptions.startDate" date-disabled="getDisabledDates(date, mode)"
+										   close-text="Close" ng-change="changeEstimation()"
+										   ng-click="openStart($event)" required/>
 								</div>
-								<br>
-								<div class="form-group form-group-time-select">
-									<label class="control-label label-padding" for="endDate">End date</label>
-									<div class="input-group ui-datepicker">
+                                <!--<timepicker class="select-time" ng-model="newTask.startTime" minute-step="15" show-meridian="true"></timepicker>-->
+							</div>
+                            <br>
+							<div class="form-group form-group-time-select">
+								<label class="control-label label-padding" for="endDate">End date</label>
+								<div class="input-group ui-datepicker">
 									<span  ng-class="{disabled: newTask.withOutDate}"
 										   class="input-group-addon calendar-btn" ng-click="openEnd($event)">
 										<i class="fa fa-calendar"></i>
 									</span>
 
-										<input id="endDate" data-ng-disabled="newTask.withOutDate" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy"
-											   data-ng-model="newTask.days.endDate" is-open="opened.endDate" min-date="endDate.minDate" max-date="endDate.maxDate"
-											   datepicker-options="dateOptions.endDate" date-disabled="disabled(date, mode)"
-											   close-text="Close"
-											   ng-click="openEnd($event)" required/>
-									</div>
-									<timepicker class="select-time" ng-model="newTask.endTime" minute-step="15" show-meridian="true"></timepicker>
+									<input id="endDate" data-ng-disabled="newTask.withOutDate" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy"
+										   data-ng-model="newTask.days.endDate" is-open="opened.endDate" min-date="endDate.minDate" max-date="endDate.maxDate"
+										   datepicker-options="dateOptions.endDate" date-disabled="getDisabledDates(date, mode)"
+										   close-text="Close" ng-change="changeEstimation()"
+										   ng-click="openEnd($event)" required/>
 								</div>
-								<div class="form-group">
-									<label class="control-label">Estimation (hours)</label>
-									<div>
-										<rzslider rz-slider-model="newTask.estimation"
-												  rz-slider-options="slider.options">
-										</rzslider>
-									</div>
+								<!--<timepicker class="select-time" ng-model="newTask.endTime" minute-step="15" show-meridian="true"></timepicker>-->
+							</div>
+							<div class="form-group">
+								<label class="control-label">Estimation (hours)</label>
+								<div>
+									<rzslider rz-slider-model="newTask.estimation"
+											  rz-slider-options="slider.options">
+									</rzslider>
+									<input type="number" min="{{slider.options.floor}}" max="{{slider.options.ceil}}"
+										   ng-model="newTask.estimation" data-ng-pattern="/^\d+$/">
 								</div>
 							</div>
 						</div>
+					</div>
 
 						<!-- Add the extra clearfix for only the required viewport -->
 						<div class="clearfix visible-xs-block"></div>
@@ -119,27 +121,16 @@
 											<label class="control-label label-padding">Slots</label>
 										</td>
 										<td style="text-align: right">
-											<a href="#" title="Generate slots">
+											<button title="Generate slots" data-ng-click="generateSlots()">
 												<span class="glyphicon glyphicon-refresh"></span>
-											</a>
+											</button>
 										</td>
 									</tr>
 								</table>
 								<table class="table table-bordered slots-table">
-									<tr>
-										<td>Monday 22.02</td>
-										<td>16.00-20.00</td>
-										<td>4h</td>
-									</tr>
-									<tr>
-										<td>Tuesday 23.02</td>
-										<td>10.00-14.00</td>
-										<td>4h</td>
-									</tr>
-									<tr>
-										<td>Wednesday 24.02 </td>
-										<td>10.00-14.00</td>
-										<td>4h</td>
+									<tr data-ng-repeat="day in daysRange | orderBy: 'date'">
+										<td>{{day.date | date: 'MMM dd yy'}}</td>
+										<td>{{day.reservedSlot.duration}}h</td>
 									</tr>
 								</table>
 								<div class="form-group btn-holder pool-bottom pool-right">

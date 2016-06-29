@@ -70,7 +70,10 @@ module.exports = {
 				'public/lib/moment/moment.js',
 				'public/lib/angular-ui-calendar/src/calendar.js',
 				'public/lib/fullcalendar/dist/fullcalendar.js',
-				'public/lib/fullcalendar/dist/gcal.js'
+				'public/lib/fullcalendar/dist/gcal.js',
+				'public/lib/raphael/raphael.min.js',
+				'public/lib/morris.js/morris.min.js',
+				'public/lib/angular-morris-chart/src/angular-morris-chart.min.js'
 			]
 		},
 		css: [

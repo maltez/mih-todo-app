@@ -45,8 +45,11 @@
 						<div class="form-group">
 							<label for="username" class="col-sm-4 control-label">Username</label>
 							<div class="col-sm-8">
+
+								<!-- TODO: refactor data-ng-change into a directive -->
 								<input type="text" id="username" name="username" class="form-control" placeholder="Username"
 									   data-ng-model="settings.user.username" ng-model-options="{ debounce: 400}"
+									   data-ng-change="settings.MIHUtils.convertMultipleSpaces(settings.user, 'username')"
 									   required
 								>
 								<div ng-show="userForm.submitted || userForm.username.$dirty" class="error-message">

@@ -66,7 +66,7 @@ a {
   color: #fff;
   font-size: 1.3em;
   &:hover {
-	color: #1ab394;
+	color: @base-color;
   }
 }
 
@@ -119,14 +119,6 @@ a {
 	}
 }
 
-.notifications-info .label {
-  line-height: 12px;
-  padding: 2px 5px;
-  position: absolute;
-  right: 6px;
-  top: 12px;
-}
-
 .navbar {
   background: #fff;
   padding: 0 15px;
@@ -152,21 +144,74 @@ a {
 
 }
 
+.nav .dropdown-menu > li > a:hover,
+.nav .dropdown-menu > li > a:focus {
+  background-image: none;
+}
+
+.nav .dropdown-menu > li > a {
+  padding: 5px 10px;
+  margin: 5px 0;
+}
+
+.dropdown-title {
+  background: #F5F5F5;;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  font-size: 10px;
+}
+
+.nav-notifications {
+	.notifications-info .label {
+	  	line-height: 12px;
+		padding: 2px 5px;
+		position: absolute;
+		right: 6px;
+		top: 12px;
+	}
+
+  	.notifications-dropdown {
+
+      .link-block {
+        border-top: 1px solid #ddd;
+      }
+
+	  &__control a {
+	  	text-transform: capitalize;
+        font-weight: bold;
+        display: block;
+        padding-top: 15px;
+        padding-bottom: 0;
+	  }
+
+      &__control a:hover {
+        color: @base-color;
+      }
+
+      .notification-title {
+		width: 60%;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	  }
+  }
+}
+
 .nav-user-profile {
-	display: inline-block;
-	vertical-align: middle;
+  	display: inline-block;
+  	vertical-align: middle;
 
 	> .dropdown-toggle {
-		color: #676a6c;
+	  	color: #676a6c;
 		font-size: 16px;
-	  padding: 0;
+		padding: 0;
 	}
 
-	> .dropdown-menu a {
+  	> .dropdown-menu a {
 		font-size: 14px;
-	}
+  	}
 	.profile-image {
-	  height: 48px;
+	  	height: 48px;
 	}
 }
 
@@ -182,7 +227,7 @@ div.ui-notification {
 	}
 
 	&.success {
-		background: #1ab394;
+		background: @base-color;
 	}
 
 	.message {

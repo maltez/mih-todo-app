@@ -1,0 +1,21 @@
+<a class="notifications-info" data-ng-class="{disable: !notifications.length}" data-toggle="dropdown">
+    <i class="fa fa-bell" aria-hidden="true"></i>
+    <span class="label"
+          data-ng-class="notifications.length ? 'label-primary' : 'label-default'"
+          data-ng-bind="notifications.length">
+    </span>
+</a>
+
+<ul data-ng-init="find()" data-ng-show="notifications.length" class="dropdown-menu dropdown-alerts notifications-dropdown">
+    <li data-ng-repeat="notification in notifications | limitTo: 3 ">
+        <a data-ng-href="#!/notifications/{{notification._id}}" class="clearfix">
+            <span class="pull-left notification-title" data-ng-bind="notification.title"></span>
+            <span class="pull-right small">3 days ago</span>
+        </a>
+    </li>
+    <li class="text-center notifications-dropdown__control">
+        <div class="text-center link-block">
+            <a href="#!/notifications" class="notifications-dropdown__link">See all notifications > </a>
+        </div>
+    </li>
+</ul>

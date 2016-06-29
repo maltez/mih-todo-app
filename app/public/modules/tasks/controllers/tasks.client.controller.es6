@@ -59,8 +59,6 @@ angular.module('tasks').controller('TasksController',
 		$scope.saveAsDraft = false;
 		$scope.user = Authentication.user;
 		$scope.selectedTemplate = {};
-		
-		$rootScope.$broadcast('setAsideCategory', 'todo');
 
 		var date = new Date(),
 			dateMax = new Date( Date.now() + (365*24*60*60*1000));
@@ -190,7 +188,6 @@ angular.module('tasks').controller('TasksController',
 				}
 
 				task.$save(function (response) {
-					console.log(response._id)
 					$scope.daysRange.forEach(day => day.bookSlot(response._id));
 
 					var days = new Days($scope.daysRange);

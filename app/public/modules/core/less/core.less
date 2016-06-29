@@ -30,6 +30,11 @@ a {
 
 .btn {
   background-image: none;
+  outline: none;
+  &:focus, &:active,
+  &:focus:active{
+	outline: none;
+  }
 }
 
 .only-mobile {
@@ -95,8 +100,6 @@ a {
 }
 
 .main-content {
-	height: 100%;
-	overflow: hidden;
 	transition: margin .6s;
 	position: relative;
 	z-index: 2;
@@ -107,7 +110,6 @@ a {
 
 	.container-wrapper {
 		height: 100%;
-		overflow: hidden;
 		position: relative;
 
 		.navbar-default {
@@ -150,7 +152,6 @@ a {
 
 .navbar {
   background: #fff;
-  padding: 0 15px;
 }
 
 .navbar-right i{

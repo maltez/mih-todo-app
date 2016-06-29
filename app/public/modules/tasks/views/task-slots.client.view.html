@@ -1,37 +1,33 @@
 <div class="ibox">
 	<div class="ibox-title">
 		<h5 class="pull-left">Slots</h5>
-		<button class="btn btn-white btn-ibox-title pull-right"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+		<button class="btn btn-white btn-ibox-title pull-right" ng-click="generateSlots()"><i class="fa fa-refresh" aria-hidden="true"></i></button>
 	</div>
 	<div class="ibox-content">
+
+		<div class="text-center info-msg" ng-if="!daysRange.length">Please, click to <i class="fa fa-refresh" aria-hidden="true"></i> to generate slots with subtasks</div>
+
 		<table class="table table-no-tb">
-			<tr>
-				<td>Monday</td>
-				<td>28.08</td>
-				<td>16:00 - 19:00</td>
-				<td>3h</td>
+			<tr ng-repeat="item in daysRange">
+				<td>{{item.date | date: 'EEEE'}}</td>
+				<td>{{item.date | date: 'dd.MM'}}</td>
 				<td>
-					 <span class="badge badge-primary">
-						 <i class="fa fa-chevron-down" aria-hidden="true"></i>
-						 Done</span>
+					{{item.date | date: 'hh:mm'}} -
+					{{item.date | date: 'hh:mm'}}
 				</td>
-			</tr>
-			<tr>
-				<td>Monday</td>
-				<td>28.08</td>
-				<td>16:00 - 19:00</td>
-				<td>3h</td>
-				<td class="slot-controls">
-					<button class="btn btn-primary btn-circle btn-outline"><i class="fa fa-chevron-down" aria-hidden="true"></i></button>
+				<td>{{item.reservedSlot.duration}}h</td>
+
+				<!--TODO It's just visual trick for demo-->
+				<td class="slot-controls text-right" ng-hide="done==true">
+					<button class="btn btn-primary btn-circle btn-outline" ng-click="done=true"><i class="fa fa-chevron-down" aria-hidden="true"></i></button>
 					<button class="btn btn-primary btn-circle btn-outline"><i class="fa fa-times" aria-hidden="true"></i></button>
 				</td>
-			</tr>
-			<tr>
-				<td>Monday</td>
-				<td>28.08</td>
-				<td>16:00 - 19:00</td>
-				<td>3h</td>
-				<td></td>
+				<td ng-if="done==true" class="text-right">
+					<span class="badge badge-primary">
+						<i class="fa fa-chevron-down" aria-hidden="true"></i>
+						Done
+					</span>
+				</td>
 			</tr>
 		</table>
 	</div>

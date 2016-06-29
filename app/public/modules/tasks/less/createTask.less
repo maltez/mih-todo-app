@@ -1,161 +1,4 @@
-@import "public/modules/core/less/variables";
-
-.create-task-wrapper{
-	.error {
-		color: red;
-		margin-top: 3px;
-		> .form-control{
-			border-color: red;
-		}
-	}
-
-	.col-xs-6 {
-		position: relative;
-	}
-
-	.column-wrapper {
-		margin:0 40px;
-	}
-
-	.label-padding {
-		margin-bottom:10px;
-	}
-
-	.calendar-btn {
-		&.disabled {
-			pointer-events: none;
-			background: #eee;
-		}
-	}
-
-	.calendar-input {
-		border-radius: 0 5px 5px 0!important;
-	}
-
-	.btn-holder {
-		text-align: right;
-	}
-
-	.notes-area{
-		height:150px;
-	}
-
-	.rz-limit:last-child {
-		left:auto!important;
-		right:0!important;
-	}
-	.priority-btn-inner {
-		border:1px dashed #676a6c;
-		display: table;
-		width: 100%;
-
-		.priority-btn-row {
-			display: table-row;
-
-			.priority-btn-cell {
-				display: table-cell;
-				width:50%;
-				padding: 15px 5px 0;
-
-				&:hover, &.active {
-					background-color: #fff;
-				}
-			}
-		}
-
-		.borderRightBottom {
-			border-right:1px dashed #676a6c;
-			border-bottom: 1px dashed #676a6c;
-		}
-		.borderLeftTop {
-			border-left:1px dashed #676a6c;
-			border-top: 1px dashed #676a6c;
-		}
-	}
-	.priority-btn {
-		position: relative;
-
-		input[type='radio'] {
-			position: absolute;
-			visibility: hidden;
-		}
-		.tasks-priority {
-			padding:4px 10px 25px;
-			float:left;
-			font-size: 1em;
-		}
-
-
-		.tasks-priority1 {
-			color: #ed5565;
-		}
-		.tasks-priority2 {
-			color: #f3a747;
-		}
-		.tasks-priority3 {
-			color: #61b394;
-		}
-		.tasks-priority4 {
-			color: #676a6c;
-		}
-
-	}
-
-	.slots-table-header {
-		width: 100%;
-		background: #fff;
-		border-bottom:1px solid #838383;
-		margin-bottom:5px;
-
-		td {
-			width: 50%;
-			padding: 0 20px;
-		}
-	}
-
-	.slots-table {
-		border: 1px solid #838383;
-		background: #fff;
-		td {
-			text-align: center;
-		}
-	}
-
-	.isTemplateChecker {
-		display: inline-block;
-		margin-right: 10px;
-	}
-
-	.form-group-time-select {
-		position: relative;
-	}
-	.select-time{
-		position: absolute;
-		top:0;
-		right: 0;
-	}
-
-	.ui-datepicker .btn {
-		background: #fff;
-		color:#333;
-	}
-	.ui-datepicker .btn.active {
-		background: #f8f8f8;
-		color:#000;
-	}
-	.pool-left {
-		left: 50px;
-	}
-	.pool-right {
-		right: 70px;
-	}
-	#endDate + .dropdown-menu [ng-click="select('today')"] {
-	  display: none;
-	}
-	#endDate + .dropdown-menu button {
-	  border-radius: 3px;
-	}
-}
+//@import "/public/modules/core/less/variables";
 
 .create-task-wrapper {
   padding-bottom: 15px;
@@ -164,25 +7,51 @@
 	padding: 0 10px;
   }
 
+  .error {
+	color: red;
+	margin-top: 3px;
+	> .form-control{
+	  border-color: red;
+	}
+  }
+
   .ibox-content {
 	padding: 15px 10px 20px 10px;
+	min-height: 330px;
+  }
+
+  .table-no-tb tr:first-child td {
+	border-top: none;
   }
 
   .field-group {
 	margin-bottom: 10px;
+
+	.field-label {
+	  margin-bottom: 10px;
+	}
   }
 
   rzslider {
 	margin-top: 40px;
   }
 
-  //TODOD Add the scroll for small screens, needed mobile version
-  .ibox {
-	max-height: 400px;
-	overflow-y: scroll;
-  }
-
   .btn-holder {
 	margin: 0 15px;
+  }
+
+  .slot-controls .btn {
+	padding: 2px;
+	width: 25px;
+	height: 25px;
+  }
+
+  .info-msg {
+	margin-top: 30%;
+  }
+
+  .notes-area {
+	resize: vertical;
+	min-height: 110px;
   }
 }

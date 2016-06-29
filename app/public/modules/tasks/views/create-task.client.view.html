@@ -4,7 +4,9 @@
 			<div class="row">
 				<div class="col-md-7 col-sm-6 col-xs-12 p-r-1">
 					<div class="ibox task-details">
-						<h4 class="ibox-title">New task</h4>
+						<div class="ibox-title">
+							<h5>New task</h5>
+						</div>
 						<div class="ibox-content row">
 							<div class="col-md-4 col-sm-12">
 								<div class="field-group" ng-class="{ error: validationError.title }">
@@ -109,16 +111,13 @@
 					<!--Slots start-->
 					<div class="row">
 						<div class="col-md-8 col-sm-12 p-1">
-							<div class="ibox">
-								<h4 class="ibox-title">Slots</h4>
-								<div class="ibox-content">
-									table slots
-								</div>
-							</div>
+							<task-slots></task-slots>
 						</div>
 						<div class="col-md-4 col-sm-12 p-l-1">
 							<div class="ibox">
-								<h4 class="ibox-title">Progress</h4>
+								<div class="ibox-title">
+									<h5>Progress</h5>
+								</div>
 								<div class="ibox-content">
 									Task progress
 								</div>

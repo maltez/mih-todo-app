@@ -85,7 +85,7 @@ textarea {
   color: #fff;
   font-size: 1.3em;
   &:hover {
-	color: #1ab394;
+	color: @base-color;
   }
 }
 
@@ -116,7 +116,6 @@ textarea {
 .main-content {
 	transition: margin .6s;
 	position: relative;
-  	height: 100%;
 	z-index: 2;
 
 	&.with-sidebar {
@@ -190,20 +189,20 @@ textarea {
 }
 
 .nav-user-profile {
-	display: inline-block;
-	vertical-align: middle;
+  	display: inline-block;
+  	vertical-align: middle;
 
 	> .dropdown-toggle {
-		color: #676a6c;
+	  	color: #676a6c;
 		font-size: 16px;
-	  padding: 0;
+		padding: 0;
 	}
 
-	> .dropdown-menu a {
+  	> .dropdown-menu a {
 		font-size: 14px;
-	}
+  	}
 	.profile-image {
-	  height: 48px;
+	  	height: 48px;
 	}
 }
 

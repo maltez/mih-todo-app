@@ -7,15 +7,17 @@
 </a>
 
 <ul data-ng-init="find()" data-ng-show="notifications.length" class="dropdown-menu dropdown-alerts notifications-dropdown">
-    <li data-ng-repeat="notification in notifications | limitTo: 3 ">
-        <a data-ng-href="#!/notifications/{{notification._id}}" class="clearfix">
-            <span class="pull-left notification-title" data-ng-bind="notification.title"></span>
-            <span class="pull-right small">3 days ago</span>
-        </a>
+    <li data-ng-repeat="notification in notifications | limitTo: 3 " class="clearfix notification-item">
+		<div class="pull-left">
+			<a data-ng-href="#!/notifications/{{notification._id}}" class="notification-link" data-ng-bind="notification.title"></a>
+			<span class="small">3 days ago</span>
+		</div>
+		<div class="slot-controls pull-right text-right">
+			<button class="btn btn-primary btn-circle btn-outline"><i class="fa fa-chevron-down" aria-hidden="true"></i></button>
+			<button class="btn btn-primary btn-circle btn-outline"><i class="fa fa-times" aria-hidden="true"></i></button>
+		</div>
     </li>
-    <li class="text-center notifications-dropdown__control">
-        <div class="text-center link-block">
-            <a href="#!/notifications" class="notifications-dropdown__link">See all notifications > </a>
-        </div>
+    <li>
+		<a href="#!/notifications" class="notification-control text-center">See all notifications > </a>
     </li>
 </ul>

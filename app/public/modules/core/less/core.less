@@ -34,6 +34,11 @@ textarea {
 
 .btn {
   background-image: none;
+  outline: none;
+  &:focus, &:active,
+  &:focus:active{
+	outline: none;
+  }
 }
 
 .only-mobile {
@@ -54,6 +59,7 @@ textarea {
 	left: 0;
 	height: 100%;
 	width: 300px;
+  	overflow-y: auto;
 
   &__category-control {
 	width: 100%;
@@ -108,8 +114,6 @@ textarea {
 }
 
 .main-content {
-	height: 100%;
-	overflow: hidden;
 	transition: margin .6s;
 	position: relative;
 	z-index: 2;
@@ -120,7 +124,6 @@ textarea {
 
 	.container-wrapper {
 		height: 100%;
-		overflow: hidden;
 		position: relative;
 
 		.navbar-default {
@@ -132,9 +135,37 @@ textarea {
 	}
 }
 
+.ibox .row {
+  margin: 0;
+}
+
+.btn-ibox-title {
+  margin-top: -10px;
+}
+
+.p-r-1 {
+  padding-right: 5px;
+}
+
+.p-l-1 {
+  padding-left: 5px;
+}
+
+.p-1 {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+.notifications-info .label {
+  line-height: 12px;
+  padding: 2px 5px;
+  position: absolute;
+  right: 6px;
+  top: 12px;
+}
+
 .navbar {
   background: #fff;
-  padding: 0 15px;
 }
 
 .navbar-right i{
@@ -155,33 +186,6 @@ textarea {
 		font-size: 1.5em;
 	}
 
-}
-
-.nav .dropdown-menu > li > a:hover,
-.nav .dropdown-menu > li > a:focus {
-  background-image: none;
-}
-
-.nav .dropdown-menu > li > a {
-  padding: 5px 10px;
-  margin: 5px 0;
-}
-
-.dropdown-title {
-  background: #F5F5F5;;
-  padding: 5px 10px;
-  text-transform: uppercase;
-  font-size: 10px;
-}
-
-.nav-notifications {
-	.notifications-info .label {
-	  	line-height: 12px;
-		padding: 2px 5px;
-		position: absolute;
-		right: 6px;
-		top: 12px;
-	}
 }
 
 .nav-user-profile {
@@ -214,7 +218,7 @@ div.ui-notification {
 	}
 
 	&.success {
-		background: @base-color;
+		background: #1ab394;
 	}
 
 	.message {

@@ -34,6 +34,11 @@ textarea {
 
 .btn {
   background-image: none;
+  outline: none;
+  &:focus, &:active,
+  &:focus:active{
+	outline: none;
+  }
 }
 
 .only-mobile {
@@ -108,8 +113,6 @@ textarea {
 }
 
 .main-content {
-	height: 100%;
-	overflow: hidden;
 	transition: margin .6s;
 	position: relative;
 	z-index: 2;
@@ -120,7 +123,6 @@ textarea {
 
 	.container-wrapper {
 		height: 100%;
-		overflow: hidden;
 		position: relative;
 
 		.navbar-default {
@@ -130,6 +132,27 @@ textarea {
 		  	box-sizing: border-box;
 		}
 	}
+}
+
+.ibox .row {
+  margin: 0;
+}
+
+.btn-ibox-title {
+  margin-top: -10px;
+}
+
+.p-r-1 {
+  padding-right: 5px;
+}
+
+.p-l-1 {
+  padding-left: 5px;
+}
+
+.p-1 {
+  padding-right: 5px;
+  padding-left: 5px;
 }
 
 .notifications-info .label {
@@ -142,7 +165,6 @@ textarea {
 
 .navbar {
   background: #fff;
-  padding: 0 15px;
 }
 
 .navbar-right i{

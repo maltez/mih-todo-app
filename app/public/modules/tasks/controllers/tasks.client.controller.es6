@@ -274,7 +274,7 @@ angular.module('tasks').controller('TasksController',
 			}
 		});
 
-		$scope.daysRange = {};
+		$scope.daysRange = [];
 
 		$scope.generateSlots = () => {
 			Algorithm.generateSlots(

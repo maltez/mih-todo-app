@@ -1,8 +1,9 @@
 'use strict';
 
 class TimeSlot {
-	constructor(duration) {
+	constructor(duration, priority) {
 		this.duration = duration;
+		this.priority = parseInt(priority, 10);
 	}
 }
 
@@ -25,9 +26,9 @@ class Day {
 		}
 	}
 
-	reserveSlot(duration) {
+	reserveSlot(duration, priority) {
 		this.freeTime -= duration;
-		this.reservedSlot = new TimeSlot(duration);
+		this.reservedSlot = new TimeSlot(duration, priority);
 	}
 
 	bookSlot(taskId) {
@@ -58,6 +59,24 @@ class Algorithm {
 		this.Days = Days;
 		this.user = Authentication.user;
 		this.daysRange = [];
+		this.priorityConfig = {
+			"1" : 	{
+				recommendedDuration : 3,
+				isBalancedLoad : false
+			},
+			"2" : 	{
+				recommendedDuration : 2,
+				isBalancedLoad : true
+			},
+			"3" : 	{
+				recommendedDuration : 2,
+				isBalancedLoad : false
+			},
+			"4" : 	{
+				recommendedDuration : 1,
+				isBalancedLoad : true
+			}
+		};
 	}
 
 	generateSlots(startDate, endDate, priority, estimation) {
@@ -65,7 +84,7 @@ class Algorithm {
 		endDate.setHours(0,0,0,0);
 
 		return new Promise(resolve => {
-			this.Days.query({startDate: startDate, endDate: endDate}, days => {
+			this.Days.query({startDate: startDate.toUTCString(), endDate: endDate.toUTCString()}, days => {
 				this.fillEmptyDaysRange(startDate, endDate, days);
 				this.getSuitableSlots(priority, estimation);
 				resolve(this.daysRange);
@@ -100,53 +119,109 @@ class Algorithm {
 		this.daysRange = daysRange;
 	}
 
-	getSuitableSlots(priority, estimation) {
-		var suitableDays = [];
+	// Filter days with no freeTime. Can't filter on server side, because we need to know days that are already exist in DB
+	filterFullDays (days) {
+		angular.forEach(days, function(day, key) {
+			if (day.freeTime === 0) {
+				delete days[key];
+			}
+		});
+	}
 
-		priority = parseInt(priority, 10);
+	getBalancedRecommendations (data) {
+		var estimation = data.estimation,
+			availableHoursPerDay = data.availableHoursPerDay,
+			availableDaysAmount = data.availableDaysAmount,
+			recommendations = {},
+			balancedDuration, extraHours;
+		
+		availableHoursPerDay.sort((a, b) => a.freeTime != b.freeTime ? b.freeTime - a.freeTime : Date(b.date) - (a.date));
+		balancedDuration = (Math.floor(estimation / availableDaysAmount * 2) / 2).toFixed(2); // Round to the nearest 0.5
+		extraHours = estimation - availableDaysAmount * balancedDuration;
 
-		switch (priority) {
-			//Fill empty slots as quick as possible
-			case 1:
-			case 3:
-				Object.keys(this.daysRange).forEach(dayId => {
-					let day = this.daysRange[dayId];
+		availableHoursPerDay.map(function(day) {
+			day.proposedSlotDuration = (extraHours >= 0.5 ? (extraHours -= 0.5, 0.5) : 0) + parseFloat(balancedDuration, 10);
+			recommendations[day.date] = day.proposedSlotDuration;
+			return day
+		});
 
-					if (day.freeTime && estimation) {
-						let slotDuration = (day.freeTime > estimation) ? estimation : day.freeTime;
+		return recommendations;
+	}
 
-						day.reserveSlot(slotDuration);
-						estimation -= slotDuration;
-						suitableDays.push(day);
-					}
-				});
-
-				break;
-
-			//Fill empty slots balanced
-			case 2:
-				var optimalSlotDuration = (estimation /  Object.keys(this.daysRange).length );
-
-				optimalSlotDuration =(optimalSlotDuration < 2) ? 2 :  Math.ceil(optimalSlotDuration);
-
-				Object.keys(this.daysRange).forEach(dayId => {
-					let day = this.daysRange[dayId];
-
-					if (day.freeTime && estimation) {
-						if (estimation < optimalSlotDuration) optimalSlotDuration = estimation;
-
-						let slotDuration = (day.freeTime > optimalSlotDuration) ? optimalSlotDuration : day.freeTime;
-
-						day.reserveSlot(slotDuration);
-						estimation -= slotDuration;
-						suitableDays.push(day);
-					}
-				});
-
-				break;
+	getIntensiveRecommendations (data) {
+		
+		var hoursToDistribute = data.estimation,
+			availableHoursPerDay = data.availableHoursPerDay,
+			availableDaysAmount = data.availableDaysAmount,
+			recommendedDuration = data.recommendedDuration,
+			dayIndex = 0,
+			arrayWithRecommendations = new Array(availableDaysAmount).fill(0),
+			recommendations = {},
+			slot;
+		
+		while (hoursToDistribute) {
+			slot = hoursToDistribute >= recommendedDuration ? recommendedDuration : hoursToDistribute;
+			arrayWithRecommendations[dayIndex] += slot;
+			hoursToDistribute -= slot;
+			dayIndex = dayIndex < availableDaysAmount-1 ? dayIndex + 1 : 0;
 		}
 
-		this.daysRange = suitableDays;
+		availableHoursPerDay.sort((a, b) => a.date - b.date);
+		availableHoursPerDay.map(function(day, dayIndex) {
+			day.proposedSlotDuration = arrayWithRecommendations[dayIndex];
+			recommendations[day.date] = arrayWithRecommendations[dayIndex];
+			return day
+		});
+		
+		return recommendations;
+	}
+
+	getSuitableDays (recommendations, priority) {
+		var suitableDays = [];
+		Object.keys(this.daysRange).forEach(dayId => {
+			let day = this.daysRange[dayId],
+				slotDuration = recommendations[day.date];
+			if (!!slotDuration) {
+				day.reserveSlot(slotDuration, priority);
+				suitableDays.push(day);
+			}
+		});
+
+		return suitableDays;
+	}
+
+	getSuitableSlots(priority, estimation) {
+		
+		this.filterFullDays(this.daysRange);
+
+		var availableHoursPerDay = Object.keys(this.daysRange).map(dayId => {
+				return {
+					freeTime: parseInt(this.daysRange[dayId].freeTime, 10),
+					date: this.daysRange[dayId].date
+				}
+			}),
+			availableHoursTotal = availableHoursPerDay.reduce((prev, cur) => prev + cur.freeTime, 0),
+			availableDaysAmount = availableHoursPerDay.length,
+			recommendedDuration = this.priorityConfig[priority].recommendedDuration,
+			data = {
+				estimation : estimation,
+				availableHoursPerDay : availableHoursPerDay,
+				availableDaysAmount : availableDaysAmount,
+				recommendedDuration : recommendedDuration
+			},
+			isBalancedLoad = this.priorityConfig[priority].isBalancedLoad,
+			recommendations = {};
+		
+		if (estimation <= availableHoursTotal) {
+			//Positive branch
+			
+			recommendations = isBalancedLoad ? this.getBalancedRecommendations(data) : this.getIntensiveRecommendations(data);
+		
+		} else {
+			// Negative branch
+
+		}
+		this.daysRange = this.getSuitableDays(recommendations, priority);
 	}
 
 	static timeToMinutes(time) {

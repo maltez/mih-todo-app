@@ -23,6 +23,7 @@ angular.module('users')
 
 			scope.notifyIfInvalid = function() {
 				scope.errors.length == 0 ? (element.addClass("valid"), $(element).closest('.form-group').removeClass("has-error")) :  $(element).closest('.form-group').addClass("has-error");
+				scope.signupForm.password.$setValidity("password", scope.errors.length == 0);
 			};
 		}
 	};

@@ -8,7 +8,8 @@ var DaySchema = new Schema({
 
 	bookedSlots: [{
 		taskId: String,
-		duration: Number
+		duration: Number,
+		priority : Number
 	}],
 
 	freeTime: Number

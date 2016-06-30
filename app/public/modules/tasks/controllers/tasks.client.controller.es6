@@ -136,8 +136,8 @@ angular.module('tasks').controller('TasksController',
 				estimation: TasksController.getOptimalEstimation($scope.dt.startDate, $scope.dt.endDate),
 				notes: '',
 				days: {
-					startDate: $scope.dt.startDate,
-					endDate: $scope.dt.endDate
+					startTime: $scope.dt.startDate,
+					endTime: $scope.dt.endDate
 				},
 				withOutDate: false
 			};
@@ -145,16 +145,16 @@ angular.module('tasks').controller('TasksController',
 		$scope.newTask = angular.copy(newTask);
 
 		$scope.changeEstimation = () => {
-			$scope.slider.options.ceil = TasksController.getMaxEstimation($scope.newTask.days.startDate, $scope.newTask.days.endDate);
+			$scope.slider.options.ceil = TasksController.getMaxEstimation($scope.newTask.days.startTime, $scope.newTask.days.endTime);
 			$timeout(() => { //For some reason, estimation input sometimes don't updates
-				$scope.newTask.estimation = TasksController.getOptimalEstimation($scope.newTask.days.startDate, $scope.newTask.days.endDate);
+				$scope.newTask.estimation = TasksController.getOptimalEstimation($scope.newTask.days.startTime, $scope.newTask.days.endTime);
 			});
 		};
 
 		$scope.slider = {
 			options: {
 				floor: 1,
-				ceil: TasksController.getMaxEstimation($scope.newTask.days.startDate, $scope.newTask.days.endDate),
+				ceil: TasksController.getMaxEstimation($scope.newTask.days.startTime, $scope.newTask.days.endTime),
 				translate(unit) {
 					return unit + 'h';
 				}
@@ -184,14 +184,19 @@ angular.module('tasks').controller('TasksController',
 				var task = new Tasks($scope.newTask);
 
 				if ($scope.newTask.withOutDate) {
-					task.days.startDate = task.days.endDate = '';
+					task.days.startTime = task.days.endTime = '';
 				}
 
 				task.$save(function (response) {
-					$scope.daysRange.forEach(day => day.bookSlot(response._id));
+					var days;
 
-					var days = new Days($scope.daysRange);
+					$scope.daysRange.map(day => {
+						day.bookSlot(response._id);
+						day.bookedSlots.sort((a, b) => a.priority - b.priority);
+						return day;
+					});
 
+					days = new Days($scope.daysRange);
 					days.$save(resolve);
 				}, function (errorResponse) {
 					$scope.validationError = errorResponse.data.message.errors;
@@ -278,8 +283,8 @@ angular.module('tasks').controller('TasksController',
 
 		$scope.generateSlots = () => {
 			Algorithm.generateSlots(
-				$scope.newTask.days.startDate,
-				$scope.newTask.days.endDate,
+				$scope.newTask.days.startTime,
+				$scope.newTask.days.endTime,
 				$scope.newTask.priority,
 				$scope.newTask.estimation,
 				$scope.user.predefinedSettings.workingHours

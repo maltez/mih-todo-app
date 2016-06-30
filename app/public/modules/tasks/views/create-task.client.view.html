@@ -58,7 +58,7 @@
 										</span>
 
 										<input id="startDate" data-ng-disabled="newTask.withOutDate" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy"
-											   data-ng-model="newTask.days.startDate" is-open="opened.startDate" min-date="startDate.minDate" max-date="startDate.maxDate"
+											   data-ng-model="newTask.days.startTime" is-open="opened.startDate" min-date="startDate.minDate" max-date="startDate.maxDate"
 											   datepicker-options="dateOptions.startDate" date-disabled="disabled(date, mode)"
 											   close-text="Close"
 											   ng-change="changeEstimation()"
@@ -75,7 +75,7 @@
 										</span>
 
 										<input id="endDate" data-ng-disabled="newTask.withOutDate" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy"
-											   data-ng-model="newTask.days.endDate" is-open="opened.endDate" min-date="endDate.minDate" max-date="endDate.maxDate"
+											   data-ng-model="newTask.days.endTime" is-open="opened.endDate" min-date="endDate.minDate" max-date="endDate.maxDate"
 											   datepicker-options="dateOptions.endDate" date-disabled="disabled(date, mode)"
 											   close-text="Close"
 											   ng-change="changeEstimation()"

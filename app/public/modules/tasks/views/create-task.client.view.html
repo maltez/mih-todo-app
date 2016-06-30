@@ -61,6 +61,7 @@
 											   data-ng-model="newTask.days.startDate" is-open="opened.startDate" min-date="startDate.minDate" max-date="startDate.maxDate"
 											   datepicker-options="dateOptions.startDate" date-disabled="disabled(date, mode)"
 											   close-text="Close"
+											   ng-change="changeEstimation()"
 											   ng-click="openStart($event)" required/>
 									</div>
 									<!--<timepicker class="select-time" ng-model="newTask.startTime" minute-step="15" show-meridian="true"></timepicker>-->
@@ -77,6 +78,7 @@
 											   data-ng-model="newTask.days.endDate" is-open="opened.endDate" min-date="endDate.minDate" max-date="endDate.maxDate"
 											   datepicker-options="dateOptions.endDate" date-disabled="disabled(date, mode)"
 											   close-text="Close"
+											   ng-change="changeEstimation()"
 											   ng-click="openEnd($event)" required/>
 									</div>
 									<!--<timepicker class="select-time" ng-model="newTask.endTime" minute-step="15" show-meridian="true"></timepicker>-->

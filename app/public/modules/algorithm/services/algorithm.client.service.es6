@@ -55,8 +55,8 @@ class Day {
 }
 
 class Algorithm {
-	constructor(Days, Authentication) {
-		this.Days = Days;
+	constructor(Slots, Authentication) {
+		this.Slots = Slots;
 		this.user = Authentication.user;
 		this.daysRange = [];
 		this.priorityConfig = {
@@ -134,7 +134,7 @@ class Algorithm {
 			availableDaysAmount = data.availableDaysAmount,
 			recommendations = {},
 			balancedDuration, extraHours;
-		
+
 		availableHoursPerDay.sort((a, b) => a.freeTime != b.freeTime ? b.freeTime - a.freeTime : Date(b.date) - (a.date));
 		balancedDuration = (Math.floor(estimation / availableDaysAmount * 2) / 2).toFixed(2); // Round to the nearest 0.5
 		extraHours = estimation - availableDaysAmount * balancedDuration;
@@ -149,7 +149,7 @@ class Algorithm {
 	}
 
 	getIntensiveRecommendations (data) {
-		
+
 		var hoursToDistribute = data.estimation,
 			availableHoursPerDay = data.availableHoursPerDay,
 			availableDaysAmount = data.availableDaysAmount,
@@ -158,7 +158,7 @@ class Algorithm {
 			arrayWithRecommendations = new Array(availableDaysAmount).fill(0),
 			recommendations = {},
 			slot;
-		
+
 		while (hoursToDistribute) {
 			slot = hoursToDistribute >= recommendedDuration ? recommendedDuration : hoursToDistribute;
 			arrayWithRecommendations[dayIndex] += slot;
@@ -172,7 +172,7 @@ class Algorithm {
 			recommendations[day.date] = arrayWithRecommendations[dayIndex];
 			return day
 		});
-		
+
 		return recommendations;
 	}
 
@@ -191,7 +191,7 @@ class Algorithm {
 	}
 
 	getSuitableSlots(priority, estimation) {
-		
+
 		this.filterFullDays(this.daysRange);
 
 		var availableHoursPerDay = Object.keys(this.daysRange).map(dayId => {
@@ -211,12 +211,12 @@ class Algorithm {
 			},
 			isBalancedLoad = this.priorityConfig[priority].isBalancedLoad,
 			recommendations = {};
-		
+
 		if (estimation <= availableHoursTotal) {
 			//Positive branch
-			
+
 			recommendations = isBalancedLoad ? this.getBalancedRecommendations(data) : this.getIntensiveRecommendations(data);
-		
+
 		} else {
 			// Negative branch
 
@@ -361,5 +361,5 @@ class Algorithm {
 	}
 }*/
 
-Algorithm.$inject = ['Days', 'Authentication'];
-angular.module('days').service('Algorithm', Algorithm);
+Algorithm.$inject = ['Slots', 'Authentication'];
+angular.module('algorithm').service('Algorithm', Algorithm);

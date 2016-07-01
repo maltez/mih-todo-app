@@ -1,5 +1,5 @@
-<section class="tasks-list-wrapper" ng-controller="TasksListController" ng-init="find()">
-	<div class="form-group todo-list-controls">
+<section ng-controller="TasksListController" ng-init="find()">
+	<div class="form-group todo-list-controls" data-ng-show="tasks.length > 1">
 		<a class="controls-link" ng-click="sortListBy('priority')">
 			<i class="fa fa-sort-amount-desc" aria-hidden="true" ng-hide="sortType ==='priority' && sortReverse === true"></i>
 			<i class="fa fa-sort-amount-asc" aria-hidden="true" ng-show="sortType ==='priority' && sortReverse === true"></i>
@@ -19,4 +19,8 @@
 			</a>
 		</li>
 	</ul>
+	<div class="text-center text-muted"
+		 data-ng-hide="!tasks.$resolved || tasks.length">
+		No tasks yet. <br/> Please, click on <span class="fa fa-plus-circle"></span> to add new one.
+	</div>
 </section>

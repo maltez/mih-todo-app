@@ -18,7 +18,9 @@
 		<li class="dropdown nav-notifications" notification-tooltip></li>
 
 		<li class="dropdown nav-user-profile">
-			<a class="dropdown-toggle" type="button" data-toggle="dropdown">Username
+			<a class="dropdown-toggle" type="button" data-toggle="dropdown">
+				<span data-ng-bind="authentication.user.username ? authentication.user.username : 'username'"
+					  class="navbar-header__username"></span>
 				<img src="modules\users\img\profiles\default.jpg"
 					 class="profile-image img-circle">
 				<span class="caret"></span></a>

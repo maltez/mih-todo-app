@@ -2,9 +2,11 @@
 
 angular.module('core').controller('HeaderController', ['$scope', 'Authentication', 'Menus',
 	function ($scope, Authentication, Menus) {
-		$scope.authentication = Authentication;
+		var vm = this;
+		
+		vm.authentication = Authentication;
 
-		$scope.toggleSidebar = () => {
+		vm.toggleSidebar = () => {
 			$scope.$emit('toggleSidebar');
 		};
 	}

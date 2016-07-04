@@ -36,6 +36,8 @@ class Calendar {
 	}
 
 	generateBgSlot(start, end, dayIndex) {
+		if (dayIndex === 7) dayIndex = 0; //For sunday
+
 		return {
 			start: start,
 			end: end,

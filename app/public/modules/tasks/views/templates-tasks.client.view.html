@@ -1,5 +1,5 @@
 <div class="tasks-templates col-xs-12">
-	<header class="row">
+	<header class="row" data-ng-show="templates.list">
 		<div class="col-xs-12">
 			<h3 class="col-xs-8">Task template</h3>
 			<h3 class="col-xs-4">Usage</h3>
@@ -67,4 +67,5 @@
 			</div>
 		</li>
 	</ul>
+	<div class="text-center text-muted p-y-1" data-ng-hide="templates.list.length">No templates yet.</div>
 </div>

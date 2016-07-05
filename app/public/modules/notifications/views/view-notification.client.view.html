@@ -24,13 +24,23 @@
 										</div>
 										<div class="form-group">
 											<label for="priority">Priority</label>
-											<select name="priority" class="form-control" id="priority"
-													data-ng-model="notification.priority" disabled>
-												<option value="1">Urgent and Important</option>
-												<option value="2">Important not Urgent</option>
-												<option value="3">Urgent not Important</option>
-												<option value="4">Not Important not urgent</option>
-											</select>
+											<div data-ng-class="'item-priority-' + notification.priority">
+												<select name="priority" class="form-control item-priority" id="priority"
+														data-ng-model="notification.priority" disabled>
+													<option value="1" class="item-priority-1">
+														Urgent and Important
+													</option>
+													<option value="2" class="item-priority-2">
+														Not Urgent but Important
+													</option>
+													<option value="3" class="item-priority-3">
+														Urgent but not Important
+													</option>
+													<option value="4" class="item-priority-4">
+														Not Urgent and not Important
+													</option>
+												</select>
+											</div>
 										</div>
 
 									</form>

@@ -237,3 +237,42 @@ div.ui-notification {
 		color: @error-message-color;
 	}
 }
+
+// priority
+.item {
+  &-priority {
+	color: @color-mid-grey;
+  }
+  &-priority-1 {
+	border-left: 10px solid @color-dark-pink;
+	color: @color-dark-pink;
+
+	.item-priority:focus {
+	  border-color: @color-dark-pink !important;
+	}
+  }
+  &-priority-2 {
+	border-left: 10px solid @color-sun;
+	color: @color-sun;
+
+	.item-priority:focus {
+	  border-color: @color-sun !important;
+	}
+  }
+  &-priority-3 {
+	border-left: 10px solid @color-mountain-meadow;
+	color: @color-mountain-meadow;
+
+	.item-priority:focus {
+	  border-color: @color-mountain-meadow !important;
+	}
+  }
+  &-priority-4 {
+	border-left: 10px solid @color-mid-grey;
+	color: @color-mid-grey;
+
+	.item-priority:focus {
+	  border-color: @color-mid-grey !important;
+	}
+  }
+}

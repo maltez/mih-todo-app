@@ -21,12 +21,12 @@
 						<div class="form-group">
 							<div class="btn-group priority-btn">
 								<h5><label for="priority">Priority*</label></h5>
-								<div class="priority-btn-inner clearfix">
-									<select name="priority" id="priority" class="form-control input-round-borders" ng-model="template.priority">
-										<option value="1">Urgent and Important</option>
-										<option value="2">Important not Urgent</option>
-										<option value="3">Urgent not Important</option>
-										<option value="4">Not Important not urgent</option>
+								<div class="priority-btn-inner clearfix" data-ng-class="'item-priority-' + template.priority">
+									<select name="priority" id="priority" class="form-control item-priority" ng-model="template.priority">
+										<option value="1" class="item-priority-1">Urgent and Important</option>
+										<option value="2" class="item-priority-2">Not Urgent but Important</option>
+										<option value="3" class="item-priority-3">Urgent but not Important</option>
+										<option value="4" class="item-priority-4">Not Urgent and not Important</option>
 									</select>
 								</div>
 							</div>

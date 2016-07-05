@@ -18,16 +18,16 @@
 									</div>
 								</div>
 								<div class="field-group">
-									<label class="field-label" for="title">Template</label>
-									<select class="form-control" data-ng-change="loadTaskTemplate(selectedTemplate)"
+									<label class="field-label" for="templates">Template</label>
+									<select class="form-control" id="templates" data-ng-change="loadTaskTemplate(selectedTemplate)"
 											data-ng-model="selectedTemplate" data-ng-options="template.title for template in user.templates"
 									>
 										<option value="">Select template</option>
 									</select>
 								</div>
 								<div class="field-group">
-									<label class="field-label" for="title">Priority*</label>
-									<select name="priority" class="form-control" data-ng-model="newTask.priority" ng-init="newTask.priority='1'">
+									<label class="field-label" for="priority">Priority*</label>
+									<select name="priority" id="priority" class="form-control" data-ng-model="newTask.priority" ng-init="newTask.priority='1'">
 										<option value="1">Urgent and Important</option>
 										<option value="2">Important not Urgent</option>
 										<option value="3">Urgent not Important</option>
@@ -50,7 +50,7 @@
 							</div>
 							<div class="col-md-4 col-sm-12">
 								<div class="field-group">
-									<label class="field-label">Start date</label>
+									<label class="field-label" for="startDate">Start date</label>
 									<div class="input-group ui-datepicker">
 										<span ng-class="{disabled: newTask.withOutDate}"
 											  class="input-group-addon calendar-btn" ng-click="openStart($event)">
@@ -84,20 +84,20 @@
 									<!--<timepicker class="select-time" ng-model="newTask.endTime" minute-step="15" show-meridian="true"></timepicker>-->
 								</div>
 								<div class="field-group">
-									<label class="field-label">Estimation (hours)</label>
+									<label class="field-label" for="estimation">Estimation (hours)</label>
 									<div>
 										<rzslider rz-slider-model="newTask.estimation"
 												  rz-slider-options="slider.options">
 										</rzslider>
-										<input type="number" min="{{slider.options.floor}}" max="{{slider.options.ceil}}"
+										<input type="number" id="estimation" min="{{slider.options.floor}}" max="{{slider.options.ceil}}"
 											   ng-model="newTask.estimation" data-ng-pattern="/^\d+$/">
 									</div>
 								</div>
 							</div>
 							<div class="col-md-4 col-sm-12">
 								<div class="field-group">
-									<label class="field-label">Notes</label>
-									<textarea class="form-control notes-area" data-ng-model="newTask.notes"></textarea>
+									<label class="field-label" for="notes">Notes</label>
+									<textarea id="notes" class="form-control notes-area" data-ng-model="newTask.notes"></textarea>
 									<div ng-show="validationError.notes" class="error">
 										{{validationError.notes.message}}
 									</div>

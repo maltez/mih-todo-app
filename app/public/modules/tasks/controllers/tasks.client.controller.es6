@@ -53,8 +53,8 @@ class TasksController {
 
 // Tasks controller
 angular.module('tasks').controller('TasksController',
-	['$scope', '$rootScope', '$stateParams', '$location', 'Authentication', 'Tasks', 'Users', '$timeout', 'Algorithm', 'Days',
-	function($scope, $rootScope, $stateParams, $location, Authentication, Tasks, Users, $timeout, Algorithm, Days) {
+	['$scope', '$rootScope', '$stateParams', '$location', 'Authentication', 'Tasks', 'Users', '$timeout', 'Algorithm', 'Slots',
+	function($scope, $rootScope, $stateParams, $location, Authentication, Tasks, Users, $timeout, Algorithm, Slots) {
 		$scope.authentication = Authentication;
 		$scope.saveAsDraft = false;
 		$scope.user = Authentication.user;
@@ -290,7 +290,12 @@ angular.module('tasks').controller('TasksController',
 				$scope.user.predefinedSettings.workingHours
 			).then(daysRange => {
 				$timeout(() => $scope.daysRange = daysRange);
+				//$rootScope.$broadcast('NEW_SLOTS_GENERATED', [])
 			});
-		}
+		};
+
+		/*$rootScope.$on('NEW_SLOTS_CHANGED', slots => {
+
+		})*/
 	}
 ]);

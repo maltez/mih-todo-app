@@ -1,22 +1,19 @@
 'use strict';
 
-// Task example
-/*{
-	'type':'task',
-	'title':'Set up meetings',
-	'start':'2016-06-16T10:00:00+08:00',
-	'end':'2016-06-16T12:00:00+08:00',
-	'className' : 'task'
-}*/
+//http://fullcalendar.io/docs/
 
 class Calendar {
-		constructor($scope, Days, Algorithm) {
-		this.$scope = $scope;
-		this.algorithm = Algorithm;
+	constructor(Slots, Notifications, uiCalendarConfig, $rootScope, Authentication) {
+		this.config = uiCalendarConfig;
+		this.Slots = Slots;
+		this.Notifications = Notifications;
+		this.$rootScope = $rootScope;
+		this.user = Authentication.user;
 
-		this.days = {}; //To track remaining time for each day
-		this.events = [];
-		this.eventSources = [this.events];
+		this.bookedSlots = [];
+		this.eventSources = [{
+			url: '/slots' //Fetch data from server
+		}];
 		this.uiConfig = {
 			calendar: {
 				height: 700,
@@ -26,78 +23,70 @@ class Calendar {
 					center: 'title',
 					right: 'agendaDay, agendaWeek, month'
 				},
-				businessHours : {
-					start: '09:00',
-					end: '18:00',
-					dow: [ 1, 2, 3, 4, 5 ]
-				},
-				firstDay : 1,
+				businessHours: false,
+				firstDay: 1,
 				defaultView: 'agendaWeek',
-				droppable: true,
-				dropAccept: '.draggable',
-				drop: function (date, jsEvent, ui) {
-					$(ui.helper[0]).removeClass('draggable');
-					$(ui.helper[0]).find('.label').removeClass('ng-hide');
-				},
-				eventReceive: function (event) {
-					event.dragged = false;
-				}
+				eventDrop: (event, delta, revertFunc) => this.eventDropHandler(event, delta, revertFunc)
 			}
 		};
 
-		Days.query(Calendar.getFirstAndLastWeekDay(), days => this.renderDays(days));
-		this.setSlotGenerationWatcher();
+		//Listen for new task form slot generation
+		this.$rootScope.$on('NEW_SLOTS_GENERATED', (e, slots) => this.renderBookedSlots(slots));
+		this.setBusinessHours()
 	}
 
-	setSlotGenerationWatcher() {
-		var reservedSlotsIndexes = [];
-
-		this.$scope.$watch(() => this.algorithm.daysRange, (newValue, oldValue) => {
-			if (reservedSlotsIndexes.length) { //Clean previous slots
-				var offsetIndex = 1;
-				reservedSlotsIndexes.forEach(slotIndex => {
-					this.events.splice(slotIndex - offsetIndex, 1);
-					offsetIndex++;
-				});
-				reservedSlotsIndexes = [];
-			}
-
-			newValue.forEach(day => {
-				day = new Day(day);
-				reservedSlotsIndexes.push(
-					this.events.push(day.createCalendarSlot(day.reservedSlot))
-				);
-			});
-		});
-	}
-
-
-	renderDays(days) {
-		days.forEach(day => {
-			day = new Day(day);
-			day.bookedSlots.forEach(slot => {
-				this.events.push(day.createCalendarSlot(slot));
-			});
-		});
-	}
-
-	static getFirstAndLastWeekDay() {
-		var curr = new Date,
-			first = (curr.getDate() - curr.getDay()) + 1,
-			last = first + 6;
-
-		var firstDay = new Date(curr.setDate(first)),
-			lastDay = new Date(curr.setDate(last));
-
-		firstDay.setHours(0,0,0,0);
-		lastDay.setHours(0,0,0,0);
-
+	generateBgSlot(start, end, dayIndex) {
 		return {
-			startDate: firstDay,
-			endDate: lastDay
+			start: start,
+			end: end,
+			color: 'gray',
+			rendering: 'background',
+			dow: [dayIndex]
 		}
+	}
+
+	setBusinessHours() {
+		var nonWorkingHours = [];
+
+		Object.keys(this.user.predefinedSettings.workingHours).forEach(key => {
+			let day = this.user.predefinedSettings.workingHours[key];
+
+			if (day.isWorkingDay) {
+				nonWorkingHours.push(
+					this.generateBgSlot('00:00', day.start, day.dayIndex),
+					this.generateBgSlot(day.end, '24:00', day.dayIndex)
+				);
+			} else {
+				nonWorkingHours.push(
+					this.generateBgSlot('00:00', '24:00', day.dayIndex)
+				);
+			}
+		});
+
+		this.eventSources.push(nonWorkingHours);
+	}
+
+	eventDropHandler(event, delta, revertFunc) {
+		if (event.taskId) { //Update slot in database
+			new this.Slots(event).$update(response => {
+
+			}, err => revertFunc)
+		} else { //Update slot on new task form
+			this.$rootScope.$broadcast('NEW_SLOTS_CHANGED',
+				this.config.calendars.main.fullCalendar( 'clientEvents', event => {
+					//return only slots from the original array
+					if(event.source.origArray == this.bookedSlots) return event;
+				})
+			);
+		}
+	}
+
+	renderBookedSlots(slots) {
+		this.config.calendars.main.fullCalendar( 'removeEventSource', this.bookedSlots );
+		this.config.calendars.main.fullCalendar( 'addEventSource', slots );
+		this.bookedSlots = slots;
 	}
 }
 
-Calendar.$inject = ['$scope', 'Days', 'Algorithm'];
+Calendar.$inject = ['Slots', 'Notifications', 'uiCalendarConfig', '$rootScope', 'Authentication'];
 angular.module('calendar').controller('CalendarController', Calendar);

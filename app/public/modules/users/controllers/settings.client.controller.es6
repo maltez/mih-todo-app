@@ -1,7 +1,7 @@
 'use strict';
 
 class SettingsController {
-	constructor($location, Users, Authentication, $timeout, $window, FileUploader, MIHUtils) {
+	constructor($location, Users, Authentication, $timeout, $window, FileUploader, MIHUtils, $rootScope) {
 		if (!Authentication.user) $location.path('/');
 
 		/*@ngInject*/
@@ -14,6 +14,7 @@ class SettingsController {
 		// TODO: move to root controller + share
 		// TODO: refactor into directive so that we do not need to always inject it
 		this.MIHUtils = MIHUtils;
+		this.$rootScope = $rootScope;
 
 		/*fields*/
 		this.workingDays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
@@ -83,6 +84,7 @@ class SettingsController {
 			user.$update(response => {
 				this.success = true;
 				this.user = response;
+				this.$rootScope.$broadcast('updateUserInfo', this.user);
 			}, response => {
 				this.error = response.data.message;
 			});

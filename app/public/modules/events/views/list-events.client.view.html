@@ -1,12 +1,16 @@
-<ul class="nav nav-second-level in collapse" data-ng-controller="EventsListController" data-ng-init="find()">
-	<li data-ng-repeat="event in events | orderBy:'days.startTime'" class="event-list-item">
-		<a data-ng-href="#!/events/{{event._id}}/edit" class="clearfix">
-			<span class="nav-label event-name pull-left" data-ng-bind="event.title"></span>
-			<div class="event-date pull-right">
-				<span class="event-day">{{ event.days.startTime | date:'EEEE' }}</span>
-				<span class="event-time">{{ event.days.startTime | date:'HH:mm' }}</span>
-			</div>
-
-		</a>
-	</li>
-</ul>
+<section data-ng-controller="EventsListController" data-ng-init="find()">
+	<ul class="nav nav-second-level in collapse">
+		<li data-ng-repeat="event in events | orderBy:'days.startTime'" class="event-list-item">
+			<a data-ng-href="#!/events/{{event._id}}/edit" class="clearfix">
+				<span class="nav-label event-name pull-left" data-ng-bind="event.title"></span>
+				<div class="event-date pull-right">
+					<span class="event-day">{{ event.days.startTime | date:'EEEE' }}</span>
+					<span class="event-time">{{ event.days.startTime | date:'HH:mm' }}</span>
+				</div>
+			</a>
+		</li>
+	</ul>
+	<div class="text-center text-muted p-y-1" data-ng-hide="!events.$resolved || events.length">
+		No events yet. <br/> Please, click on <span class="fa fa-plus-circle"></span> to add new one.
+	</div>
+</section>

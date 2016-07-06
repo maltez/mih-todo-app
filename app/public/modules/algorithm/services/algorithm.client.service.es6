@@ -55,9 +55,10 @@ class Day {
 }
 
 class Algorithm {
-	constructor(Slots, Authentication) {
+	constructor(Slots, Authentication, AlgorithmServer) {
 		this.Slots = Slots;
 		this.user = Authentication.user;
+		this.AlgorithmServer = AlgorithmServer;
 		this.daysRange = [];
 		this.priorityConfig = {
 			"1" : 	{
@@ -80,6 +81,15 @@ class Algorithm {
 	}
 
 	generateSlots(startDate, endDate, priority, estimation) {
+		//New request
+		/*this.AlgorithmServer.get({
+			q: 'free-time',
+			start: startDate,
+			end: endDate
+		}, daysData => {
+			console.log(daysData);
+		});*/
+
 		startDate.setHours(0,0,0,0);
 		endDate.setHours(0,0,0,0);
 
@@ -361,5 +371,5 @@ class Algorithm {
 	}
 }*/
 
-Algorithm.$inject = ['Slots', 'Authentication'];
+Algorithm.$inject = ['Slots', 'Authentication', 'AlgorithmServer'];
 angular.module('algorithm').service('Algorithm', Algorithm);

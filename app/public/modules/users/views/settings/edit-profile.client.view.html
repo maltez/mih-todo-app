@@ -24,7 +24,7 @@
 				</form>
 			</section>
 
-			<section class="col-md-7 col-md-offset-2">
+			<section class="col-md-6 col-md-offset-2">
 				<form name="userForm" data-ng-submit="settings.updateUserProfile(userForm.$valid)" class="signin form-horizontal"
 					  autocomplete="off" novalidate
 				>
@@ -99,11 +99,11 @@
 
 							<div class="col-sm-8">
 								<div class="form-group" ng-repeat="(i, booked) in settings.user.predefinedSettings.booked">
-									<ng-form name="bookedTime">
+									<ng-form name="bookedTime" class="booked-time">
 										<div class="col-sm-5">
 											<div class="row">
-												<label for="booked-start-time-{{$index}}" class="col-sm-4 control-label">From: </label>
-												<div class="col-sm-8">
+												<div class="col-sm-12">
+													<label for="booked-start-time-{{$index}}" class="col-sm-12 control-label">From: </label>
 													<input id="booked-start-time-{{$index}}" type="time" class="form-control"
 														   required name="startTime"
 														   data-ng-model="booked.startTime" ng-model-options="{ updateOn: 'blur' }"
@@ -118,8 +118,8 @@
 
 										<div class="col-sm-5">
 											<div class="row">
-												<label for="booked-end-time{{$index}}" class="col-sm-4 control-label">To: </label>
-												<div class="col-sm-8">
+												<div class="col-sm-12">
+													<label for="booked-end-time{{$index}}" class="col-sm-12 control-label">To: </label>
 													<input id="booked-end-time{{$index}}" type="time" class="form-control"
 														   required name="endTime"
 														   data-ng-model="booked.endTime" ng-model-options="{ updateOn: 'blur' }"
@@ -146,14 +146,18 @@
 					<fieldset>
 						<div class="form-group">
 							<label for="reminder" class="col-sm-4 control-label">Reminder: </label>
-							<div class="col-sm-2">
-								<input id="reminder" type="number" class="form-control" name="reminder" required
-									   data-ng-model="settings.user.predefinedSettings.reminder" ng-model-options="{ updateOn: 'blur' }"
-								>
-							</div>
-							<div class="col-sm-offset-6">
-								<div ng-show="userForm.submitted || userForm.reminder.$dirty" class="error-message">
-									<p ng-show="userForm.reminder.$error.required" class="help-block error-text">Please enter reminder time</p>
+							<div class="col-sm-8">
+								<div class="row">
+									<div class="col-sm-3">
+										<input id="reminder" type="number" class="form-control" name="reminder" required
+											   data-ng-model="settings.user.predefinedSettings.reminder" ng-model-options="{ updateOn: 'blur' }"
+										>
+									</div>
+									<div class="col-sm-12">
+										<div ng-show="userForm.submitted || userForm.reminder.$dirty" class="error-message">
+											<p ng-show="userForm.reminder.$error.required" class="help-block error-text">Please enter reminder time</p>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -163,38 +167,33 @@
 						<div class="form-group">
 							<label class="col-sm-4 control-label">Working time</label>
 
-							<div class="col-sm-8 working-days">
+							<div class="col-sm-12 working-days">
 								<div class="form-group" ng-repeat="dayName in settings.workingDays" ng-init="dayOpts = settings.user.predefinedSettings.workingHours[dayName]">
 									<ng-form name="workingDay">
-										<div class="col-sm-1">
-											<input type="checkbox" data-ng-model="dayOpts.isWorkingDay" data-ng-checked="dayOpts.isWorkingDay">
+										<div class="col-sm-2 col-sm-offset-2 day-label">
+											<label>
+												<input type="checkbox" data-ng-model="dayOpts.isWorkingDay" data-ng-checked="dayOpts.isWorkingDay">
+												{{dayName}}
+											</label>
 										</div>
 
-										<h3 class="col-sm-1">
-											{{dayName}}
-										</h3>
-
-										<div class="col-sm-5 working-from-wrapper">
-											<div class="row">
-												<label for="working-day-start-{{$index}}" class="col-sm-4 control-label">From: </label>
-												<div class="col-sm-8">
-													<input id="working-day-start-{{$index}}" type="time" class="form-control" name="workingDayStart"
-														   data-ng-model="dayOpts.start" data-ng-disabled="!dayOpts.isWorkingDay"
-														   ng-model-options="{ updateOn: 'blur' }"
-														   required
-													>
-												</div>
-											</div>
+										<div class="col-sm-4 working-from-wrapper">
+											<label for="working-day-start-{{$index}}" class="col-sm-12 control-label">From: </label>
+											<input id="working-day-start-{{$index}}" type="time" class="form-control" name="workingDayStart"
+												   data-ng-model="dayOpts.start" data-ng-disabled="!dayOpts.isWorkingDay"
+												   ng-model-options="{ updateOn: 'blur' }"
+												   required
+											>
 
 											<div ng-show="userForm.submitted || workingDay.workingDayStart.$dirty" class="error-message">
 												<p ng-show="workingDay.workingDayStart.$error.required" class="help-block error-text">Please enter start time</p>
 											</div>
 										</div>
 
-										<div class="col-sm-5">
+										<div class="col-sm-4">
 											<div class="row">
-												<label for="working-day-end-{{$index}}" class="col-sm-4 control-label">To: </label>
-												<div class="col-sm-8">
+												<div class="col-sm-12">
+													<label for="working-day-end-{{$index}}" class="col-sm-12 control-label">To: </label>
 													<input id="working-day-end-{{$index}}" type="time" class="form-control" name="workingDayEnd"
 														   data-ng-model="dayOpts.end" data-ng-disabled="!dayOpts.isWorkingDay"
 														   ng-model-options="{ updateOn: 'blur' }"

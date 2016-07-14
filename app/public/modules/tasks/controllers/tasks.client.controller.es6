@@ -54,248 +54,294 @@ class TasksController {
 // Tasks controller
 angular.module('tasks').controller('TasksController',
 	['$scope', '$rootScope', '$stateParams', '$location', 'Authentication', 'Tasks', 'Users', '$timeout', 'Algorithm', 'Slots',
-	function($scope, $rootScope, $stateParams, $location, Authentication, Tasks, Users, $timeout, Algorithm, Slots) {
-		$scope.authentication = Authentication;
-		$scope.saveAsDraft = false;
-		$scope.user = Authentication.user;
-		$scope.selectedTemplate = {};
+		function($scope, $rootScope, $stateParams, $location, Authentication, Tasks, Users, $timeout, Algorithm, Slots) {
+			$scope.authentication = Authentication;
+			$scope.isATemplate = false;
+			$scope.user = Authentication.user;
+			$scope.selectedTemplate = {};
 
-		var date = new Date(),
-			dateMax = new Date( Date.now() + (365*24*60*60*1000));
+			var date = new Date(),
+				dateMax = new Date( Date.now() + (365 * 24 * 60 * 60 * 1000));
 
-		$scope.dt = {
-			startDate: date,
-			endDate: date
-		};
+			$scope.dt = {
+				startDate: date,
+				endDate: date
+			};
 
-		var d = new Date();
-		d.setHours(9);
-		d.setMinutes(0);
+			var d = new Date();
+			d.setHours(9);
+			d.setMinutes(0);
 
-		var d2 = new Date();
-		d2.setHours(18);
-		d2.setMinutes(0);
+			var d2 = new Date();
+			d2.setHours(18);
+			d2.setMinutes(0);
 
-		$scope.startTime = d;
-		$scope.endTime = d2;
+			$scope.startTime = d;
+			$scope.endTime = d2;
 
-		$scope.startDate = {
-			minDate: date,
-			maxDate: dateMax
-		};
+			$scope.startDate = {
+				minDate: date,
+				maxDate: dateMax
+			};
 
-		$scope.endDate = {
-			minDate: date,
-			maxDate: dateMax
-		};
+			$scope.endDate = {
+				minDate: date,
+				maxDate: dateMax
+			};
 
-		$scope.clear = function () {
-			return $scope.dt = null;
-		};
+			$scope.clear = () => {
+				return $scope.dt = null;
+			};
 
-		$scope.opened = {
-			startDate: false,
-			endDate: false
-		};
-
-		$scope.openStart = function ($event) {
-			$event.preventDefault();
-			$event.stopPropagation();
-			return $scope.opened = {
-				startDate: true,
+			$scope.opened = {
+				startDate: false,
 				endDate: false
 			};
-		};
-		$scope.openEnd = function ($event) {
-			$event.preventDefault();
-			$event.stopPropagation();
-			$scope.dt.endDate = $scope.dt.startDate;
-			$scope.endDate.minDate = $scope.dt.startDate;
-			return $scope.opened = {
-				startDate: false,
-				endDate: true
+
+			$scope.openStart = ($event) => {
+				$event.preventDefault();
+				$event.stopPropagation();
+				return $scope.opened = {
+					startDate: true,
+					endDate: false
+				};
 			};
-		};
+			$scope.openEnd = ($event) => {
+				$event.preventDefault();
+				$event.stopPropagation();
+				$scope.dt.endDate = $scope.dt.startDate;
+				$scope.endDate.minDate = $scope.dt.startDate;
+				return $scope.opened = {
+					startDate: false,
+					endDate: true
+				};
+			};
 
-		$scope.dateOptions = {
-			startDate: {
-				'year-format': 'yy',
-				'starting-day': 1
+			$scope.dateOptions = {
+				startDate: {
+					'year-format': 'yy',
+					'starting-day': 1
 
-			},
-			endDate: {
-				'year-format': 'yy',
-				'starting-day': 1
-			}
-		};
-
-			var newTask = {
-				type: 'task',
-				title: '',
-				priority: 1,
-				estimation: TasksController.getOptimalEstimation($scope.dt.startDate, $scope.dt.endDate),
-				notes: '',
-				days: {
-					startTime: $scope.dt.startDate,
-					endTime: $scope.dt.endDate
 				},
-				withOutDate: false
+				endDate: {
+					'year-format': 'yy',
+					'starting-day': 1
+				}
 			};
 
-		$scope.newTask = angular.copy(newTask);
+			$scope.getDisabledDates = (date, mode) => {
+				return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+			};
+			
+			$scope.clearSlotsList = () => {
+				clearSlotsList()
+			};
 
-		$scope.changeEstimation = () => {
-			$scope.slider.options.ceil = TasksController.getMaxEstimation($scope.newTask.days.startTime, $scope.newTask.days.endTime);
-			$timeout(() => { //For some reason, estimation input sometimes don't updates
-				$scope.newTask.estimation = TasksController.getOptimalEstimation($scope.newTask.days.startTime, $scope.newTask.days.endTime);
+			$scope.$on("slideEnded", function() {
+				clearSlotsList();
+				$scope.$apply();
 			});
-		};
 
-		$scope.slider = {
-			options: {
-				floor: 1,
-				ceil: TasksController.getMaxEstimation($scope.newTask.days.startTime, $scope.newTask.days.endTime),
-				translate(unit) {
-					return unit + 'h';
-				}
-			}
-		};
-
-		$scope.getDisabledDates = function(date, mode) {
-			return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-		};
-
-
-		var saveTaskAsTemplate = () => {
-			return new Promise(resolve => {
-				var user = new Users($scope.user);
-
-				user.templates.push($scope.newTask);
-
-				user.$update(response => {
-					Authentication.user = response;
-					resolve();
-				}, err => console.error(err));
-			});
-		};
-
-		var saveTask = () => {
-			return new Promise(resolve => {
-				var task = new Tasks($scope.newTask);
-
-				if ($scope.newTask.withOutDate) {
-					task.days.startTime = task.days.endTime = '';
-				}
-
-				task.$save(function (response) {
-					var days;
-
-					$scope.daysRange.map(day => {
-						day.bookSlot(response._id);
-						day.bookedSlots.sort((a, b) => a.priority - b.priority);
-						return day;
-					});
-
-					days = new Days($scope.daysRange);
-					days.$save(resolve);
-				}, function (errorResponse) {
-					$scope.validationError = errorResponse.data.message.errors;
-				});
-			});
-		};
-
-		// Create new Task
-		$scope.create = function() {
-			var queries = [saveTask()];
-
-			if ($scope.newTask.saveAsDraft) { //Add task to user templates
-				queries.push(saveTaskAsTemplate());
-			}
-
-			$scope.tasks = [];
-
-			Promise.all(queries).then(() => {
-				$location.path('/');
-				$scope.title = '';
-				$rootScope.$broadcast('NEW_TASK_MODIFY');
-			});
-		};
-
-		$scope.cancel = function () {
-			$location.path('/');
-		};
-
-		// Remove existing Task
-		$scope.remove = function (task) {
-			if (task) {
-				task.$remove();
-
-				for (var i in $scope.tasks) {
-					if ($scope.tasks[i] === task) {
-						$scope.tasks.splice(i, 1);
-					}
-				}
-				$rootScope.$broadcast('NEW_TASK_MODIFY');
-			} else {
-				$scope.task.$remove(function () {
-					$location.path('/');
-				});
-				$rootScope.$broadcast('NEW_TASK_MODIFY');
-			}
-		};
-
-
-		// Update existing Task
-		$scope.update = function () {
-			var task = $scope.task;
-			task.title = $scope.title;
-
-			task.$update(function () {
-				$location.path('tasks/' + task._id);
-				$rootScope.$broadcast('NEW_TASK_MODIFY');
-			}, function (errorResponse) {
-				$scope.error = errorResponse.data.message;
-			});
-		};
-
-		// Find existing Task
-		$scope.findOne = function () {
-			$scope.task = Tasks.get({
-				taskId: $stateParams.taskId
-			});
-		};
-
-		$scope.loadTaskTemplate = (selectedTemplate) => {
-			if (selectedTemplate) {
-				$.extend($scope.newTask, selectedTemplate);
-			} else {
+			$scope.createMode = () => {
+				var newTask;
+				
+				clearSlotsList();
+				
+				newTask = {
+					type: 'task',
+					title: '',
+					priority: 1,
+					estimation: TasksController.getOptimalEstimation($scope.dt.startDate, $scope.dt.endDate),
+					notes: '',
+					days: {
+						startTime: $scope.dt.startDate,
+						endTime: $scope.dt.endDate
+					},
+					withoutDates: false
+				};
 				$scope.newTask = angular.copy(newTask);
-			}
-		};
+				
+				$scope.slider = setEstimationExtremes($scope.newTask);
 
-		$scope.$watch('newTask.estimation', (newVal, oldVal) => {
-			if (!newVal) {
-				$scope.newTask.estimation = oldVal;
-			}
-		});
+				$scope.changeEstimation = () => {
+					updateEstimation($scope.newTask);
+					clearSlotsList();
+				};
 
-		$scope.daysRange = [];
+				$scope.loadTaskTemplate = (selectedTemplate) => {
+					if (selectedTemplate) {
+						$.extend($scope.newTask, selectedTemplate);
+					} else {
+						$scope.newTask = angular.copy(newTask);
 
-		$scope.generateSlots = () => {
-			Algorithm.generateSlots(
-				$scope.newTask.days.startTime,
-				$scope.newTask.days.endTime,
-				$scope.newTask.priority,
-				$scope.newTask.estimation,
-				$scope.user.predefinedSettings.workingHours
-			).then(daysRange => {
-				$timeout(() => $scope.daysRange = daysRange);
-				//$rootScope.$broadcast('NEW_SLOTS_GENERATED', [])
-			});
-		};
+					}
+					$scope.$apply();
+				};
+				
+				$scope.generateSlots = () => {
+					getNewSlots($scope.newTask)
+				};				
 
-		/*$rootScope.$on('NEW_SLOTS_CHANGED', slots => {
+				$scope.$watch('newTask.estimation', (newVal, oldVal) => {
+					if (!newVal) {
+						$scope.newTask.estimation = oldVal;
+					}
+				});
+			};
 
-		})*/
-	}
-]);
+			$scope.editMode = () => {
+				$scope.task = getTask(() => {
+					$scope.slider = setEstimationExtremes($scope.task);
+				});
+
+				$scope.getSlotsByTask = () => {
+					$scope.daysRange = getSlotsByTask();
+				};
+
+				$scope.generateSlots = () => {
+					getNewSlots($scope.task);
+				};
+				$scope.changeEstimation = () => {
+					updateEstimation($scope.task);
+					clearSlotsList();
+				};
+			};
+
+			var updateEstimation = (model) => {
+				$scope.slider.options.ceil = TasksController.getMaxEstimation(model.days.startTime, model.days.endTime);
+				model.estimation = TasksController.getOptimalEstimation(model.days.startTime, model.days.endTime);
+			};
+
+			var setEstimationExtremes = (model) => {
+				return {
+					options: {
+						floor: 1,
+						ceil: TasksController.getMaxEstimation(new Date(model.days.startTime), new Date(model.days.endTime)),
+						translate: function translate(unit) {
+							return unit + 'h';
+						}
+					}
+				};
+			};
+
+			var saveTaskAsTemplate = (model) => {
+				return new Promise(resolve => {
+					var user = new Users($scope.user);
+
+					user.templates.push(model);
+
+					user.$update(response => {
+						Authentication.user = response;
+						resolve();
+					}, err => console.error(err));
+				});
+			};
+
+			var saveTask = (model) => {
+				return new Promise(resolve => {
+					var task = new Tasks(model);
+
+					if (model.withoutDates) {
+						task.days.startTime = task.days.endTime = '';
+					}
+
+					task.$save((response) => {
+						var days;
+
+						$scope.daysRange.map(day => {
+							day.bookSlot(response._id);
+							day.bookedSlots.sort((a, b) => a.priority - b.priority);
+							return day;
+						});
+
+						days = new Days($scope.daysRange);
+						days.$save(resolve);
+					}, (errorResponse) => {
+						$scope.validationError = errorResponse.data.message.errors;
+					});
+				});
+			};
+
+			var getNewSlots = (model) => {
+				Algorithm.generateSlots(model.days.startTime, model.days.endTime, model.priority, model.estimation,
+					$scope.user.predefinedSettings.workingHours).then((daysRange) => {
+					$timeout(() => {
+						return $scope.daysRange = daysRange;
+					});
+				});
+			};
+			
+			var getSlotsByTask = ()=> {
+				// todo rewrite static
+				return [
+					{
+						date: new Date(),
+						reservedSlot: {duration: 9}
+					},
+					{
+						date: new Date(),
+						reservedSlot: {duration: 3}
+					}
+				];
+			};
+
+			var getTask = (cb) => {
+				return Tasks.get({
+					taskId: $stateParams.taskId
+				}, ()=> {
+					cb();
+				});
+			};
+
+			var clearSlotsList = () => {
+				if($scope.daysRange && $scope.daysRange.length){
+					$scope.daysRange = [];
+				}
+			};
+
+			$scope.create = (task) => {
+				if (task) {
+					var queries = [saveTask(task)];
+
+					if (task.isATemplate) { //Add task to user templates
+						queries.push(saveTaskAsTemplate(task));
+					}
+
+					Promise.all(queries).then(() => {
+						$location.path('/');
+						$rootScope.$broadcast('NEW_TASK_MODIFY');
+					});
+				} else {
+					console.error("Error. Task is not defined");
+				}
+			};
+
+			$scope.cancel = () => {
+				$location.path('/');
+			};
+
+			$scope.remove = (task) => {
+				if (task) {
+					task.$remove(() => {
+						$location.path('/');
+					});
+					$rootScope.$broadcast('NEW_TASK_MODIFY');
+				} else {
+					console.error("Error. Task is not defined");
+				}
+			};
+
+			$scope.update = (task) => {
+				if (task) {
+					task.$update(() => {
+						$location.path('tasks/' + task._id);
+						$rootScope.$broadcast('NEW_TASK_MODIFY');
+					}, (errorResponse) => {
+						$scope.error = errorResponse.data.message;
+					});
+				} else {
+					console.error("Error. Task is not defined");
+				}
+			};
+		}
+	]);

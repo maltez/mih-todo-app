@@ -6,29 +6,30 @@
 	<div class="ibox-content">
 
 		<div class="text-center info-msg" ng-if="!daysRange.length">Please, click to <i class="fa fa-refresh" aria-hidden="true"></i> to generate slots with subtasks</div>
+		<div class="table-responsive">
+			<table class="table table-no-tb">
+				<tr ng-repeat="item in daysRange">
+					<td>{{item.date | date: 'EEEE'}}</td>
+					<td>{{item.date | date: 'dd.MM'}}</td>
+					<td>
+						{{item.date | date: 'hh:mm'}} -
+						{{item.date | date: 'hh:mm'}}
+					</td>
+					<td>{{item.reservedSlot.duration}}h</td>
 
-		<table class="table table-no-tb">
-			<tr ng-repeat="item in daysRange">
-				<td>{{item.date | date: 'EEEE'}}</td>
-				<td>{{item.date | date: 'dd.MM'}}</td>
-				<td>
-					{{item.date | date: 'hh:mm'}} -
-					{{item.date | date: 'hh:mm'}}
-				</td>
-				<td>{{item.reservedSlot.duration}}h</td>
-
-				<!--TODO It's just visual trick for demo-->
-				<td class="slot-controls text-right" ng-hide="done==true">
-					<button class="btn btn-primary btn-circle btn-outline" ng-click="done=true"><i class="fa fa-chevron-down" aria-hidden="true"></i></button>
-					<button class="btn btn-primary btn-circle btn-outline"><i class="fa fa-times" aria-hidden="true"></i></button>
-				</td>
-				<td ng-if="done==true" class="text-right">
-					<span class="badge badge-primary done-label">
-						<i class="fa fa-chevron-down" aria-hidden="true"></i>
-						Done
-					</span>
-				</td>
-			</tr>
-		</table>
+					<!--TODO It's just visual trick for demo-->
+					<td class="slot-controls text-right" ng-hide="done==true">
+						<button class="btn btn-primary btn-circle btn-outline" ng-click="done=true"><i class="fa fa-chevron-down" aria-hidden="true"></i></button>
+						<button class="btn btn-primary btn-circle btn-outline"><i class="fa fa-times" aria-hidden="true"></i></button>
+					</td>
+					<td ng-if="done==true" class="text-right">
+							<span class="badge badge-primary done-label">
+								<i class="fa fa-chevron-down" aria-hidden="true"></i>
+								Done
+							</span>
+					</td>
+				</tr>
+			</table>
+		</div>
 	</div>
 </div>

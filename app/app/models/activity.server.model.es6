@@ -120,7 +120,7 @@ var ActivitySchema = new Schema(_.extend({
 		type : Boolean,
 		default : false
 	},
-	withoutDates : {
+	withOutDates : {
 		type : Boolean,
 		default : false
 	}

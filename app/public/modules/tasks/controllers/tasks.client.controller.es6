@@ -53,8 +53,10 @@ class TasksController {
 
 // Tasks controller
 angular.module('tasks').controller('TasksController',
-	['$scope', '$rootScope', '$stateParams', '$location', 'Authentication', 'Tasks', 'Users', '$timeout', 'Algorithm', 'Slots',
-		function($scope, $rootScope, $stateParams, $location, Authentication, Tasks, Users, $timeout, Algorithm, Slots) {
+	['$scope', '$rootScope', '$stateParams', '$location', 'Authentication', 'Tasks', 'Users', '$timeout', 'Algorithm',
+		'Slots', 'Notification',
+		function($scope, $rootScope, $stateParams, $location, Authentication, Tasks, Users, $timeout, Algorithm,
+				 Slots, Notification) {
 			$scope.authentication = Authentication;
 			$scope.isATemplate = false;
 			$scope.user = Authentication.user;
@@ -296,6 +298,7 @@ angular.module('tasks').controller('TasksController',
 			var clearSlotsList = () => {
 				if($scope.daysRange && $scope.daysRange.length){
 					$scope.daysRange = [];
+					Notification.info("Don't forget to generate slots");
 				}
 			};
 
@@ -310,6 +313,7 @@ angular.module('tasks').controller('TasksController',
 					Promise.all(queries).then(() => {
 						$location.path('/');
 						$rootScope.$broadcast('NEW_TASK_MODIFY');
+						Notification.success(`Task "${task.title}" was successfully created`);
 					});
 				} else {
 					console.error("Error. Task is not defined");
@@ -326,6 +330,7 @@ angular.module('tasks').controller('TasksController',
 						$location.path('/');
 					});
 					$rootScope.$broadcast('NEW_TASK_MODIFY');
+					Notification.success(`Task "${task.title}" was successfully removed`);
 				} else {
 					console.error("Error. Task is not defined");
 				}
@@ -336,6 +341,7 @@ angular.module('tasks').controller('TasksController',
 					task.$update(() => {
 						$location.path('tasks/' + task._id);
 						$rootScope.$broadcast('NEW_TASK_MODIFY');
+						Notification.success(`Task "${task.title}" was successfully updated`);
 					}, (errorResponse) => {
 						$scope.error = errorResponse.data.message;
 					});

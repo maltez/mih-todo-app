@@ -8,6 +8,7 @@ var mongoose = require('mongoose'),
 	_ = require('lodash');
 
 var taskTemplate = {
+	taskId: String,
 	title: {
 		type: String,
 		default: '',

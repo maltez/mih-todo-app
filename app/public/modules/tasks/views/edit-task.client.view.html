@@ -20,6 +20,11 @@
 							</select>
 						</div>
 					</div>
+					<div class="checkbox" data-ng-show="task.isATemplate">
+						<label for="isATemplate" >
+							<input type="checkbox" data-ng-model="task.withUpdatingTemplate" id="isATemplate">Update template
+						</label>
+					</div>
 					<div class="checkbox">
 						<label for="withoutDates">
 							<input type="checkbox" id="withoutDates" data-ng-model="task.withoutDates"

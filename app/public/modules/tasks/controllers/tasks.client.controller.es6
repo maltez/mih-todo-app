@@ -53,8 +53,10 @@ class TasksController {
 
 // Tasks controller
 angular.module('tasks').controller('TasksController',
-	['$scope', '$rootScope', '$stateParams', '$location', 'Authentication', 'Tasks', 'Users', '$timeout', 'Algorithm', 'Slots',
-		function($scope, $rootScope, $stateParams, $location, Authentication, Tasks, Users, $timeout, Algorithm, Slots) {
+	['$scope', '$rootScope', '$stateParams', '$location', 'Authentication', 'Tasks', 'Users', '$timeout', 'Algorithm',
+		'Slots', 'Notification',
+		function($scope, $rootScope, $stateParams, $location, Authentication, Tasks, Users, $timeout, Algorithm,
+				 Slots, Notification) {
 			$scope.authentication = Authentication;
 			$scope.isATemplate = false;
 			$scope.user = Authentication.user;
@@ -237,6 +239,27 @@ angular.module('tasks').controller('TasksController',
 				});
 			};
 
+			var updateTaskTemplate = function updateTaskTemplate(model) {
+				var user = new Users($scope.user);
+
+				user.templates.forEach(function (current, index, arr) {
+					if (current.taskId && current.taskId === model._id) {
+						for (var name in model) {
+							if (current.hasOwnProperty(name) && name !== '_id') {
+								arr[index][name] = model[name];
+							}
+
+						}
+					}
+				});
+
+				user.$update(function (response) {
+					Authentication.user = response;
+				}, function (err) {
+					return console.error(err);
+				});
+			};
+
 			var saveTask = (model) => {
 				return new Promise(resolve => {
 					var task = new Tasks(model);
@@ -246,18 +269,20 @@ angular.module('tasks').controller('TasksController',
 					}
 
 					task.$save((response) => {
-						var days;
-
-						$scope.daysRange.map(day => {
-							day.bookSlot(response._id);
-							day.bookedSlots.sort((a, b) => a.priority - b.priority);
-							return day;
-						});
-
-						days = new Days($scope.daysRange);
-						days.$save(resolve);
+						// var days;
+						$scope.newTask.taskId = response._id;
+						resolve();
+						// $scope.daysRange.map(day => {
+						// 	day.bookSlot(response._id);
+						// 	day.bookedSlots.sort((a, b) => a.priority - b.priority);
+						// 	return day;
+						// });
+                        //
+						// days = new Days($scope.daysRange);
+						// days.$save(resolve);
 					}, (errorResponse) => {
 						$scope.validationError = errorResponse.data.message.errors;
+						Notification.error(`Error! ${errorResponse.data.message.errors.title.message}`);
 					});
 				});
 			};
@@ -296,20 +321,23 @@ angular.module('tasks').controller('TasksController',
 			var clearSlotsList = () => {
 				if($scope.daysRange && $scope.daysRange.length){
 					$scope.daysRange = [];
+					Notification.info("Don't forget to generate slots");
 				}
 			};
 
 			$scope.create = (task) => {
 				if (task) {
-					var queries = [saveTask(task)];
-
-					if (task.isATemplate) { //Add task to user templates
-						queries.push(saveTaskAsTemplate(task));
-					}
-
+					var queries = [
+						saveTask(task).then(function () {
+							if ($scope.newTask.isATemplate) {
+								saveTaskAsTemplate(task);
+							}
+						})
+					];
 					Promise.all(queries).then(() => {
 						$location.path('/');
 						$rootScope.$broadcast('NEW_TASK_MODIFY');
+						Notification.success(`"Task ${task.title}" was successfully created`);
 					});
 				} else {
 					console.error("Error. Task is not defined");
@@ -326,6 +354,7 @@ angular.module('tasks').controller('TasksController',
 						$location.path('/');
 					});
 					$rootScope.$broadcast('NEW_TASK_MODIFY');
+					Notification.success(`"Task ${task.title}" was successfully removed`);
 				} else {
 					console.error("Error. Task is not defined");
 				}
@@ -334,10 +363,15 @@ angular.module('tasks').controller('TasksController',
 			$scope.update = (task) => {
 				if (task) {
 					task.$update(() => {
+						if (task.isATemplate && task.withUpdatingTemplate) {
+							updateTaskTemplate(task);
+						}
 						$location.path('tasks/' + task._id);
 						$rootScope.$broadcast('NEW_TASK_MODIFY');
+						Notification.success(`"Task ${task.title}" was successfully updated`);
 					}, (errorResponse) => {
 						$scope.error = errorResponse.data.message;
+						Notification.error(`"Error! ${errorResponse.data.message.errors.title.message}`);
 					});
 				} else {
 					console.error("Error. Task is not defined");

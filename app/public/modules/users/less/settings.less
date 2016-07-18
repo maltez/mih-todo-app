@@ -20,6 +20,16 @@
 		margin-bottom: 40px;
 	}
 
+
+	// hide 'x' icon (useless, but occupies space)
+	input::-webkit-clear-button {
+		display: none;
+	}
+
+	.booked-time .btn {
+		margin-top: 1.7em;
+	}
+
 	.btn-file {
 		position: relative;
 		overflow: hidden;
@@ -47,7 +57,11 @@
 	.working-days {
 		label {
 			padding-right: 0;
-			text-align: right;
+			text-transform: capitalize;
+		}
+
+		.day-label {
+			margin-top: 2em;
 		}
 
 		input[type="checkbox"] {
@@ -57,7 +71,6 @@
 		//TODO: refactor user settings bootstrap form from horizontal to inline
 		.working-from-wrapper {
 			position: relative;
-			right: -30px;
 		}
 	}
 }

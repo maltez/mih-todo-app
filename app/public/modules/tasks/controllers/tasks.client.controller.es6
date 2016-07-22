@@ -230,7 +230,7 @@ angular.module('tasks').controller('TasksController',
 				return new Promise(resolve => {
 					var user = new Users($scope.user);
 
-					user.templates.push(model);
+				user.taskTemplates.push(model);
 
 					user.$update(response => {
 						Authentication.user = response;

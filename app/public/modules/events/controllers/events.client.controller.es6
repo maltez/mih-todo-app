@@ -1,11 +1,15 @@
 'use strict';
 
 // Events controller
-angular.module('events').controller('EventsController', ['$scope', '$rootScope', '$stateParams', '$location', 'Events',
-	function ($scope, $rootScope, $stateParams, $location, Events) {
+angular.module('events').controller('EventsController', ['$scope', '$rootScope', '$stateParams', '$location', 'Users', 'Authentication', 'Events',
+	function ($scope, $rootScope, $stateParams, $location, Users, Authentication,  Events) {
 		$rootScope.$broadcast('setAsideCategory', 'todo');
 
+		$scope.authentication = Authentication;
+
+		$scope.user = Authentication.user;
 		var currentDate = new Date(),
+			predefinedEventType = $location.search().event,
 			defaultEventData = {
 				startDate : currentDate,
 				endDate : currentDate,
@@ -16,6 +20,36 @@ angular.module('events').controller('EventsController', ['$scope', '$rootScope',
 				validationError : undefined,
 				notes : undefined
 			};
+		
+		$scope.eventData = JSON.parse(JSON.stringify(defaultEventData));
+		
+		$scope.loadEventTemplate = (selectedTemplate) => {
+			if (selectedTemplate) {
+				$.extend($scope.eventData, selectedTemplate);
+				$scope.eventData.type = 'event';
+			} else {
+				$scope.eventData = angular.copy(defaultEventData);
+			}
+		};
+		
+		$scope.loadPredefinedEvent = () => {
+			if (predefinedEventType) {
+				user.eventTemplates.forEach(template  => {
+					if (template.type === predefinedEventType) {
+						$scope.loadEventTemplate(template);
+						$scope.selectedTemplate = template;
+					}
+				});
+			}
+		};
+
+		$scope.loadPredefinedEvent();
+
+		$scope.$on('$locationChangeSuccess', function(event) {
+			predefinedEventType = $location.search().event;
+			$scope.loadPredefinedEvent();
+		});
+
 		$scope.datepicker = {
 			options : {
 				'year-format': 'yy',
@@ -37,13 +71,28 @@ angular.module('events').controller('EventsController', ['$scope', '$rootScope',
 			$scope.datepicker[closedDatepicker].isOpened = false;
 		};
 
-		$scope.eventData = JSON.parse(JSON.stringify(defaultEventData));
+		var saveEventAsTemplate = () => {
+			return new Promise(resolve => {
+				var user = new Users($scope.user);
+
+				user.eventTemplates.push($scope.eventData);
+
+				user.$update(response => {
+					Authentication.user = response;
+					resolve();
+				}, err => console.error(err));
+			});
+		};
+
 		$scope.createEvent = function() {
 			if (!$scope.eventData.title){
 				$scope.eventData.validationError = {
 					message : 'Please fill the Title'
 				};
 				return;
+			}
+			if ($scope.eventData.isATemplate) {
+				saveEventAsTemplate();
 			}
 			var event = new Events ({
 				title: $scope.eventData.title,
@@ -57,6 +106,7 @@ angular.module('events').controller('EventsController', ['$scope', '$rootScope',
 				withoutDates: $scope.eventData.withoutDates
 			});
 			event.$save(function() {
+				$location.search('');
 				$location.path('/');
 			}, function(err) {
 				$scope.eventData.validationError  = err.data.message.errors.title;
@@ -80,13 +130,16 @@ angular.module('events').controller('EventsController', ['$scope', '$rootScope',
 		};
 		$scope.deleteEvent = function() {
 			$scope.event.$remove(function() {
+				$location.search('');
 				$location.path('/');
 			});
 		};
 		$scope.closeEventForm = function (){
+			$location.search('');
 			$location.path('/');
 		};
 		$scope.clearFormData = function() {
+			$scope.selectedTemplate = null;
 			$scope.eventData =  JSON.parse(JSON.stringify(defaultEventData));
 		};
 	}]);

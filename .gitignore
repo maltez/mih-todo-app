@@ -1,6 +1,7 @@
 
 # User-specific stuff:
 .idea/
+.vagrant/
 
 # Node and related ecosystem
 # ==========================

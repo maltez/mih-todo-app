@@ -82,16 +82,6 @@ var ActivitySchema = new Schema(_.extend({
 			default: ''
 		}
 	},
-	overdueEmailStats: {
-		sentAt: {
-			type: Date,
-			default: ''
-		},
-		sentCounter: {
-			type: Number,
-			default: 0
-		}
-	},
 	notes: {
 		type: String,
 		default: '',

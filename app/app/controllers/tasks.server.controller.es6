@@ -9,6 +9,11 @@ var mongoose = require('mongoose'),
 	Task = mongoose.model('Activity'),
 	_ = require('lodash');
 
+var emailNotifications = require('./notifications-by-email.server.controller.es6');
+// collect all future tasks and schedule email notification
+// TODO: where to place this call - to be called once (as is here)?
+emailNotifications.scheduleExpirationReminderFor_AllKnownFutureTasks();
+
 /**
  * Create a Task
  */
@@ -16,12 +21,16 @@ exports.create = function(req, res) {
 	var task = new Task(req.body);
 	task.user = req.user;
 
+	// TODO: temp hack for demo - move deadline few seconds forward into future
+	task.days.endTime = new Date( +task.days.endTime + 20/*s*/ * 1000/*ms*/ );
+
 	task.save(function(err) {
 		if (err) {
 			return res.status(400).send({
 				message: err
 			});
 		} else {
+			emailNotifications.scheduleExpirationReminderFor_OneTask(task);
 			res.jsonp(task);
 		}
 	});

@@ -22,7 +22,13 @@ exports.signup = function (req, res) {
 
 	// Add missing user fields
 	user.provider = 'local';
-
+	user.eventTemplates = [{
+		type : 'sick',
+		title : 'Sick leave'
+	}, {
+		type : 'vacation',
+		title : 'Vacation'
+	}];
 	// Then save the user
 	user.save(function (err) {
 		if (err) {

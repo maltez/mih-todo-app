@@ -1,23 +1,101 @@
-<section data-ng-controller="TasksController" data-ng-init="findOne()">
-    <div class="page-header">
-        <h1>Edit Task</h1>
-    </div>
-    <div class="col-md-12">
-        <form class="form-horizontal" data-ng-submit="update()" novalidate>
-            <fieldset>
-                <div class="form-group">
-                    <label class="control-label" for="title">Name</label>
-                    <div class="controls">
-                        <input type="text" data-ng-model="title" id="title" class="form-control" placeholder="Title" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Update" class="btn btn-default">
-                </div>
-				<div data-ng-show="error" class="text-danger">
-					<strong data-ng-bind="error"></strong>
+<div class="wrapper-content clearfix" data-ng-controller="TasksController" data-ng-init="editMode()">
+	<form name="taskForm" novalidate>
+		<div class="row">
+			<div class="col-md-7 col-sm-6 col-xs-12">
+				<div class="row">
+					<div class="col-md-4 col-sm-12">
+						<div class="form-group">
+							<label class="field-label" for="title">Title*</label>
+							<input type="text" id="title" name="title" class="form-control" placeholder="Title"
+								   data-ng-model="task.title" required>
+							<div data-ng-show="taskForm.title.$error.required" class="error-message">
+								<p class="help-block error-text">Please fill Task title</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="field-label" for="priority">Priority*</label>
+							<div data-ng-class="'item-priority-' + task.priority">
+								<select name="priority" id="priority" class="form-control item-priority"
+										data-ng-model="task.priority" data-ng-change="clearSlotsList()">
+									<option value="1" class="item-priority-1">Urgent and Important</option>
+									<option value="2" class="item-priority-2">Not Urgent but Important</option>
+									<option value="3" class="item-priority-3">Urgent but not Important</option>
+									<option value="4" class="item-priority-4">Not Urgent and not Important</option>
+								</select>
+							</div>
+						</div>
+						<div class="checkbox">
+							<label for="withoutDates">
+								<input type="checkbox" id="withoutDates" data-ng-model="task.withoutDates"
+									   data-ng-change="clearSlotsList();">Task without date
+							</label>
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-12">
+						<div class="form-group">
+							<label class="field-label" for="startDate">Start date</label>
+							<div class="input-group ui-datepicker">
+					<span class="input-group-addon calendar-btn" data-ng-click="!task.withoutDates && openStart($event)">
+						<i class="fa fa-calendar"></i>
+					</span>
+								<input type="text" id="startDate" class="form-control calendar-input"
+									   data-ng-model="task.days.startTime" data-ng-click="openStart($event)"
+									   data-ng-change="changeEstimation()" data-ng-disabled="task.withoutDates"
+									   datepicker-popup="dd.MM.yyyy" is-open="opened.startDate" min-date="startDate.minDate"
+									   max-date="startDate.maxDate" datepicker-options="dateOptions.startDate"
+									   date-disabled="disabled(date, mode)" close-text="Close" required/>
+							</div>
+							<!--<timepicker class="select-time" ng-model="task.startTime" minute-step="15" show-meridian="true"></timepicker>-->
+						</div>
+						<div class="form-group">
+							<label class="field-label" for="endDate">End date</label>
+							<div class="input-group ui-datepicker">
+					<span class="input-group-addon calendar-btn" data-ng-click="!task.withoutDates && openEnd($event)">
+						<i class="fa fa-calendar"></i>
+					</span>
+								<input type="text" id="endDate" class="form-control calendar-input"
+									   data-ng-model="task.days.endTime" data-ng-click="openEnd($event)"
+									   data-ng-change="changeEstimation()" data-ng-disabled="task.withoutDates"
+									   datepicker-popup="dd.MM.yyyy" is-open="opened.endDate" min-date="endDate.minDate"
+									   max-date="endDate.maxDate" datepicker-options="dateOptions.endDate"
+									   date-disabled="disabled(date, mode)" close-text="Close" required/>
+							</div>
+							<!--<timepicker class="select-time" ng-model="task.endTime" minute-step="15" show-meridian="true"></timepicker>-->
+						</div>
+						<div class="form-group">
+							<label class="field-label" for="estimation">Estimation*</label>
+							<rzslider rz-slider-model="task.estimation" rz-slider-options="slider.options"></rzslider>
+							<input type="number" id="estimation" data-ng-model="task.estimation" data-ng-change="clearSlotsList()"
+								   data-ng-pattern="/^\d+$/" min="{{slider.options.floor}}" max="{{slider.options.ceil}}">
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-12">
+						<div class="form-group">
+							<label class="field-label" for="notes">Notes</label>
+							<textarea id="notes" class="form-control" data-ng-model="task.notes"></textarea>
+						</div>
+					</div>
 				</div>
-            </fieldset>
-        </form>
-    </div>
-</section>
+			</div>
+			<div class="col-md-5 col-sm-6 col-xs-12">
+				<div class="row">
+					<div class="col-md-8 col-sm-12">
+						<task-slots data-ng-init="getSlotsByTask()"></task-slots>
+					</div>
+					<div class="col-md-4 col-sm-12">
+						progress
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 text-right">
+				<button class="btn btn-default" data-ng-click="cancel()">Cancel</button>
+				<button class="btn btn-danger" data-ng-click="remove(task)">Delete</button>
+				<button class="btn btn-primary" data-ng-click="update(task)">Update</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div ng-include="'/modules/calendar/views/calendar.client.view.html'"></div>

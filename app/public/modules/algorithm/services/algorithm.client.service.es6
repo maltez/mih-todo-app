@@ -7,6 +7,14 @@ class TimeSlot {
 	}
 }
 
+class Slot {
+	constructor(duration, priority, dayId) {
+		this.duration = duration;
+		this.priority = parseInt(priority, 10);
+		this.startTime = new Date(dayId);
+	}
+}
+
 class Day {
 	static get daysMap() {
 		return { 0: 'sun', 1: 'mon', 2: 'tue', 3: 'wed', 4: 'thu',  5: 'fri', 6: 'sat' };
@@ -81,62 +89,30 @@ class Algorithm {
 	}
 
 	generateSlots(startDate, endDate, priority, estimation) {
-		//New request
-		/*this.AlgorithmServer.get({
-			q: 'free-time',
-			start: startDate,
-			end: endDate
-		}, daysData => {
-			console.log(daysData);
-		});*/
-
 		startDate.setHours(0,0,0,0);
 		endDate.setHours(0,0,0,0);
 
 		return new Promise(resolve => {
-			this.Days.query({startDate: startDate.toUTCString(), endDate: endDate.toUTCString()}, days => {
-				this.fillEmptyDaysRange(startDate, endDate, days);
-				this.getSuitableSlots(priority, estimation);
+			/*
+			* this.Days.query({startDate: startDate.toUTCString(), endDate: endDate.toUTCString()}, days => {
+			 this.fillEmptyDaysRange(startDate, endDate, days);
+			 this.getSuitableSlots(priority, estimation);
+			 resolve(this.daysRange);
+			 });
+			* */
+			this.AlgorithmServer.get({
+				q: 'free-time', 
+				start: startDate,
+			 	end: endDate
+			}, daysData => {
+				this.daysRange = daysData.data;
+				this.getDaysRecommendations(priority, estimation);
 				resolve(this.daysRange);
 			});
 		});
 	}
 
-	fillEmptyDaysRange(from, to, days) {
-		var daysRange = {},
-			startDate = new Date(from),
-			userSettings = this.user.predefinedSettings;
-
-		days.forEach(day => {
-			daysRange[new Date(day.date)] = new Day(day);
-			daysRange[new Date(day.date)]._id = day._id;
-		});
-
-		while(startDate <= to) {
-			if (!daysRange[startDate]) {
-				let day = new Day({
-					date: new Date(startDate)
-				});
-
-				if (day.settings.isWorkingDay) {
-					daysRange[startDate] = day;
-				}
-			}
-
-			startDate = new Date(startDate.setDate(startDate.getDate() + 1));
-		}
-
-		this.daysRange = daysRange;
-	}
-
-	// Filter days with no freeTime. Can't filter on server side, because we need to know days that are already exist in DB
-	filterFullDays (days) {
-		angular.forEach(days, function(day, key) {
-			if (day.freeTime === 0) {
-				delete days[key];
-			}
-		});
-	}
+	
 
 	getBalancedRecommendations (data) {
 		var estimation = data.estimation,
@@ -145,7 +121,7 @@ class Algorithm {
 			recommendations = {},
 			balancedDuration, extraHours;
 
-		availableHoursPerDay.sort((a, b) => a.freeTime != b.freeTime ? b.freeTime - a.freeTime : Date(b.date) - (a.date));
+		availableHoursPerDay.sort((a, b) => a.freeTime != b.freeTime ? b.freeTime - a.freeTime : Date(b.date) - Date(a.date));
 		balancedDuration = (Math.floor(estimation / availableDaysAmount * 2) / 2).toFixed(2); // Round to the nearest 0.5
 		extraHours = estimation - availableDaysAmount * balancedDuration;
 
@@ -176,7 +152,7 @@ class Algorithm {
 			dayIndex = dayIndex < availableDaysAmount-1 ? dayIndex + 1 : 0;
 		}
 
-		availableHoursPerDay.sort((a, b) => a.date - b.date);
+		availableHoursPerDay.sort((a, b) => Date(a.date) - Date(b.date));
 		availableHoursPerDay.map(function(day, dayIndex) {
 			day.proposedSlotDuration = arrayWithRecommendations[dayIndex];
 			recommendations[day.date] = arrayWithRecommendations[dayIndex];
@@ -186,28 +162,27 @@ class Algorithm {
 		return recommendations;
 	}
 
-	getSuitableDays (recommendations, priority) {
-		var suitableDays = [];
+	getSuitableSlots (recommendations, priority) {
+		var suitableSlots = [],
+			slot;
 		Object.keys(this.daysRange).forEach(dayId => {
 			let day = this.daysRange[dayId],
-				slotDuration = recommendations[day.date];
+				slotDuration = recommendations[dayId];
 			if (!!slotDuration) {
-				day.reserveSlot(slotDuration, priority);
-				suitableDays.push(day);
+				slot = new Slot(slotDuration, priority, dayId);
+				suitableSlots.push(slot);
 			}
 		});
 
-		return suitableDays;
+		return suitableSlots;
 	}
 
-	getSuitableSlots(priority, estimation) {
-
-		this.filterFullDays(this.daysRange);
+	getDaysRecommendations(priority, estimation) {
 
 		var availableHoursPerDay = Object.keys(this.daysRange).map(dayId => {
 				return {
-					freeTime: parseInt(this.daysRange[dayId].freeTime, 10),
-					date: this.daysRange[dayId].date
+					freeTime: this.daysRange[dayId].reduce((prev,cur) => prev + cur.duration, 0),
+					date: dayId
 				}
 			}),
 			availableHoursTotal = availableHoursPerDay.reduce((prev, cur) => prev + cur.freeTime, 0),
@@ -231,7 +206,7 @@ class Algorithm {
 			// Negative branch
 
 		}
-		this.daysRange = this.getSuitableDays(recommendations, priority);
+		this.daysRange = this.getSuitableSlots(recommendations, priority);
 	}
 
 	static timeToMinutes(time) {

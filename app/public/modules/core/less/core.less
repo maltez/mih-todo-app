@@ -21,7 +21,7 @@ a {
 }
 
 textarea {
-  resize: none;
+  resize: vertical;
 }
 
 .page-wrapper {
@@ -116,6 +116,7 @@ textarea {
 .main-content {
 	transition: margin .6s;
 	position: relative;
+  	height: 100%;
 	z-index: 2;
 
 	&.with-sidebar {
@@ -171,6 +172,12 @@ textarea {
 
 .navbar {
   background: #fff;
+
+  .top-link {
+	&:hover {
+	  color: #1ab394;
+	}
+  }
 }
 
 .navbar-right i{

@@ -7,7 +7,8 @@
 var mongoose = require('mongoose'),
 	Schema = mongoose.Schema,
 	crypto = require('crypto'),
-	taskTemplate = require('./activity.server.model').taskTemplate;
+	taskTemplate = require('./activity.server.model').taskTemplate,
+	eventTemplate = require('./activity.server.model').eventTemplate;
 
 /**
  * A Validation function for local strategy properties
@@ -103,9 +104,8 @@ var UserSchema = new Schema({
 			required: 'Please fill in a reminder time'
 		}
 	},
-
-	templates: [taskTemplate],
-
+	taskTemplates: [taskTemplate],
+	eventTemplates : [eventTemplate],
 	/*system fields*/
 	salt: {
 		type: String

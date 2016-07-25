@@ -29,6 +29,25 @@ var taskTemplate = {
 	}
 };
 
+var eventTemplate = {
+	title: {
+		type: String,
+		default: '',
+		required: 'Please fill Event title',
+		trim: true
+	},
+	notes: {
+		type: String,
+		default: '',
+		trim: true
+	},
+	type: {
+		type: String,
+		default: '',
+		trim: true
+	}
+};
+
 /**
  * Activity Schema
  */
@@ -61,6 +80,16 @@ var ActivitySchema = new Schema(_.extend({
 		endTime : {
 			type: Date,
 			default: ''
+		}
+	},
+	overdueEmailStats: {
+		sentAt: {
+			type: Date,
+			default: ''
+		},
+		sentCounter: {
+			type: Number,
+			default: 0
 		}
 	},
 	notes: {
@@ -127,4 +156,6 @@ var ActivitySchema = new Schema(_.extend({
 }, taskTemplate));
 
 mongoose.model('Activity', ActivitySchema);
+
 exports.taskTemplate = taskTemplate;
+exports.eventTemplate = eventTemplate;

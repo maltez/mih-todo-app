@@ -1,4 +1,4 @@
-<div class="wrapper create-task-wrapper row clearfix" data-ng-controller="TasksController">
+<div class="wrapper create-task-wrapper row clearfix" data-ng-controller="TasksController" data-ng-init="createMode()">
 	<form class="form-horizontal" novalidate>
 		<fieldset>
 			<div class="row">
@@ -28,7 +28,7 @@
 								<div class="field-group">
 									<label class="field-label" for="priority">Priority*</label>
 									<div data-ng-class="'item-priority-' + newTask.priority">
-										<select name="priority" id="priority" class="form-control item-priority" data-ng-model="newTask.priority">
+										<select name="priority" id="priority" class="form-control item-priority" data-ng-model="newTask.priority"  data-ng-change="clearSlotsList()">
 											<option value="1" class="item-priority-1">Urgent and Important</option>
 											<option value="2" class="item-priority-2">Not Urgent but Important</option>
 											<option value="3" class="item-priority-3">Urgent but not Important</option>
@@ -40,13 +40,13 @@
 									</div>
 								</div>
 								<div class="checkbox">
-									<label for="saveAsDraft">
-										<input type="checkbox" data-ng-model="newTask.saveAsDraft" id="saveAsDraft">Save as template
+									<label for="isATemplate">
+										<input type="checkbox" data-ng-model="newTask.isATemplate" id="isATemplate">Save as template
 									</label>
 								</div>
 								<div class="checkbox">
-									<label for="withOutDate">
-										<input type="checkbox" data-ng-model="newTask.withOutDate" id="withOutDate">Task without date
+									<label for="withoutDates">
+										<input type="checkbox" data-ng-model="newTask.withoutDates" data-ng-change="clearSlotsList()" id="withoutDates">Task without date
 									</label>
 								</div>
 							</div>
@@ -54,12 +54,11 @@
 								<div class="field-group">
 									<label class="field-label" for="startDate">Start date</label>
 									<div class="input-group ui-datepicker">
-										<span ng-class="{disabled: newTask.withOutDate}"
-											  class="input-group-addon calendar-btn" ng-click="openStart($event)">
+										<span class="input-group-addon calendar-btn" data-ng-click="!newTask.withoutDates && openStart($event)">
 											<i class="fa fa-calendar"></i>
 										</span>
 
-										<input id="startDate" data-ng-disabled="newTask.withOutDate" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy"
+										<input id="startDate" data-ng-disabled="newTask.withoutDates" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy"
 											   data-ng-model="newTask.days.startTime" is-open="opened.startDate" min-date="startDate.minDate" max-date="startDate.maxDate"
 											   datepicker-options="dateOptions.startDate" date-disabled="disabled(date, mode)"
 											   close-text="Close"
@@ -71,12 +70,12 @@
 								<div class="field-group form-group-time-select">
 									<label class="field-label" for="endDate">End date</label>
 									<div class="input-group ui-datepicker">
-										<span  ng-class="{disabled: newTask.withOutDate}"
-											   class="input-group-addon calendar-btn" ng-click="openEnd($event)">
+										<span  class="input-group-addon calendar-btn"
+											   data-ng-click="!newTask.withoutDates && openEnd($event)">
 											<i class="fa fa-calendar"></i>
 										</span>
 
-										<input id="endDate" data-ng-disabled="newTask.withOutDate" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy"
+										<input id="endDate" data-ng-disabled="newTask.withoutDates" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy"
 											   data-ng-model="newTask.days.endTime" is-open="opened.endDate" min-date="endDate.minDate" max-date="endDate.maxDate"
 											   datepicker-options="dateOptions.endDate" date-disabled="disabled(date, mode)"
 											   close-text="Close"
@@ -86,20 +85,20 @@
 									<!--<timepicker class="select-time" ng-model="newTask.endTime" minute-step="15" show-meridian="true"></timepicker>-->
 								</div>
 								<div class="field-group">
-									<label class="field-label" for="estimation">Estimation (hours)</label>
+									<label class="field-label" for="estimation">Estimation*</label>
 									<div>
 										<rzslider rz-slider-model="newTask.estimation"
 												  rz-slider-options="slider.options">
 										</rzslider>
 										<input type="number" id="estimation" min="{{slider.options.floor}}" max="{{slider.options.ceil}}"
-											   ng-model="newTask.estimation" data-ng-pattern="/^\d+$/">
+											   ng-model="newTask.estimation" data-ng-change="clearSlotsList()" data-ng-pattern="/^\d+$/">
 									</div>
 								</div>
 							</div>
 							<div class="col-md-4 col-sm-12">
 								<div class="field-group">
 									<label class="field-label" for="notes">Notes</label>
-									<textarea id="notes" class="form-control notes-area" data-ng-model="newTask.notes"></textarea>
+									<textarea id="notes" class="form-control" data-ng-model="newTask.notes"></textarea>
 									<div ng-show="validationError.notes" class="error">
 										{{validationError.notes.message}}
 									</div>
@@ -131,7 +130,7 @@
 			<div class="row">
 				<div class="btn-holder pull-right">
 					<button class="btn btn-white" data-ng-click="cancel()">Cancel</button>
-					<button type="submit" data-ng-click="create()" class="btn btn-primary">Create</button>
+					<button type="submit" data-ng-click="create(newTask)" class="btn btn-primary">Create</button>
 				</div>
 			</div>
 		</fieldset>

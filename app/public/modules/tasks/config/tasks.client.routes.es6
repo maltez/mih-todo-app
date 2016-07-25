@@ -18,14 +18,6 @@ angular.module('tasks').config(['$stateProvider',
 				'aside': { templateUrl: 'modules/core/views/todo.client.view.html' },
 				'': { templateUrl: 'modules/tasks/views/create-task.client.view.html' }
 			}
-
-		}).
-		state('viewTask', {
-			url: '/tasks/:taskId',
-			views: {
-				'aside': { templateUrl: 'modules/core/views/todo.client.view.html' },
-				'': { templateUrl: 'modules/tasks/views/view-task.client.view.html' }
-			}
 		}).
 		state('editTask', {
 			url: '/tasks/:taskId/edit',

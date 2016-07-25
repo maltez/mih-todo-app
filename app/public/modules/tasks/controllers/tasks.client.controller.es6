@@ -248,16 +248,22 @@ angular.module('tasks').controller('TasksController',
 					}
 
 					task.$save((response) => {
-						var days;
+						var slots;
 
-						$scope.daysRange.map(day => {
-							day.bookSlot(response._id);
-							day.bookedSlots.sort((a, b) => a.priority - b.priority);
-							return day;
+						// $scope.daysRange.map(day => {
+						// 	day.bookSlot(response._id);
+						// 	day.bookedSlots.sort((a, b) => a.priority - b.priority);
+						// 	return day;
+						// });
+                        //
+						// days = new Days($scope.daysRange);
+						// days.$save(resolve);
+						$scope.daysRange.map(slot => {
+							slot.taskId = response._id;
+							slot.title = response.title;
 						});
-
-						days = new Days($scope.daysRange);
-						days.$save(resolve);
+						slots = new Slots($scope.daysRange);
+						slots.$save(resolve);
 					}, (errorResponse) => {
 						$scope.validationError = errorResponse.data.message.errors;
 					});

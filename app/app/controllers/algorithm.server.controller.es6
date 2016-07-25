@@ -44,7 +44,8 @@ export class AlgorithmServerController {
 
 					daysRange[formatDateForKey(startDate)] = [{
 						start: start,
-						end: end
+						end: end,
+						duration : (end - start)/3600000
 					}];
 				}
 
@@ -76,8 +77,7 @@ export class AlgorithmServerController {
 					}
 				})
 			});
-
-			res.json(daysRange);
+			res.json({data : daysRange});
 		});
 	}
 }

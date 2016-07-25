@@ -9,13 +9,9 @@
 		<div class="table-responsive">
 			<table class="table table-no-tb">
 				<tr ng-repeat="item in daysRange">
-					<td>{{item.date | date: 'EEEE'}}</td>
-					<td>{{item.date | date: 'dd.MM'}}</td>
-					<td>
-						{{item.date | date: 'hh:mm'}} -
-						{{item.date | date: 'hh:mm'}}
-					</td>
-					<td>{{item.reservedSlot.duration}}h</td>
+					<td>{{item.startTime | date: 'EEEE'}}</td>
+					<td>{{item.startTime | date: 'dd.MM'}}</td>
+					<td>{{item.duration}}h</td>
 
 					<!--TODO It's just visual trick for demo-->
 					<td class="slot-controls text-right" ng-hide="done==true">

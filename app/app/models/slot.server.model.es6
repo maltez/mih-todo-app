@@ -6,8 +6,10 @@ var mongoose = require('mongoose'),
 var SlotSchema = new Schema({
 	taskId: String,
 	title: String,
-	start: Date,
-	end: Date,
+	priority : Number,
+	duration : Number,
+	startTime: Date,
+	endTime: Date,
 	overlap: false
 });
 

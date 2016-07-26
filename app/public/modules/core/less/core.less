@@ -297,26 +297,126 @@ div.ui-notification {
 }
 
 .ui-datepicker {
+	* {
+		font-weight: normal;
+	}
+	.btn {
+		border: none;
+		border-radius: 0;
+		box-shadow: none;
+	}
 	table[role='grid'] {
 		outline: none;
+		width: 100%;
 	}
 	table[role='grid']:focus {
 		outline: none;
 	}
-	.btn-default {
-		background-color: #fff;
-		color: #676A6C;
-		opacity: 1;
-		border-radius: 0;
-		&[disabled] {
-			background: #f3f3f3;
+	thead {
+		button {
+			padding: 10px 0;
+			background-color: @color-mountain-meadow;
+			width: 100%;
+
+			&:hover,
+			&:active,
+			&:hover:active {
+				background-color: darken(@color-mountain-meadow, 3%);
+			}
 		}
-		&.active {
+		th {
+			small {
+				/* workday headings */
+				display: inline-block;
+				padding: 5px 0;
+				color: @color-mountain-meadow;
+			}
+			.btn-default {
+				font-size: 0.9em;
+			}
+		}
+	}
+	thead tr:nth-child(2) th {
+		/* row: days of week */
+		height: 2.8em !important;
+	}
+	thead th,
+	tbody td {
+		small,
+		button {
+			font-size: .9em;
+		}
+
+		/* saturday and sunday headings and days */
+		&:nth-child(n+7) {
+			small,
+			span {
+				color: @color-dark-pink;
+			}
+			.active {
+				small,
+				span {
+					color: white;
+				}
+			}
+		}
+	}
+
+	[ng-click^="close()"] {
+		/* close btn (plugin template) */
+		background-color: @color-light-grey;
+
+		&:hover,
+		&:active {
+			background-color: darken(@color-light-grey, 3%);
+		}
+
+	}
+	[ng-transclude] {
+		/* calendar container (plugin template) */
+		border-bottom: 1px solid #e3e3e3;
+	}
+
+	[role="gridcell"] {
+		padding: 3px 5px;
+
+		.btn-default {
+			background-color: #fff;
+			color: #676A6C;
+			opacity: 1;
+			border-radius: 0;
+			border: none;
 			box-shadow: none;
-		}
-		.text-info {
-			color: #1ab394;
-			font-weight: bold;
+
+			padding: 0;
+			width: 2.8em !important;
+			height: 2.8em !important;
+
+			&[disabled] {
+				/* disabled day */
+
+				opacity: .35;
+			}
+			.text-info {
+				/* today */
+
+				color: #1ab394;
+				font-weight: bold;
+			}
+			&.active {
+				/* user selected day */
+
+				box-shadow: none;
+				border-radius: 50%;
+				background: @link-color;
+				color: white;
+
+				& .text-info {
+					/* override default TODAY color - ugly */
+					color: white;
+					font-weight: lighter;
+				}
+			}
 		}
 	}
 	.btn-group {
@@ -330,7 +430,8 @@ div.ui-notification {
 			display: none;
 		}
 	}
+	.text-muted {
+		opacity: .35;
+	}
 }
-
-
 

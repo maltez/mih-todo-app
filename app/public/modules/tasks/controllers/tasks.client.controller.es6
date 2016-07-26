@@ -120,15 +120,8 @@ angular.module('tasks').controller('TasksController',
 			};
 
 			$scope.dateOptions = {
-				startDate: {
-					'year-format': 'yy',
-					'starting-day': 1
-
-				},
-				endDate: {
-					'year-format': 'yy',
-					'starting-day': 1
-				}
+				startDate: {},
+				endDate: {}
 			};
 
 			$scope.getDisabledDates = (date, mode) => {

@@ -5,15 +5,25 @@
 angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfiguration.applicationModuleVendorDependencies);
 
 // Setting HTML5 Location Mode
-angular.module(ApplicationConfiguration.applicationModuleName).config(['$locationProvider', 'NotificationProvider',
-	function ($locationProvider, NotificationProvider) {
+angular.module(ApplicationConfiguration.applicationModuleName)
+	.config(['$locationProvider', 'NotificationProvider',
+		function ($locationProvider, NotificationProvider) {
 		$locationProvider.hashPrefix('!');
 
 		NotificationProvider.setOptions({
 			positionX: 'center',
 			positionY: 'top'
 		});
-	}]);
+	}])
+	.config(function (datepickerConfig) {
+		// http://stackoverflow.com/questions/20678009/remove-week-column-and-button-from-angular-ui-bootstrap-datepicker
+		datepickerConfig.showWeeks = false;
+		datepickerConfig.formatYear = 'yy';
+		datepickerConfig.formatMonth = 'MMM';
+		datepickerConfig.formatDay = 'd';
+		datepickerConfig.startingDay = 1;
+	})
+;
 
 //Then define the init function for starting up the application
 angular.element(document).ready(function () {

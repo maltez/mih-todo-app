@@ -51,10 +51,6 @@ angular.module('events').controller('EventsController', ['$scope', '$rootScope',
 		});
 
 		$scope.datepicker = {
-			options : {
-				'year-format': 'yy',
-				'starting-day': 1
-			},
 			currentDate : currentDate,
 			startDate : {
 				isOpened : false

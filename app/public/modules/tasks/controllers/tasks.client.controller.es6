@@ -190,7 +190,7 @@ angular.module('tasks').controller('TasksController',
 				});
 
 				$scope.getSlotsByTask = () => {
-					$scope.daysRange = getSlotsByTask();
+					$scope.slotsRange = getSlotsByTask();
 				};
 
 				$scope.generateSlots = () => {
@@ -242,20 +242,13 @@ angular.module('tasks').controller('TasksController',
 
 					task.$save((response) => {
 						var slots;
-
-						// $scope.daysRange.map(day => {
-						// 	day.bookSlot(response._id);
-						// 	day.bookedSlots.sort((a, b) => a.priority - b.priority);
-						// 	return day;
-						// });
-                        //
-						// days = new Days($scope.daysRange);
-						// days.$save(resolve);
-						$scope.daysRange.map(slot => {
+						
+						$scope.slotsRange.map(slot => {
 							slot.taskId = response._id;
 							slot.title = response.title;
+							slot.className = "task";
 						});
-						slots = new Slots($scope.daysRange);
+						slots = new Slots($scope.slotsRange);
 						slots.$save(resolve);
 					}, (errorResponse) => {
 						$scope.validationError = errorResponse.data.message.errors;
@@ -265,9 +258,9 @@ angular.module('tasks').controller('TasksController',
 
 			var getNewSlots = (model) => {
 				Algorithm.generateSlots(model.days.startTime, model.days.endTime, model.priority, model.estimation,
-					$scope.user.predefinedSettings.workingHours).then((daysRange) => {
+					$scope.user.predefinedSettings.workingHours).then((slotsRange) => {
 					$timeout(() => {
-						return $scope.daysRange = daysRange;
+						return $scope.slotsRange = slotsRange;
 					});
 				});
 			};
@@ -295,8 +288,8 @@ angular.module('tasks').controller('TasksController',
 			};
 
 			var clearSlotsList = () => {
-				if($scope.daysRange && $scope.daysRange.length){
-					$scope.daysRange = [];
+				if($scope.slotsRange && $scope.slotsRange.length){
+					$scope.slotsRange = [];
 					Notification.info("Don't forget to generate slots");
 				}
 			};

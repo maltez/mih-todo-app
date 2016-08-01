@@ -5,12 +5,12 @@
 	</div>
 	<div class="ibox-content">
 
-		<div class="text-center info-msg" ng-if="!daysRange.length">Please, click to <i class="fa fa-refresh" aria-hidden="true"></i> to generate slots with subtasks</div>
+		<div class="text-center info-msg" ng-if="!slotsRange.length">Please, click to <i class="fa fa-refresh" aria-hidden="true"></i> to generate slots with subtasks</div>
 		<div class="table-responsive">
 			<table class="table table-no-tb">
-				<tr ng-repeat="item in daysRange">
-					<td>{{item.startTime | date: 'EEEE'}}</td>
-					<td>{{item.startTime | date: 'dd.MM'}}</td>
+				<tr ng-repeat="item in slotsRange">
+					<td>{{item.start | date: 'EEEE'}}</td>
+					<td>{{item.start | date: 'dd.MM'}}</td>
 					<td>{{item.duration}}h</td>
 
 					<!--TODO It's just visual trick for demo-->

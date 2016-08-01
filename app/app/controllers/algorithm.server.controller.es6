@@ -14,12 +14,12 @@ export class AlgorithmServerController {
 		var start = new Date(req.query.start),
 			end = new Date(req.query.end);
 
-		start.setHours(0, 0, 0, 0);
-		end.setHours(24, 0, 0, 0);
+		start.setHours(0, 0, 0);
+		end.setHours(23, 59, 0);
 
 		Slot.find({
-			start: {$gte: start},
-			end: {$lte: end}
+			start: {$gte: start.toUTCString()},
+			end: {$lte: end.toUTCString()}
 		}).exec((err, slots) => {
 			if(err) {
 				return res.status(400).send({
@@ -27,7 +27,7 @@ export class AlgorithmServerController {
 				});
 			}
 
-			var daysRange = {};
+			var slotsRange = {};
 
 			//Create day maps
 			var	startDate = new Date(start);
@@ -42,7 +42,7 @@ export class AlgorithmServerController {
 					let end = new Date(startDate);
 					end.setMinutes(timeToMinutes(dayOptions.end));
 
-					daysRange[formatDateForKey(startDate)] = [{
+					slotsRange[formatDateForKey(startDate)] = [{
 						start: start,
 						end: end,
 						duration : (end - start)/3600000
@@ -54,7 +54,7 @@ export class AlgorithmServerController {
 
 			//Calculate free time left for days
 			slots.forEach(slot => {
-				let dayTime = daysRange[formatDateForKey(slot.start)];
+				let dayTime = slotsRange[formatDateForKey(slot.start)];
 
 				dayTime.forEach((time, index) => {
 					//Set Date to ISODate
@@ -77,7 +77,7 @@ export class AlgorithmServerController {
 					}
 				})
 			});
-			res.json({data : daysRange});
+			res.json({data : slotsRange});
 		});
 	}
 }

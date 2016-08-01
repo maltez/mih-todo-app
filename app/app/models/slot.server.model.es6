@@ -5,11 +5,13 @@ var mongoose = require('mongoose'),
 
 var SlotSchema = new Schema({
 	taskId: String,
+	eventId: String,
 	title: String,
-	priority : Number,
-	duration : Number,
-	startTime: Date,
-	endTime: Date,
+	priority: Number,
+	duration: Number,
+	start: Date,
+	end: Date,
+	className: String,
 	overlap: false
 });
 

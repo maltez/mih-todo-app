@@ -11,7 +11,8 @@ class Slot {
 	constructor(duration, priority, dayId) {
 		this.duration = duration;
 		this.priority = parseInt(priority, 10);
-		this.startTime = new Date(dayId);
+		this.start = (new Date(dayId)).setHours(0, 0, 0);
+		this.end = (new Date(dayId)).setHours(23, 59, 0);
 	}
 }
 
@@ -67,7 +68,7 @@ class Algorithm {
 		this.Slots = Slots;
 		this.user = Authentication.user;
 		this.AlgorithmServer = AlgorithmServer;
-		this.daysRange = [];
+		this.slotsRange = [];
 		this.priorityConfig = {
 			"1" : 	{
 				recommendedDuration : 3,
@@ -93,27 +94,31 @@ class Algorithm {
 		endDate.setHours(0,0,0,0);
 
 		return new Promise(resolve => {
-			/*
-			* this.Days.query({startDate: startDate.toUTCString(), endDate: endDate.toUTCString()}, days => {
-			 this.fillEmptyDaysRange(startDate, endDate, days);
-			 this.getSuitableSlots(priority, estimation);
-			 resolve(this.daysRange);
-			 });
-			* */
+
 			this.AlgorithmServer.get({
-				q: 'free-time', 
+				q: 'free-time',
 				start: startDate,
-			 	end: endDate
-			}, daysData => {
-				this.daysRange = daysData.data;
+				end: endDate
+			}, res => {
+				this.slotsRange = res.data;
 				this.getDaysRecommendations(priority, estimation);
-				resolve(this.daysRange);
+				resolve(this.slotsRange);
 			});
 		});
 	}
-
 	
-
+	getFreeSlots (startDate, endDate) {
+		return new Promise(resolve => {
+			this.AlgorithmServer.get({
+				q: 'free-time',
+				start: startDate,
+				end: endDate
+			}, res => {
+				resolve(res.data);
+			});
+		});
+	}
+	
 	getBalancedRecommendations (data) {
 		var estimation = data.estimation,
 			availableHoursPerDay = data.availableHoursPerDay,
@@ -126,7 +131,7 @@ class Algorithm {
 		extraHours = estimation - availableDaysAmount * balancedDuration;
 
 		availableHoursPerDay.map(function(day) {
-			day.proposedSlotDuration = (extraHours >= 0.5 ? (extraHours -= 0.5, 0.5) : 0) + parseFloat(balancedDuration, 10);
+			day.proposedSlotDuration = (extraHours >= 0.5 ? (extraHours -= 0.5, 0.5) : 0) + parseFloat(balancedDuration);
 			recommendations[day.date] = day.proposedSlotDuration;
 			return day
 		});
@@ -165,9 +170,8 @@ class Algorithm {
 	getSuitableSlots (recommendations, priority) {
 		var suitableSlots = [],
 			slot;
-		Object.keys(this.daysRange).forEach(dayId => {
-			let day = this.daysRange[dayId],
-				slotDuration = recommendations[dayId];
+		Object.keys(this.slotsRange).forEach(dayId => {
+			let slotDuration = recommendations[dayId];
 			if (!!slotDuration) {
 				slot = new Slot(slotDuration, priority, dayId);
 				suitableSlots.push(slot);
@@ -179,9 +183,9 @@ class Algorithm {
 
 	getDaysRecommendations(priority, estimation) {
 
-		var availableHoursPerDay = Object.keys(this.daysRange).map(dayId => {
+		var availableHoursPerDay = Object.keys(this.slotsRange).map(dayId => {
 				return {
-					freeTime: this.daysRange[dayId].reduce((prev,cur) => prev + cur.duration, 0),
+					freeTime: this.slotsRange[dayId].reduce((prev, cur) => prev + cur.duration, 0),
 					date: dayId
 				}
 			}),
@@ -206,7 +210,7 @@ class Algorithm {
 			// Negative branch
 
 		}
-		this.daysRange = this.getSuitableSlots(recommendations, priority);
+		this.slotsRange = this.getSuitableSlots(recommendations, priority);
 	}
 
 	static timeToMinutes(time) {

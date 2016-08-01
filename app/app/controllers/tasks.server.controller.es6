@@ -8,6 +8,7 @@ var mongoose = require('mongoose'),
 	errorHandler = require('./errors.server.controller'),
 	emailNotifications = require('./notifications-by-email.server.controller'),
 	Task = mongoose.model('Activity'),
+	Slot = mongoose.model('Slot'),
 	_ = require('lodash');
 
 // collect all future tasks and schedule email notification
@@ -104,6 +105,29 @@ exports.taskByID = function(req, res, next, id) {
 		req.task = task ;
 		next();
 	});
+};
+
+exports.getSlotsByTask = function (req, res, next) {
+	Slot.find({taskId: req.query.taskId}).exec(function (err, slots) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {			
+			res.jsonp(slots);
+		}
+	});
+};
+exports.deleteSlotsByTask = function (req, res, next) {
+	Slot.find({taskId: req.query.taskId}).remove().exec(function (err, slots) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			res.jsonp(slots);
+		}
+	});	
 };
 
 /**

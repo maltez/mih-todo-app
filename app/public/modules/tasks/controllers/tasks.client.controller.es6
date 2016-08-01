@@ -264,26 +264,42 @@ angular.module('tasks').controller('TasksController',
 			};
 
 			var getNewSlots = (model) => {
-				Algorithm.generateSlots(model.days.startTime, model.days.endTime, model.priority, model.estimation,
+				Algorithm.generateSlots(new Date(model.days.startTime), new Date(model.days.endTime), model.priority, model.estimation,
 					$scope.user.predefinedSettings.workingHours).then((daysRange) => {
 					$timeout(() => {
 						return $scope.daysRange = daysRange;
 					});
 				});
 			};
-			
-			var getSlotsByTask = ()=> {
-				// todo rewrite static
-				return [
-					{
-						date: new Date(),
-						reservedSlot: {duration: 9}
-					},
-					{
-						date: new Date(),
-						reservedSlot: {duration: 3}
+
+			var recalcChart = () => {
+				var progress = getFormattedProgress();
+
+				$scope.progress = angular.extend(progress, {
+					progressChart: {
+						data: [{value: progress.percent, label: "Done"},
+							{value: 100 - progress.percent, label: "Left"}],
+						colors: ["#1ab394", "#f8ac59"],
+						formatter: function formatter(input) {
+							return input + '%';
+						}
 					}
-				];
+				});
+			};
+
+			var getSlotsByTask = ()=> {
+				return Tasks.getSlotsByTask({
+						taskId: $stateParams.taskId
+					}, (slots) => {
+						if (!slots.length) {							
+							$scope.progress = false;
+							return;
+						}
+						$timeout(() => {
+							recalcChart();
+						});
+					}
+				);
 			};
 
 			var getTask = (cb) => {
@@ -294,11 +310,54 @@ angular.module('tasks').controller('TasksController',
 				});
 			};
 
+			var removeSlotsByTask = () => {
+				Tasks.deleteSlotsByTask({
+						taskId: $stateParams.taskId
+					}
+				);
+			};
+			
 			var clearSlotsList = () => {
 				if($scope.daysRange && $scope.daysRange.length){
 					$scope.daysRange = [];
+					$scope.initCreateSlots();
 					Notification.info("Don't forget to generate slots");
 				}
+			};
+
+			var updateProgress = (slot, task) => {
+				slot.isComplete = true;
+				
+				Slots.update(slot, () => {
+					var slotsQty = $scope.daysRange.map(function (slot) {
+						return !!slot.isComplete;
+					});
+					var completeSlotsQty = slotsQty.filter(Boolean);
+					
+					task.progress += slot.duration;					
+					
+					if (slotsQty.length === completeSlotsQty.length) {
+						task.isComplete = true;
+					}
+					
+					task.$update(() => {
+						recalcChart();
+						$rootScope.$broadcast('NEW_TASK_MODIFY');						
+					}, (errorResponse) => {
+						$scope.error = errorResponse.data.message;
+					});
+				});
+			};
+
+			var getFormattedProgress = () => {
+				var complete = $scope.task.progress;
+				var estimation = $scope.task.estimation;				
+
+				return {					
+					percent: +(complete / estimation * 100).toFixed(2),
+					left: estimation - complete,
+					done: complete
+				};
 			};
 
 			$scope.create = (task) => {
@@ -328,6 +387,7 @@ angular.module('tasks').controller('TasksController',
 					task.$remove(() => {
 						$location.path('/');
 					});
+					removeSlotsByTask();
 					$rootScope.$broadcast('NEW_TASK_MODIFY');
 					Notification.success(`Task "${task.title}" was successfully removed`);
 				} else {
@@ -347,6 +407,18 @@ angular.module('tasks').controller('TasksController',
 				} else {
 					console.error("Error. Task is not defined");
 				}
+			};
+
+			$scope.initCreateSlots = () => {
+				$scope.createSlot = true;
+			};
+
+			$scope.isOverdueSlot = (item) => {
+				return (Date.parse(item.startTime) + 3600000 * item.duration) <= new Date().valueOf();
+			};
+			
+			$scope.completeSlot = (slot) => {
+				updateProgress(slot, $scope.task);
 			};
 		}
 	]);

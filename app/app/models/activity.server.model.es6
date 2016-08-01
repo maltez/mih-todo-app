@@ -102,11 +102,11 @@ var ActivitySchema = new Schema(_.extend({
 	tags: [],
 	progress: {
 		type: Number,
-		default: ''
+		default: 0
 	},
-	status: {
-		type: String,
-		default: ''
+	isComplete: {
+		type: Boolean,
+		default: false
 	},
 	summary: {
 		type: String,

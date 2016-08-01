@@ -10,6 +10,7 @@ var SlotSchema = new Schema({
 	duration : Number,
 	startTime: Date,
 	endTime: Date,
+	isComplete: false,
 	overlap: false
 });
 

@@ -23,7 +23,17 @@ angular.module(ApplicationConfiguration.applicationModuleName)
 		datepickerConfig.formatDay = 'd';
 		datepickerConfig.startingDay = 1;
 	})
-;
+	.run(($rootScope, Authentication, $state) => {
+		//Prevent anonymous user access to all pages except auth
+		const notLoggedUserAvailableStates = ['signin', 'signup'];
+
+		$rootScope.$on("$stateChangeStart", function(event, toState){
+			if (!Authentication.user && notLoggedUserAvailableStates.indexOf(toState.name) == -1) {
+				event.preventDefault();
+				$state.transitionTo("signin");
+			}
+		});
+	});
 
 //Then define the init function for starting up the application
 angular.element(document).ready(function () {

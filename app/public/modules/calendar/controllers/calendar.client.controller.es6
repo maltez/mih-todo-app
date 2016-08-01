@@ -26,6 +26,7 @@ class Calendar {
 				businessHours: false,
 				firstDay: 1,
 				defaultView: 'agendaWeek',
+				timezone: 'local',
 				eventDrop: (event, delta, revertFunc) => this.eventDropHandler(event, delta, revertFunc)
 			}
 		};

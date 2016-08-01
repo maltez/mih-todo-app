@@ -1,8 +1,8 @@
 'use strict';
 
 // Events controller
-angular.module('events').controller('EventsController', ['$scope', '$rootScope', '$stateParams', '$location', 'Users', 'Authentication', 'Events',
-	function ($scope, $rootScope, $stateParams, $location, Users, Authentication,  Events) {
+angular.module('events').controller('EventsController', ['$scope', '$rootScope', '$stateParams', '$location', 'Users', 'Authentication', 'Events', '$timeout', 'Algorithm', 'Slots', 'Notification',
+	function ($scope, $rootScope, $stateParams, $location, Users, Authentication,  Events, $timeout, Algorithm, Slots, Notification) {
 		$rootScope.$broadcast('setAsideCategory', 'todo');
 
 		$scope.authentication = Authentication;
@@ -101,13 +101,41 @@ angular.module('events').controller('EventsController', ['$scope', '$rootScope',
 				isATemplate : $scope.eventData.isATemplate,
 				withoutDates: $scope.eventData.withoutDates
 			});
-			event.$save(function() {
-				$location.search('');
-				$location.path('/');
-			}, function(err) {
-				$scope.eventData.validationError  = err.data.message.errors.title;
+
+			Algorithm.getFreeSlots(event.days.startTime, event.days.endTime).then((freeSlots) => {
+				$timeout(() => {
+					var freeTime = 0, 
+						days = 0;
+					angular.forEach(freeSlots, function(value) {
+						freeTime += value.reduce((prev, cur) => prev + cur.duration, 0);
+						days++;
+					});
+					if ( freeTime === days * 9 ) {
+						event.$save(function(res) {
+							var slots =[];
+							$location.search('');
+							$location.path('/');
+							angular.forEach(freeSlots, function(day, dayId) {
+								var slot = {};
+								slot.eventId = res._id;
+								slot.title = res.title;
+								slot.start = new Date(dayId).setHours(0, 0, 0);
+								slot.end = new Date(dayId).setHours(23, 59, 0);
+								slot.duration = 9;
+								slot.className = "event";
+								slots.push(slot);
+							});
+							slots = new Slots(slots);
+							slots.$save();
+						}, function(err) {
+							$scope.eventData.validationError  = err.data.message.errors.title;
+						});
+						$scope.events= [];
+					} else {
+						Notification.error({message: 'You don\'t have enough time for this event'});
+					}
+				});
 			});
-			$scope.events= [];
 		};
 		// Find existing Event
 		$scope.findEvent = function() {

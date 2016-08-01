@@ -311,8 +311,8 @@ angular.module('tasks').controller('TasksController',
 			};
 			
 			var clearSlotsList = () => {
-				if($scope.daysRange && $scope.daysRange.length){
-					$scope.daysRange = [];
+				if($scope.slotsRange && $scope.slotsRange.length){
+					$scope.slotsRange = [];
 					Notification.info("Don't forget to generate slots");
 				}
 			};

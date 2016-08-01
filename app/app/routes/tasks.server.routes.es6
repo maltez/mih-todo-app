@@ -14,6 +14,10 @@ module.exports = function(app) {
 		.put(users.requiresLogin, tasks.hasAuthorization, tasks.update)
 		.delete(users.requiresLogin, tasks.hasAuthorization, tasks.delete);
 
+	app.route('/tasks-slots')
+		.get(tasks.getSlotsByTask)
+		.delete(tasks.deleteSlotsByTask);
+	
 	// Finish by binding the Task middleware
 	app.param('taskId', tasks.taskByID);
 };

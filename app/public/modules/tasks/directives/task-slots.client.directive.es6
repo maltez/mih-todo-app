@@ -1,6 +1,5 @@
 'use strict';
 
-// Notifications controller
 angular.module('tasks').directive('taskSlots', function(){
 	return {
 		restrict: 'EA',

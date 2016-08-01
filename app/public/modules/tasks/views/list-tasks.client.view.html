@@ -9,9 +9,16 @@
 			<i class="fa fa-long-arrow-down" aria-hidden="true" ng-show="sortType ==='days.endTime' && sortReverse === true"></i>
 			<i class="fa fa-clock-o" aria-hidden="true"></i>
 		</a>
+		<div>
+			<label>
+				completed
+				<input type="checkbox" data-ng-model="status.isComplete" data-ng-true-value="true"/>
+			</label>
+		</div>
+
 	</div>
 	<ul class="nav nav-second-level in collapse">
-		<li data-ng-repeat="task in tasks | orderBy: sortType : sortReverse" class="task-list-item">
+		<li data-ng-repeat="task in tasks | orderBy: sortType : sortReverse | filter:status:strict" class="task-list-item">
 			<a data-ng-href="#!/tasks/{{task._id}}/edit" class="task-list-item">
 				<span class="task-priority fa fa-circle {{'task-priority-' + task.priority}}"></span>
 				<span class="nav-label task-name" data-ng-bind="task.title"></span>

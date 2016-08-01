@@ -45,14 +45,14 @@
 			$location = _$location_;
 
 			// Initialize the Notifications controller.
-			NotificationsController = $controller('NotificationsController', {
+			NotificationsController = $controller('ScheduleNotificationsController', {
 				$scope: scope
 			});
 		}));
 
-		it('$scope.find() should create an array with at least one Notification object fetched from XHR', inject(function(Notifications) {
+		it('$scope.find() should create an array with at least one Notification object fetched from XHR', inject(function(ScheduleNotifications) {
 			// Create sample Notification using the Notifications service
-			var sampleNotification = new Notifications({
+			var sampleNotification = new ScheduleNotifications({
 				name: 'New Notification'
 			});
 
@@ -70,9 +70,9 @@
 			expect(scope.notifications).toEqualData(sampleNotifications);
 		}));
 
-		it('$scope.findOne() should create an array with one Notification object fetched from XHR using a notificationId URL parameter', inject(function(Notifications) {
+		it('$scope.findOne() should create an array with one Notification object fetched from XHR using a notificationId URL parameter', inject(function(ScheduleNotifications) {
 			// Define a sample Notification object
-			var sampleNotification = new Notifications({
+			var sampleNotification = new ScheduleNotifications({
 				name: 'New Notification'
 			});
 
@@ -90,14 +90,14 @@
 			expect(scope.notification).toEqualData(sampleNotification);
 		}));
 
-		it('$scope.create() with valid form data should send a POST request with the form input values and then locate to new object URL', inject(function(Notifications) {
+		it('$scope.create() with valid form data should send a POST request with the form input values and then locate to new object URL', inject(function(ScheduleNotifications) {
 			// Create a sample Notification object
-			var sampleNotificationPostData = new Notifications({
+			var sampleNotificationPostData = new ScheduleNotifications({
 				name: 'New Notification'
 			});
 
 			// Create a sample Notification response
-			var sampleNotificationResponse = new Notifications({
+			var sampleNotificationResponse = new ScheduleNotifications({
 				_id: '525cf20451979dea2c000001',
 				name: 'New Notification'
 			});
@@ -119,9 +119,9 @@
 			expect($location.path()).toBe('/notifications/' + sampleNotificationResponse._id);
 		}));
 
-		it('$scope.update() should update a valid Notification', inject(function(Notifications) {
+		it('$scope.update() should update a valid Notification', inject(function(ScheduleNotifications) {
 			// Define a sample Notification put data
-			var sampleNotificationPutData = new Notifications({
+			var sampleNotificationPutData = new ScheduleNotifications({
 				_id: '525cf20451979dea2c000001',
 				name: 'New Notification'
 			});
@@ -140,9 +140,9 @@
 			expect($location.path()).toBe('/notifications/' + sampleNotificationPutData._id);
 		}));
 
-		it('$scope.remove() should send a DELETE request with a valid notificationId and remove the Notification from the scope', inject(function(Notifications) {
+		it('$scope.remove() should send a DELETE request with a valid notificationId and remove the Notification from the scope', inject(function(ScheduleNotifications) {
 			// Create new Notification object
-			var sampleNotification = new Notifications({
+			var sampleNotification = new ScheduleNotifications({
 				_id: '525a8422f6d0f87f0e407a33'
 			});
 

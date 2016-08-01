@@ -12,6 +12,7 @@ var SlotSchema = new Schema({
 	start: Date,
 	end: Date,
 	className: String,
+	isComplete: false,
 	overlap: false
 });
 

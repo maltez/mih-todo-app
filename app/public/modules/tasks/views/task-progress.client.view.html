@@ -1,0 +1,24 @@
+<div class="ibox">
+	<div class="ibox-title">
+		Progress
+	</div>
+	<div class="ibox-content">
+		<div class="progress-chart" donut-chart=""
+			 donut-data="progress.progressChart.data"
+			 donut-colors="progress.progressChart.colors"
+			 donut-formatter="progress.progressChart.formatter">
+		</div>
+	</div>
+	<div class="ibox-title">
+		<div class="row">
+			<div class="col-md-6 col-sm-6 text-center">
+				<div data-ng-bind="progress.left + 'h'"></div>
+				<div>left</div>
+			</div>
+			<div class="col-md-6 col-sm-6 text-center">
+				<div data-ng-bind="progress.done + 'h'"></div>
+				<div>done</div>
+			</div>
+		</div>
+	</div>
+</div>

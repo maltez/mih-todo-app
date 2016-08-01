@@ -1,7 +1,7 @@
 'use strict';
 
 //Notifications service used to communicate Notifications REST endpoints
-angular.module('notifications').factory('Notifications', ['$resource',
+angular.module('schedule-notifications').factory('ScheduleNotifications', ['$resource',
 	function($resource) {
         var currentTime = new Date();
 

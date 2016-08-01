@@ -1,12 +1,12 @@
 'use strict';
 
 // Notifications controller
-angular.module('notifications').controller('NotificationsController',
-	['$scope', '$rootScope', '$stateParams', '$location', 'Authentication', 'Notifications', '$interval',
-	function($scope, $rootScope, $stateParams, $location, Authentication, Notifications, $interval) {
+angular.module('schedule-notifications').controller('ScheduleNotificationsController',
+	['$scope', '$rootScope', '$stateParams', '$location', 'Authentication', 'ScheduleNotifications', '$interval',
+	function($scope, $rootScope, $stateParams, $location, Authentication, ScheduleNotifications, $interval) {
 		$scope.authentication = Authentication;
 		
-		$rootScope.$broadcast('setAsideCategory', 'notifications');
+		$rootScope.$broadcast('setAsideCategory', 'overdue');
 		
         // TODO: move to common app config
         var notificationsInterval = 1800000; // 30 min
@@ -14,7 +14,7 @@ angular.module('notifications').controller('NotificationsController',
 		// Create new Notification
 		$scope.create = function() {
 			// Create new Notification object
-			var notification = new Notifications ({
+			var notification = new ScheduleNotifications ({
 				name: this.name
 			});
 
@@ -59,16 +59,16 @@ angular.module('notifications').controller('NotificationsController',
 
 		// Find a list of Notifications
 		$scope.find = function() {
-			$scope.notifications = Notifications.query();
+			$scope.notifications = ScheduleNotifications.query();
 
             $interval(function(){
-                $scope.notifications = Notifications.query();
+                $scope.notifications = ScheduleNotifications.query();
             }, notificationsInterval);
 		};
 
 		// Find existing Notification
 		$scope.findOne = function() {
-			$scope.notification = Notifications.get({ 
+			$scope.notification = ScheduleNotifications.get({ 
 				notificationId: $stateParams.notificationId
 			});
 		};

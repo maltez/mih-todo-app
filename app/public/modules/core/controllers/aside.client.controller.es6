@@ -3,7 +3,7 @@
 angular.module('core').controller('AsideController', ['$scope', '$location', 'AsideService',
 	function ($scope, $location, AsideService) {
 
-		$scope.categories = ['todo', 'templates', 'notifications'];
+		$scope.categories = ['todo', 'templates', 'overdue'];
 
 		$scope.currentCategory = AsideService.getCurrentCategory() || $scope.categories[0];
 
@@ -18,7 +18,7 @@ angular.module('core').controller('AsideController', ['$scope', '$location', 'As
 					$location.path('templates');
 					AsideService.setCurrentCategory($scope.categories[1]);
 					break;
-				case 'notifications':
+				case 'overdue':
 					$location.path('/notifications');
 					AsideService.setCurrentCategory($scope.categories[2]);
 					break;

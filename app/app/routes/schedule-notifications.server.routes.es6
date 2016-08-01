@@ -2,7 +2,7 @@
 
 module.exports = function(app) {
 	var users = require('../../app/controllers/users.server.controller');
-	var notifications = require('../../app/controllers/notifications.server.controller');
+	var notifications = require('../../app/controllers/schedule-notifications.server.controller');
 
 	// Notifications Routes
 	app.route('/notifications')

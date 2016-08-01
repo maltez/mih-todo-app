@@ -3,10 +3,10 @@
 //http://fullcalendar.io/docs/
 
 class Calendar {
-	constructor(Slots, Notifications, uiCalendarConfig, $rootScope, Authentication) {
+	constructor(Slots, ScheduleNotifications, uiCalendarConfig, $rootScope, Authentication) {
 		this.config = uiCalendarConfig;
 		this.Slots = Slots;
-		this.Notifications = Notifications;
+		this.Notifications = ScheduleNotifications;
 		this.$rootScope = $rootScope;
 		this.user = Authentication.user;
 
@@ -90,5 +90,5 @@ class Calendar {
 	}
 }
 
-Calendar.$inject = ['Slots', 'Notifications', 'uiCalendarConfig', '$rootScope', 'Authentication'];
+Calendar.$inject = ['Slots', 'ScheduleNotifications', 'uiCalendarConfig', '$rootScope', 'Authentication'];
 angular.module('calendar').controller('CalendarController', Calendar);

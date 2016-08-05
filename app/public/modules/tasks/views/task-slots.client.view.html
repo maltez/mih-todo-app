@@ -17,7 +17,7 @@
 							<i class="fa fa-chevron-down" aria-hidden="true"></i>
 						</button>
 						<span data-ng-if="item.isComplete" class="label label-primary">done</span>
-						<span data-ng-if="!isOverdueSlot(item)" class="label label-warning">left</span>
+						<span data-ng-if="!item.isComplete && !isOverdueSlot(item)" class="label label-warning">left</span>
 					</td>
 				</tr>
 			</table>

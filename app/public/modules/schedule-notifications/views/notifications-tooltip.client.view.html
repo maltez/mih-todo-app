@@ -9,15 +9,11 @@
 <ul data-ng-init="find()" data-ng-show="notifications.length" class="dropdown-menu dropdown-alerts notifications-dropdown">
     <li data-ng-repeat="notification in notifications | limitTo: 3 " class="clearfix notification-item">
 		<div class="pull-left">
-			<a data-ng-href="#!/notifications/{{notification._id}}" class="notification-link" data-ng-bind="notification.title"></a>
-			<span class="small">3 days ago</span>
+			<a data-ng-href="#!/tasks/{{notification.taskId}}/edit" class="notification-link"
+			   data-ng-bind="notification.title"></a>
 		</div>
-		<!--<div class="slot-controls pull-right text-right">-->
-			<!--<button class="btn btn-primary btn-circle btn-outline"><i class="fa fa-chevron-down" aria-hidden="true"></i></button>-->
-			<!--<button class="btn btn-primary btn-circle btn-outline"><i class="fa fa-times" aria-hidden="true"></i></button>-->
-		<!--</div>-->
-    </li>
-    <li>
-		<a href="#!/notifications" class="notification-control text-center">See all notifications > </a>
-    </li>
+	</li>
+	<li>
+		<a href="" class="notification-control text-center">See all notifications > </a>
+	</li>
 </ul>

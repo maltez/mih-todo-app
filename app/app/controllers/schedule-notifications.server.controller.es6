@@ -75,7 +75,7 @@ exports.delete = function(req, res) {
  * List of Overdue Slots
  */
 exports.list = function (req, res) {
-	Slot.find({'end': {lt: new Date(req.query.time)}})
+	Slot.find({'isComplete' : false, 'end': {$lt: new Date(req.query.time)}})
 		.sort('-created').populate('user', 'displayName')
 		.exec(function (err, overdueSlots) {
 		if (err) {

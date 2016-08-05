@@ -12,7 +12,10 @@ var SlotSchema = new Schema({
 	start: Date,
 	end: Date,
 	className: String,
-	isComplete: false,
+	isComplete: {
+		type: Boolean,
+		default: false
+	},
 	overlap: false
 });
 

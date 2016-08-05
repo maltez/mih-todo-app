@@ -257,7 +257,7 @@ angular.module('tasks').controller('TasksController',
 			};
 
 			var getNewSlots = (model) => {
-				Algorithm.generateSlots(model.days.startTime, model.days.endTime, model.priority, model.estimation,
+				Algorithm.generateSlots(new Date(model.days.startTime), new Date(model.days.endTime), model.priority, model.estimation,
 					$scope.user.predefinedSettings.workingHours).then((slotsRange) => {
 					$timeout(() => {
 						return $scope.slotsRange = slotsRange;

@@ -7,6 +7,7 @@ var mongoose = require('mongoose'),
 	errorHandler = require('./errors.server.controller'),
     ObjectId = require("mongodb").ObjectID,
 	Notification = mongoose.model('Activity'),
+	Slot = mongoose.model('Slot'),
 	_ = require('lodash');
 
 /**
@@ -71,22 +72,18 @@ exports.delete = function(req, res) {
 };
 
 /**
- * List of Notifications
+ * List of Overdue Slots
  */
-exports.list = function(req, res) {
-    Notification.find({
-        'user': ObjectId(req.user._id),
-		'type': 'task',
-        'days.endTime' : {
-            $lt: new Date(req.query.time)
-        }
-    }).sort('-created').populate('user', 'displayName').exec(function(err, notifications) {
+exports.list = function (req, res) {
+	Slot.find({'end': {lt: new Date(req.query.time)}})
+		.sort('-created').populate('user', 'displayName')
+		.exec(function (err, overdueSlots) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(notifications);
+			res.jsonp(overdueSlots);
 		}
 	});
 };

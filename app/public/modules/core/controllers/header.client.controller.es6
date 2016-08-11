@@ -1,22 +1,31 @@
 'use strict';
 
-angular.module('core').controller('HeaderController', HeaderController);
+class HeaderController {
+	/** @ngInject */
+	constructor($scope, Authentication, $state, TemplatesService) {
+		Object.assign(this, {$scope, Authentication, $state, TemplatesService});
 
-HeaderController.$inject = ['$scope', 'Authentication'];
+		this.user = {
+			username: this.Authentication.user.username
+		};
 
-function HeaderController ($scope, Authentication) {
-	var vm = this;
+		$scope.$on('updateUserInfo', function (event, user) {
+			angular.copy(user, this.user);
+		});
+	}
 
-	vm.authentication = Authentication;
-	vm.user = {
-		username: vm.authentication.user.username
-	};
+	toggleSidebar () {
+		this.$scope.$emit('toggleSidebar');
+	}
 
-	vm.toggleSidebar = () => {
-		$scope.$emit('toggleSidebar');
-	};
+	viewTemplates() {
+		const lastUsedTemplate = this.TemplatesService.getLastUsed(this.Authentication.user);
 
-	$scope.$on('updateUserInfo', function (event, user) {
-		angular.copy(user, vm.user);
-	});
+		this.$state.go('templates', {
+			templateId: lastUsedTemplate.data._id,
+			templateType: lastUsedTemplate.type
+		});
+	}
 }
+
+angular.module('core').controller('HeaderController', HeaderController);

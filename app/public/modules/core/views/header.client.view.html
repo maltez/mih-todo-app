@@ -1,4 +1,4 @@
-<div data-ng-controller="HeaderController as vm" data-ng-show="vm.authentication.user"
+<div data-ng-controller="HeaderController as vm" data-ng-show="vm.Authentication.user"
 	 class="navbar navbar-static-top border-bottom">
 	<div class="navbar-header">
 		<a class="navbar-minimalize minimalize-styl-2 btn btn-primary" data-ng-click="vm.toggleSidebar()">
@@ -35,7 +35,7 @@
 				<span class="caret"></span></a>
 			<ul class="dropdown-menu">
 				<li><a href="#!/settings/profile">Settings</a></li>
-				<li><a href="#!/templates">My templates</a></li>
+				<li><a ng-click="vm.viewTemplates()">My templates</a></li>
 				<li><a href="/auth/signout">Logout</a></li>
 			</ul>
 		</li>

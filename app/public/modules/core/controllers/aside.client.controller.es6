@@ -1,7 +1,8 @@
 'use strict';
 
-angular.module('core').controller('AsideController', ['$scope', '$location', 'AsideService',
-	function ($scope, $location, AsideService) {
+angular.module('core').controller('AsideController', ['$scope', '$location', 'AsideService', 'Authentication',
+	function ($scope, $location, AsideService, Authentication) {
+		$scope.templatesList = Authentication.user;
 
 		$scope.categories = ['todo', 'templates', 'overdue'];
 

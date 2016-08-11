@@ -1,0 +1,73 @@
+<div class="tasks-templates col-xs-12">
+	<header class="row" data-ng-show="templates.list">
+		<div class="col-xs-12">
+			<h3 class="col-xs-8">Task template</h3>
+			<h3 class="col-xs-4">Usage</h3>
+		</div>
+	</header>
+	<ul>
+		<li data-ng-repeat="(index, template) in templates.list">
+			<form class="form-horizontal col-xs-8" name="templateForm" novalidate>
+				<fieldset class="row">
+					<div class="col-xs-4">
+						<div class="form-group">
+							<label class="control-label label-padding" for="title">Title*</label>
+							<input type="text" data-ng-model="template.title" name="title" id="title"
+								   class="form-control input-round-borders" placeholder="Title" required >
+							<div ng-show="templateForm.title.$error.required" class="error-message">
+								<p class="help-block error-text">Please fill Task title</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="btn-group priority-btn">
+								<h5><label for="priority">Priority*</label></h5>
+								<div class="priority-btn-inner clearfix" data-ng-class="'item-priority-' + template.priority">
+									<select name="priority" id="priority" class="form-control item-priority" ng-model="template.priority">
+										<option value="1" class="item-priority-1">Urgent and Important</option>
+										<option value="2" class="item-priority-2">Not Urgent but Important</option>
+										<option value="3" class="item-priority-3">Urgent but not Important</option>
+										<option value="4" class="item-priority-4">Not Urgent and not Important</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-4">
+						<div class="form-group">
+							<label class="control-label">Estimation</label>
+							<div>
+								<rzslider rz-slider-model="template.estimation"
+										  rz-slider-options="templates.sliderOptions">
+								</rzslider>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-xs-4">
+						<div class="form-group">
+							<label class="control-label label-padding" for="notes">Notes</label>
+							<textarea class="form-control notes-area" id="notes" data-ng-model="template.notes"></textarea>
+							<div ng-show="validationError.notes" class="error">
+								{{validationError.notes.message}}
+							</div>
+						</div>
+						<div class="form-group">
+							<button class="btn btn-danger template-action pull-left"
+									ng-click="templates.remove(template, 'taskTemplates')"
+							>Delete</button>
+							<button class="btn btn-success template-action pull-right"
+									ng-click="templates.update(template)"
+									ng-disabled="!templateForm.$valid"
+							>Save</button>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+
+			<div class=" col-xs-4 usage">
+				<h2>Usage</h2>
+			</div>
+		</li>
+	</ul>
+	<div class="text-center text-muted p-y-1" data-ng-hide="templates.list.length">No templates yet.</div>
+</div>

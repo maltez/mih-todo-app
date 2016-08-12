@@ -1,29 +1,30 @@
 'use strict';
 
 // PasswordValidator service used for testing the password strength
-angular.module('users').factory('PasswordValidator', ['$window',
-	function ($window) {
-		var owaspPasswordStrengthTest = $window.owaspPasswordStrengthTest;
 
-		owaspPasswordStrengthTest.config({
-			allowPassphrases       : false,
-			maxLength              : 10,
-			minLength              : 6,
-			minOptionalTestsToPass : 1
-		});
+angular.module('users').factory('PasswordValidator', ['$window', function ($window) {
+	var owaspPasswordStrengthTest = $window.owaspPasswordStrengthTest;
 
-		owaspPasswordStrengthTest.tests.optional = owaspPasswordStrengthTest.tests.optional.filter(function(val){
-			return !(/one special character/).test(val);
-		});
+	owaspPasswordStrengthTest.config({
+		allowPassphrases: false,
+		maxLength: 10,
+		minLength: 6,
+		minOptionalTestsToPass: 1
+	});
 
-		return {
-			getResult: function (password) {
-				var result = owaspPasswordStrengthTest.test(password);
-				result.errors = result.errors.map(function(val){
-					return val.replace(/The password (must|may)/g, '-');
-				});
-				return result;
-			}
-		};
-	}
-]);
+	owaspPasswordStrengthTest.tests.optional = owaspPasswordStrengthTest.tests.optional.filter(function (val) {
+		return !/one special character/.test(val);
+	});
+
+	return {
+		getResult: function getResult(password) {
+			var result = owaspPasswordStrengthTest.test(password);
+			result.errors = result.errors.map(function (val) {
+				return val.replace(/The password (must|may)/g, '-');
+			});
+			return result;
+		}
+	};
+}]);
+
+//# sourceMappingURL=password-validator.client.service.js.map

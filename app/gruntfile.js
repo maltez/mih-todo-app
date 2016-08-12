@@ -191,11 +191,18 @@ module.exports = function(grunt) {
 					return !fs.existsSync('config/env/local.js');
 				}
 			}
+		},
+		clean: {
+			compiledJs: [
+				'public/modules/**/*.js', 'public/modules/**/*.js.map',
+				'app/**/*.js', 'app/**/*.js.map'
+			]
 		}
 	});
 
 	// Load NPM tasks
 	require('load-grunt-tasks')(grunt);
+	grunt.loadNpmTasks('grunt-contrib-clean');
 
 	// Making grunt default to force in order not to break the project.
 	grunt.option('force', true);
@@ -210,7 +217,7 @@ module.exports = function(grunt) {
 	});
 
 	// Default task(s).
-	grunt.registerTask('default', ['env:development', 'lint', 'copy:localConfig', 'concurrent:default', 'babel:es6']);
+	grunt.registerTask('default', ['env:development', 'lint', 'copy:localConfig', 'concurrent:default', 'clean:compiledJs', 'babel:es6']);
 
 	// Debug task.
 	grunt.registerTask('debug', ['lint', 'copy:localConfig', 'concurrent:debug']);
@@ -219,10 +226,10 @@ module.exports = function(grunt) {
 	grunt.registerTask('lint', ['less', 'jshint', 'csslint']);
 
 	// Build task(s).
-	grunt.registerTask('build', ['lint', 'babel:es6', 'loadConfig', 'ngAnnotate', 'uglify', 'cssmin']);
+	grunt.registerTask('build', ['lint', 'clean:compiledJs', 'babel:es6', 'loadConfig', 'ngAnnotate', 'uglify', 'cssmin']);
 
 	// Test task.
 	grunt.registerTask('test', ['copy:localConfig', 'test:server', 'test:client']);
-	grunt.registerTask('test:server', ['babel:es6', 'env:test', 'mochaTest']);
-	grunt.registerTask('test:client', ['babel:es6', 'env:test', 'karma:unit']);
+	grunt.registerTask('test:server', ['clean:compiledJs', 'babel:es6', 'env:test', 'mochaTest']);
+	grunt.registerTask('test:client', ['clean:compiledJs', 'babel:es6', 'env:test', 'karma:unit']);
 };

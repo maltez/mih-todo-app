@@ -20,7 +20,7 @@
 								<div class="field-group">
 									<label class="field-label" for="templates">Template</label>
 									<select class="form-control" id="templates" data-ng-change="loadTaskTemplate(selectedTemplate)"
-											data-ng-model="selectedTemplate" data-ng-options="template.title for template in user.templates"
+											data-ng-model="selectedTemplate" data-ng-options="template.title for template in user.taskTemplates"
 									>
 										<option value="">Select template</option>
 									</select>
@@ -112,7 +112,7 @@
 			<div class="row">
 				<div class="btn-holder pull-right">
 					<button class="btn btn-white" data-ng-click="cancel()">Cancel</button>
-					<button type="submit" data-ng-click="create(newTask)" class="btn btn-primary">Create</button>
+					<buttonbutpe="submit" data-ng-click="create(newTask)" class="btn btn-primary">Create</button>
 				</div>
 			</div>
 		</fieldset>

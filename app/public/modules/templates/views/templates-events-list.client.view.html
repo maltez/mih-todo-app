@@ -1,6 +1,15 @@
 <section data-ng-controller="templatesEventsListController as templatesEventsListCtrl">
+	<div class="form-group todo-list-controls" data-ng-show="templatesEventsListCtrl.templatesList.length > 1">
+		<a class="controls-link" ng-click="templatesEventsListCtrl.sortReverse = !templatesEventsListCtrl.sortReverse">
+			<i class="fa fa-sort-amount-desc" aria-hidden="true" ng-hide="templatesEventsListCtrl.sortReverse"></i>
+			<i class="fa fa-sort-amount-asc" aria-hidden="true" ng-show="templatesEventsListCtrl.sortReverse"></i>
+		</a>
+	</div>
+
 	<ul class="nav nav-second-level in collapse">
-		<li data-ng-repeat="eventTemplate in templatesEventsListCtrl.templatesList" class="event-list-item">
+		<li data-ng-repeat="eventTemplate in templatesEventsListCtrl.templatesList | orderBy:'lastUsingDate':templatesEventsListCtrl.sortReverse"
+			class="event-list-item"
+		>
 			<a ng-click="templatesEventsListCtrl.viewTemplate(eventTemplate._id)" class="clearfix">
 				<span class="nav-label event-name pull-left" data-ng-bind="eventTemplate.title"></span>
 			</a>

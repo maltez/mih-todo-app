@@ -8,13 +8,17 @@ angular.module('templates').config(['$stateProvider', function ($stateProvider) 
 			templateType: ''
 		},
 		views: {
-			'aside': { templateUrl: 'modules/core/views/todo.client.view.html' },
+			'aside': {templateUrl: 'modules/core/views/todo.client.view.html'},
 			'': {
 				/** @ngInject */
 				templateUrl: $stateParams => {
-					return ($stateParams.templateType === 'eventTemplates') ?
-						'modules/templates/views/templates-events.client.view.html' :
-						'modules/templates/views/templates-tasks.client.view.html';
+					switch ($stateParams.templateType) {
+						case 'eventTemplates':
+							return 'modules/templates/views/templates-events.client.view.html';
+						case 'taskTemplates':
+						default:
+							return 'modules/templates/views/templates-tasks.client.view.html';
+					}
 				},
 				controller: 'TemplatesController',
 				controllerAs: 'templates'
@@ -23,6 +27,10 @@ angular.module('templates').config(['$stateProvider', function ($stateProvider) 
 		resolve: {
 			/** @ngInject */
 			template: ($stateParams, TemplatesService, Authentication) => {
+				if (!$stateParams.templateId || !$stateParams.templateType) {
+					return TemplatesService.getLastUsed('taskTemplates', Authentication.user);
+				}
+
 				return TemplatesService.getById(Authentication.user, $stateParams.templateId, $stateParams.templateType);
 			}
 		}

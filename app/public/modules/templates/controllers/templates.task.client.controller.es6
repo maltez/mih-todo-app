@@ -6,7 +6,7 @@ class TemplatesController {
 		Object.assign(this, {Users, Authentication, Notification, $state, TemplatesService});
 
 		this.user = Authentication.user;
-		this.list = [template];
+		this.list = template._id ? [template] : [];
 
 		this.sliderOptions = {
 			floor: 0,
@@ -32,11 +32,11 @@ class TemplatesController {
 			this.Notification.success(`"Template ${templateToRemove.title}" was successfully removed`);
 			this.user = this.Authentication.user = updatedUser;
 
-			const lastUsedTemplate = this.TemplatesService.getLastUsed(updatedUser);
+			const lastUsedTemplate = this.TemplatesService.getLastUsed(templateType, updatedUser);
 
 			this.$state.go('templates', {
-				templateId: lastUsedTemplate.data._id,
-				templateType: lastUsedTemplate.type
+				templateId: lastUsedTemplate._id,
+				templateType: templateType
 			});
 		}, err => console.error(err));
 	}

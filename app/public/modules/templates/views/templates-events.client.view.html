@@ -6,7 +6,7 @@
 		</div>
 	</header>
 	<ul>
-		<li data-ng-repeat="(index, template) in templates.list">
+		<li data-ng-repeat="template in templates.list">
 			<form class="form-horizontal col-xs-8" name="templateForm" novalidate>
 				<fieldset class="row">
 					<div class="col-xs-6">
@@ -54,5 +54,5 @@
 			</div>
 		</li>
 	</ul>
-	<div class="text-center text-muted p-y-1" data-ng-hide="templates.list.length">No templates yet.</div>
+	<div class="text-center text-muted p-y-1" data-ng-hide="templates.list.length">No event templates yet.</div>
 </div>

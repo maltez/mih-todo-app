@@ -26,6 +26,10 @@ var taskTemplate = {
 	estimation: {
 		type: Number,
 		default: ''
+	},
+	lastUsingDate: {
+		type: Date,
+		default: new Date()
 	}
 };
 
@@ -45,6 +49,10 @@ var eventTemplate = {
 		type: String,
 		default: '',
 		trim: true
+	},
+	lastUsingDate: {
+		type: Date,
+		default: new Date()
 	}
 };
 
@@ -52,7 +60,7 @@ var eventTemplate = {
  * Activity Schema
  */
 var ActivitySchema = new Schema(_.extend({
-	id:{
+	id: {
 		type: Date,
 		default: Date.now
 	},
@@ -72,12 +80,12 @@ var ActivitySchema = new Schema(_.extend({
 		type: Number,
 		default: ''
 	},
-	days:	{
+	days: {
 		startTime: {
 			type: Date,
 			default: ''
 		},
-		endTime : {
+		endTime: {
 			type: Date,
 			default: ''
 		}
@@ -135,13 +143,13 @@ var ActivitySchema = new Schema(_.extend({
 		type: Schema.ObjectId,
 		ref: 'User'
 	},
-	isATemplate : {
-		type : Boolean,
-		default : false
+	isATemplate: {
+		type: Boolean,
+		default: false
 	},
-	withoutDates : {
-		type : Boolean,
-		default : false
+	withoutDates: {
+		type: Boolean,
+		default: false
 	}
 }, taskTemplate));
 

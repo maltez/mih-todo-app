@@ -17,15 +17,6 @@ class HeaderController {
 	toggleSidebar () {
 		this.$scope.$emit('toggleSidebar');
 	}
-
-	viewTemplates() {
-		const lastUsedTemplate = this.TemplatesService.getLastUsed(this.Authentication.user);
-
-		this.$state.go('templates', {
-			templateId: lastUsedTemplate.data._id,
-			templateType: lastUsedTemplate.type
-		});
-	}
 }
 
 angular.module('core').controller('HeaderController', HeaderController);

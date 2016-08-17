@@ -2,7 +2,7 @@
 
 class TasksController {
 	static get daysMap() {
-		return { 0: 'sun', 1: 'mon', 2: 'tue', 3: 'wed', 4: 'thu',  5: 'fri', 6: 'sat' };
+		return {0: 'sun', 1: 'mon', 2: 'tue', 3: 'wed', 4: 'thu', 5: 'fri', 6: 'sat'};
 	}
 
 	static timeToMinutes(time) {
@@ -19,7 +19,7 @@ class TasksController {
 		var weekDay = new Date(startDate),
 			estimationDaysRange = [weekDay];
 
-		while(weekDay < endDate) { //Get all days for this period
+		while (weekDay < endDate) { //Get all days for this period
 			estimationDaysRange.push(weekDay);
 			weekDay = new Date(weekDay.setDate(weekDay.getDate() + 1));
 		}
@@ -55,15 +55,15 @@ class TasksController {
 angular.module('tasks').controller('TasksController',
 	['$scope', '$rootScope', '$stateParams', '$location', 'Authentication', 'Tasks', 'Users', '$timeout', 'Algorithm',
 		'Slots', 'Notification',
-		function($scope, $rootScope, $stateParams, $location, Authentication, Tasks, Users, $timeout, Algorithm,
-				 Slots, Notification) {
+		function ($scope, $rootScope, $stateParams, $location, Authentication, Tasks, Users, $timeout, Algorithm,
+				  Slots, Notification) {
 			$scope.authentication = Authentication;
 			$scope.isATemplate = false;
 			$scope.user = Authentication.user;
-			$scope.selectedTemplate = {};
+			$scope.selectedTemplate = false;
 
 			var date = new Date(),
-				dateMax = new Date( Date.now() + (365 * 24 * 60 * 60 * 1000));
+				dateMax = new Date(Date.now() + (365 * 24 * 60 * 60 * 1000));
 
 			$scope.dt = {
 				startDate: date,
@@ -127,21 +127,21 @@ angular.module('tasks').controller('TasksController',
 			$scope.getDisabledDates = (date, mode) => {
 				return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
 			};
-			
+
 			$scope.clearSlotsList = () => {
 				clearSlotsList()
 			};
 
-			$scope.$on("slideEnded", function() {
+			$scope.$on("slideEnded", function () {
 				clearSlotsList();
 				$scope.$apply();
 			});
 
 			$scope.createMode = () => {
 				var newTask;
-				
+
 				clearSlotsList();
-				
+
 				newTask = {
 					type: 'task',
 					title: '',
@@ -155,7 +155,7 @@ angular.module('tasks').controller('TasksController',
 					withoutDates: false
 				};
 				$scope.newTask = angular.copy(newTask);
-				
+
 				$scope.slider = setEstimationExtremes($scope.newTask);
 
 				$scope.changeEstimation = () => {
@@ -165,17 +165,19 @@ angular.module('tasks').controller('TasksController',
 
 				$scope.loadTaskTemplate = (selectedTemplate) => {
 					if (selectedTemplate) {
+						$scope.selectedTemplate = selectedTemplate;
 						$.extend($scope.newTask, selectedTemplate);
+						delete $scope.newTask._id;
+						delete $scope.newTask.$$hashKey;
 					} else {
+						$scope.selectedTemplate = false;
 						$scope.newTask = angular.copy(newTask);
-
 					}
-					$scope.$apply();
 				};
-				
+
 				$scope.generateSlots = () => {
 					getNewSlots($scope.newTask)
-				};				
+				};
 
 				$scope.$watch('newTask.estimation', (newVal, oldVal) => {
 					if (!newVal) {
@@ -219,11 +221,22 @@ angular.module('tasks').controller('TasksController',
 				};
 			};
 
-			var saveTaskAsTemplate = (model) => {
+			var updateTaskTemplates = (model) => {
 				return new Promise(resolve => {
 					var user = new Users($scope.user);
 
-				user.taskTemplates.push(model);
+					if ($scope.selectedTemplate) {
+						user.taskTemplates.forEach(template => {
+							if (template === $scope.selectedTemplate) {
+								template.lastUsingDate = new Date();
+							}
+						});
+					}
+
+					if (model.isATemplate) {
+						model.lastUsingDate = new Date();
+						user.taskTemplates.push(model);
+					}
 
 					user.$update(response => {
 						Authentication.user = response;
@@ -242,7 +255,7 @@ angular.module('tasks').controller('TasksController',
 
 					task.$save((response) => {
 						var slots;
-						
+
 						$scope.slotsRange.map(slot => {
 							slot.taskId = response._id;
 							slot.title = response.title;
@@ -284,7 +297,7 @@ angular.module('tasks').controller('TasksController',
 				return Tasks.getSlotsByTask({
 						taskId: $stateParams.taskId
 					}, (slots) => {
-						if (!slots.length) {							
+						if (!slots.length) {
 							$scope.progress = false;
 							return;
 						}
@@ -309,9 +322,9 @@ angular.module('tasks').controller('TasksController',
 					}
 				);
 			};
-			
+
 			var clearSlotsList = () => {
-				if($scope.slotsRange && $scope.slotsRange.length){
+				if ($scope.slotsRange && $scope.slotsRange.length) {
 					$scope.slotsRange = [];
 					Notification.info("Don't forget to generate slots");
 				}
@@ -319,22 +332,22 @@ angular.module('tasks').controller('TasksController',
 
 			var updateProgress = (slot, task) => {
 				slot.isComplete = true;
-				
+
 				Slots.update(slot, () => {
 					var slotsQty = $scope.slotsRange.map(function (slot) {
 						return !!slot.isComplete;
 					});
 					var completeSlotsQty = slotsQty.filter(Boolean);
-					
-					task.progress += slot.duration;					
-					
+
+					task.progress += slot.duration;
+
 					if (slotsQty.length === completeSlotsQty.length) {
 						task.isComplete = true;
 					}
-					
+
 					task.$update(() => {
 						recalcChart();
-						$rootScope.$broadcast('NEW_TASK_MODIFY');						
+						$rootScope.$broadcast('NEW_TASK_MODIFY');
 					}, (errorResponse) => {
 						$scope.error = errorResponse.data.message;
 					});
@@ -343,9 +356,9 @@ angular.module('tasks').controller('TasksController',
 
 			var getFormattedProgress = () => {
 				var complete = $scope.task.progress;
-				var estimation = $scope.task.estimation;				
+				var estimation = $scope.task.estimation;
 
-				return {					
+				return {
 					percent: +(complete / estimation * 100).toFixed(2),
 					left: estimation - complete,
 					done: complete
@@ -356,15 +369,15 @@ angular.module('tasks').controller('TasksController',
 				if (task) {
 					var queries = [saveTask(task)];
 
-					if (task.isATemplate) { //Add task to user templates
-						queries.push(saveTaskAsTemplate(task));
+					if (task.isATemplate || $scope.selectedTemplate) {
+						queries.push(updateTaskTemplates(task));
 					}
 
 					Promise.all(queries).then(() => {
-						$location.path('/');
-						$rootScope.$broadcast('NEW_TASK_MODIFY');
-						Notification.success(`Task "${task.title}" was successfully created`);
-					});
+					 $location.path('/');
+					 $rootScope.$broadcast('NEW_TASK_MODIFY');
+					 Notification.success(`Task "${task.title}" was successfully created`);
+					 });
 				} else {
 					console.error("Error. Task is not defined");
 				}
@@ -408,7 +421,7 @@ angular.module('tasks').controller('TasksController',
 			$scope.isOverdueSlot = (item) => {
 				return (Date.parse(item.start) + 3600000 * item.duration) <= new Date().valueOf();
 			};
-			
+
 			$scope.completeSlot = (slot) => {
 				updateProgress(slot, $scope.task);
 			};

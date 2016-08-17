@@ -3,6 +3,7 @@ class templatesEventsListController {
 	constructor(Authentication, $state) {
 		this.templatesList = Authentication.user.eventTemplates;
 		this.$state = $state;
+		this.sortReverse = true;
 	}
 
 	viewTemplate(templateId) {

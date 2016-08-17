@@ -3,6 +3,7 @@ class templatesTasksListController {
 	constructor(Authentication, $state) {
 		this.templatesList = Authentication.user.taskTemplates;
 		this.$state = $state;
+		this.sortReverse = true;
 	}
 
 	viewTemplate(templateId) {

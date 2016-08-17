@@ -6,14 +6,9 @@
 var mongoose = require('mongoose'),
 	ObjectId = require("mongodb").ObjectID,
 	errorHandler = require('./errors.server.controller'),
-	emailNotifications = require('./notifications-by-email.server.controller'),
 	Task = mongoose.model('Activity'),
 	Slot = mongoose.model('Slot'),
 	_ = require('lodash');
-
-// collect all future tasks and schedule email notification
-// TODO: where to place this call - to be called once (as is here)?
-emailNotifications.scheduleExpirationReminderFor_AllKnownFutureTasks();
 
 /**
  * Create a Task
@@ -31,7 +26,6 @@ exports.create = function(req, res) {
 				message: err
 			});
 		} else {
-			emailNotifications.scheduleExpirationReminderFor_OneTask(task);
 			res.jsonp(task);
 		}
 	});

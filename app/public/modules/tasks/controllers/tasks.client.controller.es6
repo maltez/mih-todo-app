@@ -258,6 +258,7 @@ angular.module('tasks').controller('TasksController',
 
 						$scope.slotsRange.map(slot => {
 							slot.taskId = response._id;
+							slot.userId = Authentication.user._id;
 							slot.title = response.title;
 							slot.className = "task";
 						});

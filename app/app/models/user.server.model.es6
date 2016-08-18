@@ -143,7 +143,11 @@ var UserSchema = new Schema({
  * Hook a pre save method to hash the password
  */
 UserSchema.pre('save', function (next) {
-	if (this.password && this.password.length > 6) {
+	//TODO: Fix hash checking by creating new password_hash field
+	if (
+		this.password &&
+		!/==/.test(this.password) //Check, if password wasn't hashed
+	) {
 		this.salt = crypto.randomBytes(16).toString('base64');
 		this.password = this.hashPassword(this.password);
 	}

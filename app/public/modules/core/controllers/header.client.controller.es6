@@ -7,7 +7,7 @@ class HeaderController {
 
 		this.user = this.Authentication.user;
 
-		$scope.$on('updateUserInfo', function (event, user) {
+		$scope.$on('updateUserInfo', (event, user) => {
 			angular.copy(user, this.user);
 		});
 	}

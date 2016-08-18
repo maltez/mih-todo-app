@@ -137,6 +137,7 @@ angular.module('events').controller('EventsController', ['$scope', '$rootScope',
 								slot.end = new Date(dayId).setHours(23, 59, 0);
 								slot.duration = 9;
 								slot.className = "event";
+								slot.userId = Authentication.user._id;
 								slots.push(slot);
 							});
 							slots = new Slots(slots);

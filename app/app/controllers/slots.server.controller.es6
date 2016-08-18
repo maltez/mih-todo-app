@@ -15,9 +15,10 @@ export class SlotsServerController {
 	static list(req, res) {
 		Slot.find({
 			start: {$gte: new Date(req.query.start).toUTCString()},
-			end: {$lte: new Date(req.query.end).toUTCString()}
+			end: {$lte: new Date(req.query.end).toUTCString()},
+			userId: req.user._id
 		}).exec((err, slots) => {
-			if(err) {
+			if (err) {
 				return res.status(400).send({
 					message: errorHandler.getErrorMessage(err)
 				});
@@ -43,9 +44,10 @@ export class SlotsServerController {
 						resolve(false)
 					} else {
 						Slot.find({
-							start: { $gte: new Date(newSlot.start.toUTCString()) },
-							end: { $lte: new Date(newSlot.end.toUTCString())}
-						}).sort({ priority: 1 }).exec(function (err, slots) {
+							start: {$gte: new Date(newSlot.start.toUTCString())},
+							end: {$lte: new Date(newSlot.end.toUTCString())},
+							userId: req.user._id
+						}).sort({priority: 1}).exec(function (err, slots) {
 							if (err) {
 								return res.status(400).send({
 									message: errorHandler.getErrorMessage(err)
@@ -53,8 +55,8 @@ export class SlotsServerController {
 							} else {
 								workingDay = moment(newSlot.start).format('dddd').toLowerCase().slice(0, 3);
 								timeForSlot = workingHours[workingDay].start.split(":"),
-								hoursForSlot = parseInt(timeForSlot[0], 10),
-								minutesForSlot = parseInt(timeForSlot[1], 10);
+									hoursForSlot = parseInt(timeForSlot[0], 10),
+									minutesForSlot = parseInt(timeForSlot[1], 10);
 								slots.forEach(function (slot) {
 									slot.start = newSlot.start.setHours(hoursForSlot, minutesForSlot);
 									slot.end = newSlot.end.setHours(hoursForSlot + slot.duration, minutesForSlot + slot.duration % 1 * 60);
@@ -91,11 +93,11 @@ export class SlotsServerController {
 	}
 
 	static update(req, res) {
-		var slot = req.slot ;
+		var slot = req.slot;
 
-		slot = _.extend(slot , req.body);
+		slot = _.extend(slot, req.body);
 
-		slot.save(function(err) {
+		slot.save(function (err) {
 			if (err) {
 				return res.status(400).send({
 					message: errorHandler.getErrorMessage(err)
@@ -114,7 +116,7 @@ export class SlotsServerController {
 		Slot.findById(id).exec((err, slot) => {
 			if (err) return next(err);
 			if (!slot) return next(new Error('Failed to load Slot ' + id));
-			req.slot = slot ;
+			req.slot = slot;
 			next();
 		});
 	}

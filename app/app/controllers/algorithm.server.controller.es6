@@ -21,7 +21,8 @@ export class AlgorithmServerController {
 
 		Slot.find({
 			start: {$gte: start.toUTCString()},
-			end: {$lte: end.toUTCString()}
+			end: {$lte: end.toUTCString()},
+			userId: req.user._id
 		}).exec((err, slots) => {
 			if (err) {
 				return res.status(400).send({

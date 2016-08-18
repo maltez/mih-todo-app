@@ -6,8 +6,6 @@ angular.module('schedule-notifications').controller('ScheduleNotificationsContro
 	function($scope, $rootScope, $stateParams, $location, Authentication, ScheduleNotifications, $interval) {
 		$scope.authentication = Authentication;
 		
-		$rootScope.$broadcast('setAsideCategory', 'overdue');
-		
         // TODO: move to common app config
         var notificationsInterval = 1800000; // 30 min
 

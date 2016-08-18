@@ -213,6 +213,7 @@ angular.module('tasks').controller('TasksController',
 				return {
 					options: {
 						floor: 1,
+						hideLimitLabels: true,
 						ceil: TasksController.getMaxEstimation(new Date(model.days.startTime), new Date(model.days.endTime)),
 						translate: function translate(unit) {
 							return unit + 'h';

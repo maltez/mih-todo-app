@@ -5,16 +5,14 @@ class HeaderController {
 	constructor($scope, Authentication, $state, TemplatesService) {
 		Object.assign(this, {$scope, Authentication, $state, TemplatesService});
 
-		this.user = {
-			username: this.Authentication.user.username
-		};
+		this.user = this.Authentication.user;
 
 		$scope.$on('updateUserInfo', function (event, user) {
 			angular.copy(user, this.user);
 		});
 	}
 
-	toggleSidebar () {
+	toggleSidebar() {
 		this.$scope.$emit('toggleSidebar');
 	}
 }

@@ -30,8 +30,10 @@
 			<a class="dropdown-toggle" type="button" data-toggle="dropdown">
 				<span data-ng-bind="vm.user.username ? vm.user.username : 'username'"
 					  class="navbar-header__username"></span>
-				<img src="modules\users\img\profiles\default.jpg"
-					 class="profile-image img-circle">
+				<div class="profile-image-wrapper img-circle">
+					<img src="{{vm.user.profileImageURL}}"
+						 class="profile-image">
+				</div>
 				<span class="caret"></span></a>
 			<ul class="dropdown-menu">
 				<li><a href="#!/settings/profile">Settings</a></li>

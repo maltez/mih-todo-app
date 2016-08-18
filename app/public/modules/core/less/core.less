@@ -1,19 +1,20 @@
 @import "variables";
 
 .undecorated-link:hover {
-	text-decoration: none;
+  text-decoration: none;
 }
+
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-	display: none !important;
+  display: none !important;
 }
 
 .browsehappy.jumbotron.hide,
 body.ng-cloak {
-	display: block;
+  display: block;
 }
 
 body {
-	background: #f3f3f4;
+  background: #f3f3f4;
 }
 
 a {
@@ -36,7 +37,7 @@ textarea {
   background-image: none;
   outline: none;
   &:focus, &:active,
-  &:focus:active{
+  &:focus:active {
 	outline: none;
   }
 }
@@ -52,14 +53,14 @@ textarea {
 // Styles for sidebar
 
 .left-sidebar {
-	position: fixed;
-	z-index: 1;
-	background: #2f4050;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 300px;
-  	overflow-y: auto;
+  position: fixed;
+  z-index: 1;
+  background: #2f4050;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 300px;
+  overflow-y: auto;
 
   &__category-control {
 	width: 100%;
@@ -74,6 +75,7 @@ textarea {
 .nav-header {
   background-repeat: repeat;
 }
+
 .nav-title {
   font-size: 1.5em;
   color: #fff;
@@ -105,35 +107,36 @@ textarea {
 	margin-right: 10px;
   }
 }
-.main-view-container {
-	height: 100%;
 
-	> section {
-		height: 100%;
-	}
+.main-view-container {
+  height: 100%;
+
+  > section {
+	height: 100%;
+  }
 }
 
 .main-content {
-	transition: margin .6s;
+  transition: margin .6s;
+  position: relative;
+  height: 100%;
+  z-index: 2;
+
+  &.with-sidebar {
+	margin-left: 300px;
+  }
+
+  .container-wrapper {
+	height: 100%;
 	position: relative;
-  	height: 100%;
-	z-index: 2;
 
-	&.with-sidebar {
-		margin-left: 300px;
+	.navbar-default {
+	  background: #fff;
+	  box-shadow: none;
+	  padding: 0 15px;
+	  box-sizing: border-box;
 	}
-
-	.container-wrapper {
-		height: 100%;
-		position: relative;
-
-		.navbar-default {
-			background: #fff;
-			box-shadow: none;
-		  	padding: 0 15px;
-		  	box-sizing: border-box;
-		}
-	}
+  }
 }
 
 .ibox .row {
@@ -180,81 +183,87 @@ textarea {
   }
 }
 
-.navbar-right i{
+.navbar-right i {
   font-size: 20px;
 }
 
 .navbar-header {
-	> .page-title {
-		display: inline-block;
-		vertical-align: middle;
-		margin: 0 0 0 15px;
-		line-height: 50px;
-	}
-	> .menu-btn {
-		display: inline-block;
-		vertical-align: middle;
-		cursor: pointer;
-		font-size: 1.5em;
-	}
-	&__username {
-	  max-width: 150px;
-	  display: inline-block;
-	  white-space: nowrap;
-	  overflow: hidden;
-	  text-overflow: ellipsis;
-	  vertical-align: middle;
-	}
+  > .page-title {
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0 0 0 15px;
+	line-height: 50px;
+  }
+  > .menu-btn {
+	display: inline-block;
+	vertical-align: middle;
+	cursor: pointer;
+	font-size: 1.5em;
+  }
+  &__username {
+	max-width: 150px;
+	display: inline-block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	vertical-align: middle;
+  }
 }
 
 .nav-user-profile {
-  	display: inline-block;
-  	vertical-align: middle;
+  display: inline-block;
+  vertical-align: middle;
 
-	> .dropdown-toggle {
-	  	color: #676a6c;
-		font-size: 16px;
-		padding: 0;
-	}
+  > .dropdown-toggle {
+	color: #676a6c;
+	font-size: 16px;
+	padding: 0;
+  }
 
-  	> .dropdown-menu a {
-		font-size: 14px;
-  	}
-	.profile-image {
-	  	height: 48px;
-	}
+  > .dropdown-menu a {
+	font-size: 14px;
+  }
+  .profile-image-wrapper {
+	display: inline-block;
+	position: relative;
+	overflow: hidden;
+	width: 48px;
+  }
+  .profile-image {
+	height: 48px;
+  }
 }
 
 div.ui-notification {
-	:before {
-		content: '×';
-		right: 5px;
-		top: 0;
-		position: absolute;
-		display: block;
-		font-size: 20px;
-		line-height: 1;
-	}
+  :before {
+	content: '×';
+	right: 5px;
+	top: 0;
+	position: absolute;
+	display: block;
+	font-size: 20px;
+	line-height: 1;
+  }
 
-	&.success {
-		background: #1ab394;
-	}
+  &.success {
+	background: #1ab394;
+  }
 
-	.message {
-		background-color: transparent;
-		border: none;
-		text-align: left;
-		display: block;
-		padding: 0;
-		position: relative;
-		border-radius: 0;
-	}
+  .message {
+	background-color: transparent;
+	border: none;
+	text-align: left;
+	display: block;
+	padding: 0;
+	position: relative;
+	border-radius: 0;
+  }
 }
 
 .error-message {
-	.error-text {
-		color: @error-message-color;
-	}
+  .error-text {
+	color: @error-message-color;
+  }
 }
 
 // priority
@@ -297,141 +306,141 @@ div.ui-notification {
 }
 
 .ui-datepicker {
-	* {
-		font-weight: normal;
-	}
-	.btn {
-		border: none;
-		border-radius: 0;
-		box-shadow: none;
-	}
-	table[role='grid'] {
-		outline: none;
-		width: 100%;
-	}
-	table[role='grid']:focus {
-		outline: none;
-	}
-	thead {
-		button {
-			padding: 10px 0;
-			background-color: @color-mountain-meadow;
-			width: 100%;
+  * {
+	font-weight: normal;
+  }
+  .btn {
+	border: none;
+	border-radius: 0;
+	box-shadow: none;
+  }
+  table[role='grid'] {
+	outline: none;
+	width: 100%;
+  }
+  table[role='grid']:focus {
+	outline: none;
+  }
+  thead {
+	button {
+	  padding: 10px 0;
+	  background-color: @color-mountain-meadow;
+	  width: 100%;
 
-			&:hover,
-			&:active,
-			&:hover:active {
-				background-color: darken(@color-mountain-meadow, 3%);
-			}
-		}
-		th {
-			small {
-				/* workday headings */
-				display: inline-block;
-				padding: 5px 0;
-				color: @color-mountain-meadow;
-			}
-			.btn-default {
-				font-size: 0.9em;
-			}
-		}
+	  &:hover,
+	  &:active,
+	  &:hover:active {
+		background-color: darken(@color-mountain-meadow, 3%);
+	  }
 	}
-	thead tr:nth-child(2) th {
-		/* row: days of week */
-		height: 2.8em !important;
+	th {
+	  small {
+		/* workday headings */
+		display: inline-block;
+		padding: 5px 0;
+		color: @color-mountain-meadow;
+	  }
+	  .btn-default {
+		font-size: 0.9em;
+	  }
 	}
-	thead th,
-	tbody td {
+  }
+  thead tr:nth-child(2) th {
+	/* row: days of week */
+	height: 2.8em !important;
+  }
+  thead th,
+  tbody td {
+	small,
+	button {
+	  font-size: .9em;
+	}
+
+	/* saturday and sunday headings and days */
+	&:nth-child(n+7) {
+	  small,
+	  span {
+		color: @color-dark-pink;
+	  }
+	  .active {
 		small,
-		button {
-			font-size: .9em;
+		span {
+		  color: white;
 		}
+	  }
+	}
+  }
 
-		/* saturday and sunday headings and days */
-		&:nth-child(n+7) {
-			small,
-			span {
-				color: @color-dark-pink;
-			}
-			.active {
-				small,
-				span {
-					color: white;
-				}
-			}
-		}
+  [ng-click^="close()"] {
+	/* close btn (plugin template) */
+	background-color: @color-light-grey;
+
+	&:hover,
+	&:active {
+	  background-color: darken(@color-light-grey, 3%);
 	}
 
-	[ng-click^="close()"] {
-		/* close btn (plugin template) */
-		background-color: @color-light-grey;
+  }
+  [ng-transclude] {
+	/* calendar container (plugin template) */
+	border-bottom: 1px solid #e3e3e3;
+  }
 
-		&:hover,
-		&:active {
-			background-color: darken(@color-light-grey, 3%);
-		}
+  [role="gridcell"] {
+	padding: 3px 5px;
 
-	}
-	[ng-transclude] {
-		/* calendar container (plugin template) */
-		border-bottom: 1px solid #e3e3e3;
-	}
+	.btn-default {
+	  background-color: #fff;
+	  color: #676A6C;
+	  opacity: 1;
+	  border-radius: 0;
+	  border: none;
+	  box-shadow: none;
 
-	[role="gridcell"] {
-		padding: 3px 5px;
+	  padding: 0;
+	  width: 2.8em !important;
+	  height: 2.8em !important;
 
-		.btn-default {
-			background-color: #fff;
-			color: #676A6C;
-			opacity: 1;
-			border-radius: 0;
-			border: none;
-			box-shadow: none;
+	  &[disabled] {
+		/* disabled day */
 
-			padding: 0;
-			width: 2.8em !important;
-			height: 2.8em !important;
-
-			&[disabled] {
-				/* disabled day */
-
-				opacity: .35;
-			}
-			.text-info {
-				/* today */
-
-				color: #1ab394;
-				font-weight: bold;
-			}
-			&.active {
-				/* user selected day */
-
-				box-shadow: none;
-				border-radius: 50%;
-				background: @link-color;
-				color: white;
-
-				& .text-info {
-					/* override default TODAY color - ugly */
-					color: white;
-					font-weight: lighter;
-				}
-			}
-		}
-	}
-	.btn-group {
-		.btn {
-			margin-bottom: 10px;
-			background-color: #1ab394;
-			border-color: #1ab394;
-			color: #fff;
-		}
-		.btn-danger {
-			display: none;
-		}
-	}
-	.text-muted {
 		opacity: .35;
+	  }
+	  .text-info {
+		/* today */
+
+		color: #1ab394;
+		font-weight: bold;
+	  }
+	  &.active {
+		/* user selected day */
+
+		box-shadow: none;
+		border-radius: 50%;
+		background: @link-color;
+		color: white;
+
+		& .text-info {
+		  /* override default TODAY color - ugly */
+		  color: white;
+		  font-weight: lighter;
+		}
+	  }
 	}
+  }
+  .btn-group {
+	.btn {
+	  margin-bottom: 10px;
+	  background-color: #1ab394;
+	  border-color: #1ab394;
+	  color: #fff;
+	}
+	.btn-danger {
+	  display: none;
+	}
+  }
+  .text-muted {
+	opacity: .35;
+  }
 }
 

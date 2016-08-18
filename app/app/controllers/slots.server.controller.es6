@@ -1,10 +1,15 @@
 'use strict';
 
+import {EmailSlots as SlotEmailNotificationCtrl} from './notifications-by-email.server.controller';
 var mongoose = require('mongoose'),
 	errorHandler = require('./errors.server.controller'),
 	moment = require('moment'),
 	Slot = mongoose.model('Slot'),
 	_ = require('lodash');
+
+// TODO: where to place this call - to be called once (as is here)?
+// TODO: figure out if require() of the module calls fn twice
+new SlotEmailNotificationCtrl();
 
 export class SlotsServerController {
 	static list(req, res) {
@@ -53,7 +58,15 @@ export class SlotsServerController {
 								slots.forEach(function (slot) {
 									slot.start = newSlot.start.setHours(hoursForSlot, minutesForSlot);
 									slot.end = newSlot.end.setHours(hoursForSlot + slot.duration, minutesForSlot + slot.duration % 1 * 60);
-									slot.save();
+									slot.save(function (err) {
+										if (err) {
+											return res.status(400).send({
+												message: err
+											});
+										}
+
+										SlotEmailNotificationCtrl.doScheduleEmailForFutureSlot(slot);
+									});
 									hoursForSlot += parseInt(slot.duration, 10);
 									minutesForSlot = (minutesForSlot + slot.duration % 1 * 60) % 60;
 								});

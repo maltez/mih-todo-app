@@ -16,6 +16,13 @@ var SlotSchema = new Schema({
 		type: Boolean,
 		default: false
 	},
+	userId: {
+		type: Schema.ObjectId,
+		ref: 'User'
+	},
+	emailStats: {
+		timesSentCounter: Number
+	},
 	overlap: false
 });
 

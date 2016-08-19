@@ -1,32 +1,42 @@
-<section ng-controller="TasksListController" ng-init="find()">
-	<div class="form-group todo-list-controls" data-ng-show="tasks.length > 1">
-		<a class="controls-link" ng-click="sortListBy('priority')">
-			<i class="fa fa-sort-amount-desc" aria-hidden="true" ng-hide="sortType ==='priority' && sortReverse === true"></i>
-			<i class="fa fa-sort-amount-asc" aria-hidden="true" ng-show="sortType ==='priority' && sortReverse === true"></i>
+<section ng-controller="TasksListController as taskListCtrl">
+	<div class="form-group todo-list-controls" data-ng-show="taskListCtrl.tasks.length > 1">
+		<a class="controls-link" ng-click="taskListCtrl.sortListBy('priority')">
+			<i class="fa fa-sort-amount-desc" aria-hidden="true"
+			   ng-hide="taskListCtrl.sortType ==='priority' && taskListCtrl.sortReverse === true"
+			></i>
+			<i class="fa fa-sort-amount-asc" aria-hidden="true"
+			   ng-show="taskListCtrl.sortType ==='priority' && taskListCtrl.sortReverse === true"
+			></i>
 		</a>
-		<a class="controls-link" ng-click="sortListBy('days.endTime')">
-			<i class="fa fa-long-arrow-up" aria-hidden="true" ng-hide="sortType ==='days.endTime' && sortReverse === true"></i>
-			<i class="fa fa-long-arrow-down" aria-hidden="true" ng-show="sortType ==='days.endTime' && sortReverse === true"></i>
+		<a class="controls-link" ng-click="taskListCtrl.sortListBy('days.endTime')">
+			<i class="fa fa-long-arrow-up" aria-hidden="true"
+			   ng-hide="taskListCtrl.sortType ==='days.endTime' && taskListCtrl.sortReverse === true"
+			></i>
+			<i class="fa fa-long-arrow-down" aria-hidden="true"
+			   ng-show="taskListCtrl.sortType ==='days.endTime' && taskListCtrl.sortReverse === true"
+			></i>
 			<i class="fa fa-clock-o" aria-hidden="true"></i>
 		</a>
 		<div>
 			<label>
 				completed
-				<input type="checkbox" data-ng-model="status.isComplete" data-ng-true-value="true"/>
+				<input type="checkbox" data-ng-model="taskListCtrl.status.isComplete" data-ng-true-value="true"/>
 			</label>
 		</div>
 
 	</div>
 	<ul class="nav nav-second-level in collapse">
-		<li data-ng-repeat="task in tasks | orderBy: sortType : sortReverse | filter:status:strict" class="task-list-item">
+		<li data-ng-repeat="task in taskListCtrl.tasks | orderBy: taskListCtrl.sortType : taskListCtrl.sortReverse | filter:status:strict"
+			class="task-list-item"
+		>
 			<a data-ng-href="#!/tasks/{{task._id}}/edit" class="task-list-item">
 				<span class="task-priority fa fa-circle {{'task-priority-' + task.priority}}"></span>
 				<span class="nav-label task-name" data-ng-bind="task.title"></span>
-				<span class="pull-right label label-danger"> 0% </span>
+				<span class="pull-right label label-danger">{{taskListCtrl.getTaskDonePercentage(task)}}%</span>
 			</a>
 		</li>
 	</ul>
-	<div class="text-center text-muted p-y-1" data-ng-hide="!tasks.$resolved || tasks.length">
+	<div class="text-center text-muted p-y-1" data-ng-hide="!taskListCtrl.tasks.$resolved || taskListCtrl.tasks.length">
 		No tasks yet. <br/> Please, click on <span class="fa fa-plus-circle"></span> to add new one.
 	</div>
 </section>

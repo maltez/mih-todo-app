@@ -1,28 +1,34 @@
 'use strict';
 
-// Tasks controller
+class TasksListController {
+	/** @ngInject */
+	constructor($rootScope, Authentication, Tasks) {
+		this.authentication = Authentication;
+		this.tasks = Tasks.query();
+		this.Tasks = Tasks;
 
-angular.module('tasks').controller('TasksListController', ['$scope', '$rootScope', '$stateParams', '$location', 'Authentication', 'Tasks', function ($scope, $rootScope, $stateParams, $location, Authentication, Tasks) {
-	$scope.authentication = Authentication;
+		$rootScope.$on('NEW_TASK_MODIFY', () => {
+			this.find();
+		});
 
-	$rootScope.$on('NEW_TASK_MODIFY', function () {
-		$scope.find();
-	});
+		this.sortType = localStorage.getItem('sidebarTodoSortOrderBy') || 'days.endTime';
+		this.sortReverse = localStorage.getItem('sidebarTodoSortOrderReverse') || false;
+	}
 
-	$scope.sortType = 'deadline';
-	$scope.sortReverse = false;
+	sortListBy(type) {
+		localStorage.setItem('sidebarTodoSortOrderBy', type);
+		localStorage.setItem('sidebarTodoSortOrderReverse', !this.sortReverse);
+		this.sortType = type;
+		this.sortReverse = !this.sortReverse;
+	}
 
-	$scope.sortListBy = function(type){
-		$scope.sortType = type;
-		$scope.sortReverse = !$scope.sortReverse;
-	};
+	find () {
+		this.tasks = this.Tasks.query();
+	}
 
-	// Find a list of Tasks
-	$scope.find = function () {
-		$scope.tasks = Tasks.query();
-	};
-
-	$scope.getTaskDonePercentage = task => {
+	getTaskDonePercentage(task) {
 		return (task.progress * 100) / task.estimation;
 	}
-}]);
+}
+
+angular.module('tasks').controller('TasksListController', TasksListController);

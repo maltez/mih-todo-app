@@ -2,14 +2,14 @@
 
 //Notifications service used to communicate Notifications REST endpoints
 angular.module('schedule-notifications').factory('ScheduleNotifications', ['$resource',
-	function($resource) {
-        var currentTime = new Date();
+	function ($resource) {
+		var currentTime = new Date();
 
-		return $resource('notifications/:notificationId', { notificationId: '@_id', time: currentTime
+		return $resource('notifications/:notificationId', {
+			notificationId: '@_id',
+			time: currentTime
 		}, {
-			update: {
-				method: 'PUT'
-			}
+			query: {isArray: false}
 		});
 	}
 ]);

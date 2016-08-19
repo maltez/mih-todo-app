@@ -1,19 +1,22 @@
-<a class="notifications-info" data-ng-class="{disable: !notifications.length}" data-toggle="dropdown">
+<a class="notifications-info" data-ng-class="{disable: !notifications.slots.length}" data-toggle="dropdown">
     <i class="fa fa-bell" aria-hidden="true"></i>
-    <span class="label"
-          data-ng-class="notifications.length ? 'label-primary' : 'label-default'"
-          data-ng-bind="notifications.length">
+    <span class="label" data-ng-class="notifications.slots.length ? 'label-primary' : 'label-default'"
+          data-ng-bind="notifications.slots.length">
     </span>
 </a>
 
-<ul data-ng-init="find()" data-ng-show="notifications.length" class="dropdown-menu dropdown-alerts notifications-dropdown">
-    <li data-ng-repeat="notification in notifications | limitTo: 3 " class="clearfix notification-item">
+<ul data-ng-init="find()" data-ng-show="notifications.slots.length" class="dropdown-menu dropdown-alerts notifications-dropdown">
+    <li data-ng-repeat="slot in notifications.slots | limitTo: 3 " class="clearfix notification-item">
 		<div class="pull-left">
-			<a data-ng-href="#!/tasks/{{notification.taskId}}/edit" class="notification-link"
-			   data-ng-bind="notification.title"></a>
+			<a data-ng-href="#!/notifications/{{slot.taskId}}/edit" class="notification-link"
+			   data-ng-bind="slot.title"></a>
+			<button class="btn btn-primary btn-circle btn-outline"
+					data-ng-click="completeSlot(slot, notifications.tasks)">
+				<i class="fa fa-chevron-down" aria-hidden="true"></i>
+			</button>
 		</div>
 	</li>
 	<li>
-		<a href="" class="notification-control text-center">See all notifications > </a>
+		<a href="#!/notifications" class="notification-control text-center">See all notifications > </a>
 	</li>
 </ul>

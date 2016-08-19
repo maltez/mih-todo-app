@@ -2,60 +2,18 @@
 
 // Notifications controller
 angular.module('schedule-notifications').controller('ScheduleNotificationsController',
-	['$scope', '$rootScope', '$stateParams', '$location', 'Authentication', 'ScheduleNotifications', '$interval',
-	function($scope, $rootScope, $stateParams, $location, Authentication, ScheduleNotifications, $interval) {
+	['$scope', '$rootScope', '$stateParams', 'Authentication', 'ScheduleNotifications', '$interval', 'Slots', 'Tasks', 'Notification',
+	function($scope, $rootScope, $stateParams, Authentication, ScheduleNotifications, $interval, Slots, Tasks, Notification) {
 		$scope.authentication = Authentication;
 		
         // TODO: move to common app config
         var notificationsInterval = 1800000; // 30 min
+		var stateParams = $stateParams;
 
-		// Create new Notification
-		$scope.create = function() {
-			// Create new Notification object
-			var notification = new ScheduleNotifications ({
-				name: this.name
-			});
+		$rootScope.$on('NEW_TASK_MODIFY', function () {
+			$scope.find();
+		});
 
-			// Redirect after save
-			notification.$save(function(response) {
-				$location.path('notifications/' + response._id);
-
-				// Clear form fields
-				$scope.name = '';
-			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
-			});
-		};
-
-		// Remove existing Notification
-		$scope.remove = function(notification) {
-			if ( notification ) { 
-				notification.$remove();
-
-				for (var i in $scope.notifications) {
-					if ($scope.notifications [i] === notification) {
-						$scope.notifications.splice(i, 1);
-					}
-				}
-			} else {
-				$scope.notification.$remove(function() {
-					$location.path('notifications');
-				});
-			}
-		};
-
-		// Update existing Notification
-		$scope.update = function() {
-			var notification = $scope.notification;
-
-			notification.$update(function() {
-				$location.path('notifications/' + notification._id);
-			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
-			});
-		};
-
-		// Find a list of Notifications
 		$scope.find = function() {
 			$scope.notifications = ScheduleNotifications.query();
 
@@ -63,28 +21,39 @@ angular.module('schedule-notifications').controller('ScheduleNotificationsContro
                 $scope.notifications = ScheduleNotifications.query();
             }, notificationsInterval);
 		};
+		
+		$scope.completeSlot = (slot, overdueTasks) => {		
+			var isCurrentTaskPage = false;
+			var overdueTask = overdueTasks.filter(function(el){
+				return el._id === slot.taskId;
+			})[0];
 
-		// Find existing Notification
-		$scope.findOne = function() {
-			$scope.notification = ScheduleNotifications.get({ 
-				notificationId: $stateParams.notificationId
-			});
-		};
-
-		$scope.closeView = function () {
-			$location.path('/');
-		};
-
-		// todo: move to progress controller; rewrite static
-		$scope.progressChart = {
-			data: [
-				{label: "Completed", value: 50},
-				{label: "To do", value: 50}
-			],
-			colors: ["#31C0BE", "#c7254e"],
-			formatter: function (input) {
-				return input + '%';
+			if (stateParams.taskId === overdueTask._id) {
+				isCurrentTaskPage = true;
 			}
+			updateActivity(slot, overdueTask, isCurrentTaskPage);
+		};
+		
+		var updateActivity = (slot, task, isCurrentTaskPage) => {
+			// todo: task.isComplete = true if all slots completed
+			// todo: case - edit page of current task opened (refresh list of slots and progress chart)
+
+			console.log('isCurrentTaskPage', isCurrentTaskPage);
+			slot.isComplete = true;
+			
+			Slots.update(slot, () => {				
+				task.progress += slot.duration;
+				var progress = +(task.progress / task.estimation * 100).toFixed(2);
+
+				Tasks.update(task, () => {					
+					$rootScope.$broadcast('NEW_TASK_MODIFY');
+					Notification.success({
+						message: `Good job, ${$scope.authentication.user.username}! ${progress}% done.`
+					});
+				}, (errorResponse) => {
+					console.log(errorResponse);
+				});
+			});
 		};
 	}
 ]);

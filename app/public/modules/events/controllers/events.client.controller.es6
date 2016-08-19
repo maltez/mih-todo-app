@@ -1,10 +1,8 @@
 'use strict';
 
 // Events controller
-angular.module('events').controller('EventsController', ['$scope', '$rootScope', '$stateParams', '$location', 'Users', 'Authentication', 'Events', '$timeout', 'Algorithm', 'Slots', 'Notification',
-	function ($scope, $rootScope, $stateParams, $location, Users, Authentication, Events, $timeout, Algorithm, Slots, Notification) {
-		$rootScope.$broadcast('setAsideCategory', 'todo');
-
+angular.module('events').controller('EventsController', ['$scope', '$stateParams', '$location', 'Users', 'Authentication', 'Events', '$timeout', 'Algorithm', 'Slots', 'Notification',
+	function ($scope, $stateParams, $location, Users, Authentication, Events, $timeout, Algorithm, Slots, Notification) {
 		$scope.selectedTemplate = false;
 		$scope.authentication = Authentication;
 

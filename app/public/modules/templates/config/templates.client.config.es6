@@ -5,7 +5,8 @@ angular.module('templates').config(['$stateProvider', function ($stateProvider) 
 		url: '/templates',
 		params: {
 			templateId: '',
-			templateType: ''
+			templateType: '',
+			category: 'templates'
 		},
 		views: {
 			'aside': {templateUrl: 'modules/core/views/todo.client.view.html'},

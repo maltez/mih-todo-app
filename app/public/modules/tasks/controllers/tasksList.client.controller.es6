@@ -22,4 +22,7 @@ angular.module('tasks').controller('TasksListController', ['$scope', '$rootScope
 		$scope.tasks = Tasks.query();
 	};
 
+	$scope.getTaskDonePercentage = task => {
+		return (task.progress * 100) / task.estimation;
+	}
 }]);

@@ -22,7 +22,7 @@
 			<a data-ng-href="#!/tasks/{{task._id}}/edit" class="task-list-item">
 				<span class="task-priority fa fa-circle {{'task-priority-' + task.priority}}"></span>
 				<span class="nav-label task-name" data-ng-bind="task.title"></span>
-				<span class="pull-right label label-danger"> 0% </span>
+				<span class="pull-right label label-danger">{{getTaskDonePercentage(task)}}%</span>
 			</a>
 		</li>
 	</ul>

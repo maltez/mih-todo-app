@@ -27,8 +27,7 @@ class Calendar {
 				firstDay: 1,
 				defaultView: 'agendaWeek',
 				timezone: 'local',
-				eventDrop: (event, delta, revertFunc) => this.eventDropHandler(event, delta, revertFunc),
-				eventDataTransform: eventData => this.onEventDataTransform(eventData)
+				eventDrop: (event, delta, revertFunc) => this.eventDropHandler(event, delta, revertFunc)
 			}
 		};
 
@@ -83,14 +82,6 @@ class Calendar {
 				})
 			);
 		}
-	}
-
-	onEventDataTransform(eventData) {
-		if (eventData.priority && eventData.className) {
-			eventData.className = [eventData.className, `task-priority-${eventData.priority}`]
-		}
-
-		return eventData;
 	}
 
 	renderBookedSlots(slots) {

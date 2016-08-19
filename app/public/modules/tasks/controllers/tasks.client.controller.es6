@@ -261,7 +261,7 @@ angular.module('tasks').controller('TasksController',
 							slot.taskId = response._id;
 							slot.userId = Authentication.user._id;
 							slot.title = response.title;
-							slot.className = "task";
+							slot.className = ['task', `task-priority-${model.priority}`];
 						});
 						slots = new Slots($scope.slotsRange);
 						slots.$save(resolve);

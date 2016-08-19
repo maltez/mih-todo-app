@@ -11,7 +11,7 @@ var SlotSchema = new Schema({
 	duration: Number,
 	start: Date,
 	end: Date,
-	className: String,
+	className: Array,
 	isComplete: {
 		type: Boolean,
 		default: false

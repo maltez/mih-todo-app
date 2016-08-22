@@ -9,11 +9,15 @@
 <ul data-ng-init="find()" data-ng-show="notifications.length" class="dropdown-menu dropdown-alerts notifications-dropdown">
     <li data-ng-repeat="notification in notifications | limitTo: 3 " class="clearfix notification-item">
 		<div class="pull-left">
-			<a data-ng-href="#!/tasks/{{notification.taskId}}/edit" class="notification-link"
+
+			<!-- TODO: note, will throw error when used for event notifications -->
+			<!-- TODO: eventually, href should refer to a slot. fix this later -->
+			<a data-ui-sref="todo_state.tasks.edit({ taskId: notification.taskId })" class="notification-link"
 			   data-ng-bind="notification.title"></a>
+
 		</div>
 	</li>
 	<li>
-		<a href="" class="notification-control text-center">See all notifications > </a>
+		<a ui-sref="overdue" class="notification-control text-center">See all notifications > </a>
 	</li>
 </ul>

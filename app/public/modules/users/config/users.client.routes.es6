@@ -7,8 +7,8 @@ angular.module('users').config(['$stateProvider', function ($stateProvider) {
 	$stateProvider.state('profile', {
 		url: '/settings/profile',
 		views: {
-			'aside': { templateUrl: 'modules/core/views/todo.client.view.html' },
-			'': {
+			'aside': { templateUrl: 'modules/core/views/sidebar/todo.client.view.html' },
+			'main-view': {
 				templateUrl: 'modules/users/views/settings/edit-profile.client.view.html',
 				controller: 'SettingsController',
 				controllerAs: 'settings'

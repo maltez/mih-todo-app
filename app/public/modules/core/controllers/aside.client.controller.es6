@@ -1,32 +1,39 @@
 'use strict';
 
-angular.module('core').controller('AsideController', ['$scope', '$location', 'AsideService', 'Authentication',
-	function ($scope, $location, AsideService, Authentication) {
-		$scope.templatesList = Authentication.user;
+angular.module('core').controller('SidebarController', ['$scope', '$injector',
+	function ($scope, $injector) {
+		let $state = $injector.get('$state');
 
-		$scope.categories = ['todo', 'templates', 'overdue'];
+		let Ctrl = this;
+		Ctrl.topStatesInNavDropdown = [
+			$state.get('todo_state'),
+			$state.get('overdue'),
+			$state.get('templates')
+		];
 
-		$scope.currentCategory = AsideService.getCurrentCategory() || $scope.categories[0];
+		Ctrl.goToState = function (newState) {
+			if (!newState) return;
+			$state.go(newState);
+		};
 
-		$scope.$on('setAsideCategory', function (event, selection) {
-			AsideService.setCurrentCategory(selection);
-			$scope.currentCategory = AsideService.getCurrentCategory() || $scope.categories[0];
+		// $state.current isn't available yet,
+		// but we need to display selectedTopState in the navigation dropdown
+		// that's why we subscribe to $stateChangeSuccess event,
+		// and then investigate which topState is parent to the current $state
+		$scope.$on('$stateChangeSuccess', function (event, currentState, toParams, fromState, fromParams) {
+			// $state.current === currentState;
+
+			let topStateToDisplayInNavDropdown = _.find(Ctrl.topStatesInNavDropdown, function (oneOfParentNavStates) {
+				// find appropriate top state and attach to the view
+				return $state.includes(oneOfParentNavStates.name);
+			});
+			if (topStateToDisplayInNavDropdown) {
+				// always set TOP STATE to enable site navigation via dropdown
+				// DO _NOT_ DO IT THIS WAY: Ctrl.selectedTopState = currentState;
+				// setting currentState will add an empty option to dropdown
+				Ctrl.selectedTopState = topStateToDisplayInNavDropdown;
+			}
+
 		});
 
-		$scope.updateView = () => {
-			switch ($scope.currentCategory) {
-				case 'templates':
-					$location.path('templates');
-					AsideService.setCurrentCategory($scope.categories[1]);
-					break;
-				case 'overdue':
-					$location.path('/notifications');
-					AsideService.setCurrentCategory($scope.categories[2]);
-					break;
-				default:
-					$location.path('/');
-					AsideService.setCurrentCategory($scope.categories[0]);
-					break;
-			}
-		};
 	}]);

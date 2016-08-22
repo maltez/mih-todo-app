@@ -1,16 +1,14 @@
 'use strict';
 
 // Events controller
-angular.module('events').controller('EventsController', ['$scope', '$rootScope', '$stateParams', '$location', 'Users', 'Authentication', 'Events', '$timeout', 'Algorithm', 'Slots', 'Notification',
-	function ($scope, $rootScope, $stateParams, $location, Users, Authentication, Events, $timeout, Algorithm, Slots, Notification) {
-		$rootScope.$broadcast('setAsideCategory', 'todo');
+angular.module('events').controller('EventsController', ['$scope', '$stateParams', '$location', 'Users', 'Authentication', 'Events', '$timeout', 'Algorithm', 'Slots', 'Notification',
+	function ($scope, $stateParams, $location, Users, Authentication, Events, $timeout, Algorithm, Slots, Notification) {
 
 		$scope.selectedTemplate = false;
 		$scope.authentication = Authentication;
 
 		$scope.user = Authentication.user;
 		var currentDate = new Date(),
-			predefinedEventType = $location.search().event,
 			defaultEventData = {
 				days : {
 					startTime: currentDate,
@@ -26,6 +24,31 @@ angular.module('events').controller('EventsController', ['$scope', '$rootScope',
 
 		$scope.eventData = JSON.parse(JSON.stringify(defaultEventData));
 
+		let getPresetTitle = function getPresetTitle(eventPresetParam) {
+			return _
+				.chain(user.eventTemplates)
+				.find((eventPreset) => {
+					// TODO: dig into realization of commit 180b3f3
+					return eventPreset.type === eventPresetParam;
+				})
+				.get(
+					// safe property accessor. might not be saved in user preset's
+					// todo: ensure template is always present for all users
+					'title',
+
+					// default value (if not found)
+					`Error: Preset '${eventPresetParam}' not found`
+				)
+			;
+		};
+
+		let eventPresetParam = $stateParams.eventPresetType;
+		if ( !_.isUndefined(eventPresetParam) ) {
+			// do not fill in, when no param provided
+			$scope.eventData.title = getPresetTitle(eventPresetParam);
+		}
+
+
 		$scope.loadEventTemplate = (selectedTemplate) => {
 			if (selectedTemplate) {
 				$.extend($scope.eventData, selectedTemplate);
@@ -40,6 +63,7 @@ angular.module('events').controller('EventsController', ['$scope', '$rootScope',
 		};
 
 		$scope.loadPredefinedEvent = () => {
+			let predefinedEventType = $stateParams.eventPresetType;
 			if (predefinedEventType) {
 				user.eventTemplates.forEach(template => {
 					if (template.type === predefinedEventType) {
@@ -53,7 +77,6 @@ angular.module('events').controller('EventsController', ['$scope', '$rootScope',
 		$scope.loadPredefinedEvent();
 
 		$scope.$on('$locationChangeSuccess', function () {
-			predefinedEventType = $location.search().event;
 			$scope.loadPredefinedEvent();
 		});
 

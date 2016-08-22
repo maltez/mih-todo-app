@@ -7,18 +7,20 @@
 	</div>
 	<ul class="nav navbar-top-links navbar-right">
 		<li>
-			<a class='top-link' data-ng-href="/#!/events/create?event=sick">
+			<!-- TODO: tight coupling! string -->
+			<a class='top-link' ui-sref="todo_state.events.create({ eventPresetType: 'sick' })">
 				<i class="fa fa-heartbeat" aria-hidden="true"></i>Sick today
 			</a>
 		</li>
 		<li>
-			<a class='top-link' data-ng-href="/#!/events/create?event=vacation">
+			<!-- TODO: tight coupling! string -->
+			<a class='top-link' ui-sref="todo_state.events.create({ eventPresetType: 'vacation' })">
 				<i class="fa fa-plane" aria-hidden="true"></i>
 				Vacation
 			</a>
 		</li>
 		<li>
-			<a class='top-link' ui-sref="home">
+			<a class='top-link' ui-sref="todo_state">
 				<i class="fa fa-calendar calendar-btn" aria-hidden="true"></i>
 			</a>
 		</li>

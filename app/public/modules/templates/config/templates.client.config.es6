@@ -8,8 +8,10 @@ angular.module('templates').config(['$stateProvider', function ($stateProvider) 
 			templateType: ''
 		},
 		views: {
-			'aside': {templateUrl: 'modules/core/views/todo.client.view.html'},
-			'': {
+			'aside': {
+				templateUrl: 'modules/core/views/sidebar/template-groups-list.client.view.html'
+			},
+			'main-view': {
 				/** @ngInject */
 				templateUrl: $stateParams => {
 					switch ($stateParams.templateType) {
@@ -23,6 +25,9 @@ angular.module('templates').config(['$stateProvider', function ($stateProvider) 
 				controller: 'TemplatesController',
 				controllerAs: 'templates'
 			}
+		},
+		data: {
+			menuLabel: "templates"
 		},
 		resolve: {
 			/** @ngInject */

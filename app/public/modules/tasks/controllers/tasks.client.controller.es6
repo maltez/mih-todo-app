@@ -17,6 +17,7 @@ class TasksController {
 
 	static getEstimationDaysRange(startDate, endDate) {
 		var weekDay = new Date(startDate),
+			endDate = new Date(endDate),
 			estimationDaysRange = [weekDay];
 
 		while (weekDay < endDate) { //Get all days for this period
@@ -158,8 +159,8 @@ angular.module('tasks').controller('TasksController',
 
 				$scope.slider = setEstimationExtremes($scope.newTask);
 
-				$scope.changeEstimation = () => {
-					updateEstimation($scope.newTask);
+				$scope.changeEstimation = (updatedTask) => {
+					updateEstimation(updatedTask);
 					clearSlotsList();
 				};
 
@@ -198,8 +199,8 @@ angular.module('tasks').controller('TasksController',
 				$scope.generateSlots = () => {
 					getNewSlots($scope.task);
 				};
-				$scope.changeEstimation = () => {
-					updateEstimation($scope.task);
+				$scope.changeEstimation = (updatedTask) => {
+					updateEstimation(updatedTask);
 					clearSlotsList();
 				};
 			};

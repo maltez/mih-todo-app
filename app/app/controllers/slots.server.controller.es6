@@ -43,6 +43,10 @@ export class SlotsServerController {
 					if (error) {
 						resolve(false)
 					} else {
+						if (newSlot.eventId) {
+							resolve(true);
+							return;
+						}
 						Slot.find({
 							start: {$gte: new Date(newSlot.start.toUTCString())},
 							end: {$lte: new Date(newSlot.end.toUTCString())},

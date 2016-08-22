@@ -1,0 +1,12 @@
+<aside class="left-sidebar navbar-default navbar-static-side">
+    <div class="sidebar-collapse">
+        <ul class="nav" data-ng-controller="AsideController as asideCtrl">
+            <select class="nav-header nav-title left-sidebar__category-control"
+                    ng-model="category"
+                    ng-options="category.name for category in asideCtrl.categories"
+                    ng-change="asideCtrl.updateView(category)">
+            </select>
+        </ul>
+        <div ui-view="aside">No data</div>
+    </div>
+</aside>

@@ -1,0 +1,7 @@
+<label class="field-label">{{label}}</label>
+<div class="input-group date datetime-picker" id="{{pickerId}}">
+	<span ng-class="{disabled: activity.withoutDates}" class="input-group-addon calendar-btn">
+		<i class="fa fa-calendar"></i>
+	</span>
+	<input data-ng-disabled="activity.withoutDates" type="text" class="form-control input-round-borders calendar-input" required/>
+</div>

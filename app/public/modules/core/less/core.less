@@ -304,143 +304,81 @@ div.ui-notification {
 	}
   }
 }
+.bootstrap-datetimepicker-widget {
+  font-size: 0.85em;
+  &.dropdown-menu {
+	padding: 0;
+  }
 
-.ui-datepicker {
-  * {
-	font-weight: normal;
+  .datepicker {
+	padding: 0;
   }
-  .btn {
-	border: none;
-	border-radius: 0;
-	box-shadow: none;
-  }
-  table[role='grid'] {
-	outline: none;
-	width: 100%;
-  }
-  table[role='grid']:focus {
-	outline: none;
-  }
-  thead {
-	button {
-	  padding: 10px 0;
-	  background-color: @color-mountain-meadow;
-	  width: 100%;
 
-	  &:hover,
-	  &:active,
-	  &:hover:active {
-		background-color: darken(@color-mountain-meadow, 3%);
-	  }
-	}
-	th {
-	  small {
-		/* workday headings */
-		display: inline-block;
-		padding: 5px 0;
-		color: @color-mountain-meadow;
-	  }
-	  .btn-default {
-		font-size: 0.9em;
-	  }
-	}
-  }
-  thead tr:nth-child(2) th {
-	/* row: days of week */
-	height: 2.8em !important;
-  }
-  thead th,
-  tbody td {
-	small,
-	button {
-	  font-size: .9em;
-	}
+  .datepicker-days {
+	.table-condensed {
+		thead {
+		  tr:first-child th {
+			border-radius: 0;
+			background: @color-mountain-meadow;
+			color: #fff;
 
-	/* saturday and sunday headings and days */
-	&:nth-child(n+7) {
-	  small,
-	  span {
-		color: @color-dark-pink;
-	  }
-	  .active {
-		small,
-		span {
-		  color: white;
+			&:hover,
+			&:active,
+			&:hover:active {
+			  background-color: darken(@color-mountain-meadow, 3%);
+			}
+		  }
+		  .dow {
+			color: @color-mountain-meadow;
+			&:nth-child(6),
+			&:nth-child(7) {
+			  color: @color-dark-pink;
+			}
+		  }
 		}
-	  }
-	}
-  }
 
-  [ng-click^="close()"] {
-	/* close btn (plugin template) */
-	background-color: @color-light-grey;
+	  	tbody {
+		  .day {
+			&.active,
+			&:active,
+			&:hover {
+			  border-radius: 50%;
+			}
 
-	&:hover,
-	&:active {
-	  background-color: darken(@color-light-grey, 3%);
-	}
+			&.today {
+			  &:before {
+				border: 0;
+			  }
+			  &:not(.active) {
+				font-weight: 900;
+				color: @color-mountain-meadow;
+			  }
+			}
 
-  }
-  [ng-transclude] {
-	/* calendar container (plugin template) */
-	border-bottom: 1px solid #e3e3e3;
-  }
+			&.weekend {
+			  color: @color-dark-pink;
+			  &.active {
+				color : #fff;
+			  }
+			}
 
-  [role="gridcell"] {
-	padding: 3px 5px;
-
-	.btn-default {
-	  background-color: #fff;
-	  color: #676A6C;
-	  opacity: 1;
-	  border-radius: 0;
-	  border: none;
-	  box-shadow: none;
-
-	  padding: 0;
-	  width: 2.8em !important;
-	  height: 2.8em !important;
-
-	  &[disabled] {
-		/* disabled day */
-
-		opacity: .35;
-	  }
-	  .text-info {
-		/* today */
-
-		color: #1ab394;
-		font-weight: bold;
-	  }
-	  &.active {
-		/* user selected day */
-
-		box-shadow: none;
-		border-radius: 50%;
-		background: @link-color;
-		color: white;
-
-		& .text-info {
-		  /* override default TODAY color - ugly */
-		  color: white;
-		  font-weight: lighter;
+			&.new, &.disabled, &.old {
+			  opacity: 0.4;
+			}
+		  }
 		}
-	  }
 	}
   }
-  .btn-group {
-	.btn {
-	  margin-bottom: 10px;
-	  background-color: #1ab394;
-	  border-color: #1ab394;
-	  color: #fff;
-	}
-	.btn-danger {
-	  display: none;
-	}
+
+  .picker-switch.accordion-toggle {
+	font-size: 1.2em;
   }
-  .text-muted {
-	opacity: .35;
+
+  @media (min-width: 768px) {
+	.datepicker.col-md-6,
+	.timepicker.col-md-6 {
+	  width: 50%;
+	  display: inline-block;
+	}
   }
 }
-

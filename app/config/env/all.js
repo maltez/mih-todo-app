@@ -49,7 +49,8 @@ module.exports = {
 				'public/lib/bootstrap/dist/css/bootstrap-theme.css',
 				'public/lib/angular-ui-notification/dist/angular-ui-notification.css',
 				'public/lib/angularjs-slider/dist/rzslider.min.css',
-				'public/lib/fullcalendar/dist/fullcalendar.css'
+				'public/lib/fullcalendar/dist/fullcalendar.css',
+				'public/lib/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css'
 			],
 			js: [
 				'public/lib/angular/angular.js',
@@ -67,13 +68,14 @@ module.exports = {
 				'public/lib/angular-strap/dist/angular-strap.min.js',
 				'public/lib/angular-strap/dist/angular-strap.tpl.min.js',
 				'public/lib/owasp-password-strength-test/owasp-password-strength-test.js',
-				'public/lib/moment/moment.js',
+				'public/lib/moment/min/moment-with-locales.min.js',
 				'public/lib/angular-ui-calendar/src/calendar.js',
 				'public/lib/fullcalendar/dist/fullcalendar.js',
 				'public/lib/fullcalendar/dist/gcal.js',
 				'public/lib/raphael/raphael.min.js',
 				'public/lib/morris.js/morris.min.js',
-				'public/lib/angular-morris-chart/src/angular-morris-chart.min.js'
+				'public/lib/angular-morris-chart/src/angular-morris-chart.min.js',
+				'public/lib/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js'
 			]
 		},
 		css: [

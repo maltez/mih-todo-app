@@ -24,7 +24,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider', function 
 				}
 			},
 			data: {
-				menuLabel: "todo"
+				menuLabel: "plan your day"
 			}
 		})
 	;

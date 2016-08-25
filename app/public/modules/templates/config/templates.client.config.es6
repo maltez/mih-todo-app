@@ -27,7 +27,7 @@ angular.module('templates').config(['$stateProvider', function ($stateProvider) 
 			}
 		},
 		data: {
-			menuLabel: "templates"
+			menuLabel: "presets"
 		},
 		resolve: {
 			/** @ngInject */

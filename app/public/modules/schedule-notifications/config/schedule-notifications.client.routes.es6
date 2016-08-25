@@ -20,7 +20,7 @@ angular.module('schedule-notifications').config(['$stateProvider',
 					}
 				},
 				data: {
-					menuLabel: "overdue"
+					menuLabel: "track progress"
 				}
 			})
 			.state('overdue.create', {

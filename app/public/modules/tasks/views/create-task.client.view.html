@@ -1,4 +1,6 @@
 <div class="wrapper create-task-wrapper row clearfix" data-ng-controller="TasksController" data-ng-init="createMode()">
+	<a ui-sref="todo_state" class="ui-sref back"> < BACK to "Plan Your Day" </a>
+
 	<form class="form-horizontal" novalidate>
 		<fieldset>
 			<div class="row">
@@ -52,37 +54,10 @@
 							</div>
 							<div class="col-md-4 col-sm-12">
 								<div class="field-group">
-									<label class="field-label" for="startDate">Start date</label>
-									<div class="input-group ui-datepicker">
-										<span class="input-group-addon calendar-btn" data-ng-click="!newTask.withoutDates && openStart($event)">
-											<i class="fa fa-calendar"></i>
-										</span>
-
-										<input id="startDate" data-ng-disabled="newTask.withoutDates" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy"
-											   data-ng-model="newTask.days.startTime" is-open="opened.startDate" min-date="startDate.minDate" max-date="startDate.maxDate"
-											   datepicker-options="dateOptions.startDate" date-disabled="disabled(date, mode)"
-											   close-text="Close"
-											   ng-change="changeEstimation()"
-											   ng-click="openStart($event)" required/>
-									</div>
-									<!--<timepicker class="select-time" ng-model="newTask.startTime" minute-step="15" show-meridian="true"></timepicker>-->
+									<datetime-picker data-type="startTime" data-label="Start date" data-activity="newTask" data-picker-id="startDatePicker" data-linked-picker-id="endDatePicker"></datetime-picker>
 								</div>
-								<div class="field-group form-group-time-select">
-									<label class="field-label" for="endDate">End date</label>
-									<div class="input-group ui-datepicker">
-										<span  class="input-group-addon calendar-btn"
-											   data-ng-click="!newTask.withoutDates && openEnd($event)">
-											<i class="fa fa-calendar"></i>
-										</span>
-
-										<input id="endDate" data-ng-disabled="newTask.withoutDates" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy"
-											   data-ng-model="newTask.days.endTime" is-open="opened.endDate" min-date="endDate.minDate" max-date="endDate.maxDate"
-											   datepicker-options="dateOptions.endDate" date-disabled="disabled(date, mode)"
-											   close-text="Close"
-											   ng-change="changeEstimation()"
-											   ng-click="openEnd($event)" required/>
-									</div>
-									<!--<timepicker class="select-time" ng-model="newTask.endTime" minute-step="15" show-meridian="true"></timepicker>-->
+								<div class="field-group">
+									<datetime-picker data-type="endTime" data-label="End date" data-activity="newTask" data-picker-id="endDatePicker"></datetime-picker>
 								</div>
 								<div class="field-group">
 									<label class="field-label" for="estimation">Estimation*</label>

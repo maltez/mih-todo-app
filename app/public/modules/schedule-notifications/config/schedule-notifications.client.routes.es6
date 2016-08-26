@@ -3,26 +3,50 @@
 //Setting up route
 angular.module('schedule-notifications').config(['$stateProvider',
 	function ($stateProvider) {
+		// todo remove redundant states
+		// Notifications state routing
+
+		// view scheme is: "viewname@statename"
+		// "viewname@" renders into the ui-view='viewname' of the root template
 		$stateProvider
-			.state('listNotifications', {
-				url: '/notifications',
+			.state('overdue', {
+				url: '/overdue',
 				views: {
-					'aside': {templateUrl: 'modules/core/views/todo.client.view.html'},
-					'': {templateUrl: 'modules/schedule-notifications/views/list-notifications.client.view.html'}
+					'aside@': {
+						templateUrl: 'modules/schedule-notifications/views/list-notifications.client.view.html'
+					},
+					'main-view@': {
+						templateUrl: 'modules/schedule-notifications/views/list-notifications.client.view.html'
+					}
 				},
-				params: {
-					category: 'overdue'
+				data: {
+					menuLabel: "track progress"
 				}
 			})
-			.state('editTaskFromOverdue', {
-				url: '/notifications/:taskId/edit',
+			.state('overdue.create', {
+				url: '/create',
 				views: {
-					'aside': { templateUrl: 'modules/core/views/todo.client.view.html' },
-					'': { templateUrl: 'modules/tasks/views/edit-task.client.view.html' }
-				},
-				params: {
-					category: 'overdue'
+					'main-view@': {
+						templateUrl: 'modules/schedule-notifications/views/create-notification.client.view.html'
+					}
 				}
-			});
+			})
+			.state('overdue.view', {
+				url: '/:notificationId',
+				views: {
+					'main-view@': {
+						templateUrl: 'modules/schedule-notifications/views/view-notification.client.view.html'
+					}
+				}
+			})
+			.state('overdue.edit', {
+				url: '/:notificationId/edit',
+				views: {
+					'main-view@': {
+						templateUrl: 'modules/schedule-notifications/views/edit-notification.client.view.html'
+					}
+				}
+			})
+		;
 	}
 ]);

@@ -1,40 +1,11 @@
 {% extends 'layout.server.view.html' %}
 {% block content %}
-	{% if user %}
-		<section class="page-wrapper">
-			<aside class="left-sidebar navbar-default navbar-static-side">
-				<div class="sidebar-collapse" ui-view="aside"></div>
-			</aside>
-
-			<section class="main-content" ng-controller="HomeController as home" ng-class="{'with-sidebar': home.withSidebar}">
-				<div class="container-wrapper">
-					<header data-ng-include="'/modules/core/views/header.client.view.html'"></header>
-
-					<div class="content">
-						<div data-ui-view></div>
-					</div>
-				</div>
-			</section>
-		</section>
-	{% else %}
-		<section class="page-wrapper">
-			<section class="container-fluid auth-page">
-				<div class="row">
-					<aside class="col-sm-4 col-xs-12 auth-aside animated fadeInLeft">
-						<div class="auth-form" data-ui-view></div>
-					</aside>
-					<div class="col-sm-8 intro-section">
-						<div class="row intro-block">
-							<div class="col-sm-offset-3 col-sm-6">
-								<h1 class="app-logo">Make It Happen</h1>
-								<p class="intro-desc">Hello there! If you see this logo you are on the right way to making your life easier and
-									more organized. Just run application and create your own schedule. We would happy to help you
-									with choosing free time slots and estimations. See you on the next page ;)</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
-		</section>
-	{% endif %}
+	<section class="page-wrapper">
+		{% if user %}
+			<ng-include src="'/modules/core/views/sidebar/sidebar.client.view.html'"></ng-include>
+			<ng-include src="'/modules/core/views/main.client.view.html'"></ng-include>
+		{% else %}
+			<ng-include src="'/modules/core/views/login.client.view.html'"></ng-include>
+		{% endif %}
+	</section>
 {% endblock %}

@@ -3,15 +3,17 @@
 // Events controller
 angular.module('events').controller('EventsController', ['$scope', '$stateParams', '$location', 'Users', 'Authentication', 'Events', '$timeout', 'Algorithm', 'Slots', 'Notification',
 	function ($scope, $stateParams, $location, Users, Authentication, Events, $timeout, Algorithm, Slots, Notification) {
+
 		$scope.selectedTemplate = false;
 		$scope.authentication = Authentication;
 
 		$scope.user = Authentication.user;
 		var currentDate = new Date(),
-			predefinedEventType = $location.search().event,
 			defaultEventData = {
-				startDate: currentDate,
-				endDate: currentDate,
+				days : {
+					startTime: currentDate,
+					endTime: currentDate
+				},
 				type: 'event',
 				isATemplate: false,
 				withoutDates: false,
@@ -21,6 +23,31 @@ angular.module('events').controller('EventsController', ['$scope', '$stateParams
 			};
 
 		$scope.eventData = JSON.parse(JSON.stringify(defaultEventData));
+
+		let getPresetTitle = function getPresetTitle(eventPresetParam) {
+			return _
+				.chain(user.eventTemplates)
+				.find((eventPreset) => {
+					// TODO: dig into realization of commit 180b3f3
+					return eventPreset.type === eventPresetParam;
+				})
+				.get(
+					// safe property accessor. might not be saved in user preset's
+					// todo: ensure template is always present for all users
+					'title',
+
+					// default value (if not found)
+					`Error: Preset '${eventPresetParam}' not found`
+				)
+			;
+		};
+
+		let eventPresetParam = $stateParams.eventPresetType;
+		if ( !_.isUndefined(eventPresetParam) ) {
+			// do not fill in, when no param provided
+			$scope.eventData.title = getPresetTitle(eventPresetParam);
+		}
+
 
 		$scope.loadEventTemplate = (selectedTemplate) => {
 			if (selectedTemplate) {
@@ -36,6 +63,7 @@ angular.module('events').controller('EventsController', ['$scope', '$stateParams
 		};
 
 		$scope.loadPredefinedEvent = () => {
+			let predefinedEventType = $stateParams.eventPresetType;
 			if (predefinedEventType) {
 				user.eventTemplates.forEach(template => {
 					if (template.type === predefinedEventType) {
@@ -49,7 +77,6 @@ angular.module('events').controller('EventsController', ['$scope', '$stateParams
 		$scope.loadPredefinedEvent();
 
 		$scope.$on('$locationChangeSuccess', function () {
-			predefinedEventType = $location.search().event;
 			$scope.loadPredefinedEvent();
 		});
 
@@ -102,51 +129,31 @@ angular.module('events').controller('EventsController', ['$scope', '$stateParams
 			if ($scope.eventData.isATemplate || $scope.selectedTemplate) {
 				updateEventTemplates($scope.eventData);
 			}
-			var event = new Events({
-				title: $scope.eventData.title,
-				type: $scope.eventData.type,
-				days: {
-					startTime: $scope.eventData.withoutDates ? '' : $scope.eventData.startDate,
-					endTime: $scope.eventData.withoutDates ? '' : $scope.eventData.endDate
-				},
-				notes: $scope.eventData.notes,
-				isATemplate: $scope.eventData.isATemplate,
-				withoutDates: $scope.eventData.withoutDates
-			});
+			var event = new Events($scope.eventData);
 
 			Algorithm.getFreeSlots(event.days.startTime, event.days.endTime).then((freeSlots) => {
 				$timeout(() => {
 					var freeTime = 0,
 						days = 0;
-					angular.forEach(freeSlots, function (value) {
-						freeTime += value.reduce((prev, cur) => prev + cur.duration, 0);
-						days++;
+					event.$save(function (res) {
+						var slots = [];
+						$location.search('');
+						$location.path('/');
+						var slot = {};
+						slot.eventId = res._id;
+						slot.title = res.title;
+						slot.start = event.days.startTime;
+						slot.end = event.days.endTime;
+						slot.duration = (new Date(event.days.endTime) - new Date(event.days.startTime)) / 1000 / 60 / 60 ;
+						slot.className = "event";
+						slot.userId = Authentication.user._id;
+						slots.push(slot);
+						slots = new Slots(slots);
+						slots.$save();
+					}, function (err) {
+						$scope.eventData.validationError = err.data.message.errors.title;
 					});
-					if (freeTime === days * 9) {
-						event.$save(function (res) {
-							var slots = [];
-							$location.search('');
-							$location.path('/');
-							angular.forEach(freeSlots, function (day, dayId) {
-								var slot = {};
-								slot.eventId = res._id;
-								slot.title = res.title;
-								slot.start = new Date(dayId).setHours(0, 0, 0);
-								slot.end = new Date(dayId).setHours(23, 59, 0);
-								slot.duration = 9;
-								slot.className = ["event"];
-								slot.userId = Authentication.user._id;
-								slots.push(slot);
-							});
-							slots = new Slots(slots);
-							slots.$save();
-						}, function (err) {
-							$scope.eventData.validationError = err.data.message.errors.title;
-						});
-						$scope.events = [];
-					} else {
-						Notification.error({message: 'You don\'t have enough time for this event'});
-					}
+					$scope.events = [];
 				});
 			});
 		};

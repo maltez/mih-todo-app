@@ -14,15 +14,23 @@ class Calendar {
 		this.eventSources = [{
 			url: '/slots' //Fetch data from server
 		}];
+		let hours = _.chain(this.user.predefinedSettings.workingHours).toArray();
+
 		this.uiConfig = {
 			calendar: {
-				height: 700,
+				height: 'auto',
 				editable: true,
 				header: {
 					left: 'today prev,next',
 					center: 'title',
 					right: 'agendaDay, agendaWeek, month'
 				},
+				minTime: hours.map(function(day){
+					return day.start;
+				}).min().value(),
+				maxTime: hours.map(function(day){
+					return day.end;
+				}).max().value(),
 				businessHours: false,
 				firstDay: 1,
 				defaultView: 'agendaWeek',

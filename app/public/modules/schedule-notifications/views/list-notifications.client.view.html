@@ -1,8 +1,7 @@
 <section data-ng-controller="ScheduleNotificationsController" data-ng-init="find()">
 	<ul class="nav nav-second-level in collapse">
 		<li data-ng-repeat="notification in notifications.tasks">
-			<!--todo: -->
-			<a ui-sref="overdue.view({ notificationId: notification._id })" class="task-list-item">
+			<a ui-sref="todo_state.tasks.edit({ taskId: notification._id })" class="task-list-item">
 				<span class="task-priority fa fa-circle {{'task-priority-' + notification.priority}}"></span>
 				<span class="nav-label task-name" data-ng-bind="notification.title"></span>
 				<span class="pull-right label label-danger"> 0% </span>

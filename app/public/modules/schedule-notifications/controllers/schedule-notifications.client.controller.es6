@@ -8,12 +8,15 @@ angular.module('schedule-notifications').controller('ScheduleNotificationsContro
 		
         // TODO: move to common app config
         var notificationsInterval = 1800000; // 30 min
-		var stateParams = $stateParams;
 
-		$rootScope.$on('NEW_TASK_MODIFY', function () {
+		$rootScope.$on('NEW_TASK_MODIFY', () => {
 			$scope.find();
 		});
-
+		
+		$scope.getTaskDonePercentage = function(task) {
+			return (task.progress * 100) / task.estimation;
+		};
+		
 		$scope.find = function() {
 			$scope.notifications = ScheduleNotifications.query();
 
@@ -23,30 +26,41 @@ angular.module('schedule-notifications').controller('ScheduleNotificationsContro
 		};
 		
 		$scope.completeSlot = (slot, overdueTasks) => {		
-			var isCurrentTaskPage = false;
-			var overdueTask = overdueTasks.filter(function(el){
-				return el._id === slot.taskId;
-			})[0];
+			var isCurrentTaskPage = false;			
+			var overdueTask = getTaskBySlot(overdueTasks, slot);
 
-			if (stateParams.taskId === overdueTask._id) {
+			if ($stateParams.taskId === overdueTask._id) {
 				isCurrentTaskPage = true;
 			}
 			updateActivity(slot, overdueTask, isCurrentTaskPage);
 		};
 		
-		var updateActivity = (slot, task, isCurrentTaskPage) => {
-			// todo: task.isComplete = true if all slots completed
-			// todo: case - edit page of current task opened (refresh list of slots and progress chart)
-
-			console.log('isCurrentTaskPage', isCurrentTaskPage);
+		var getTaskBySlot = (tasks, slot) => {
+			return tasks.filter(function(el){
+				return el._id === slot.taskId;
+			})[0];
+		};
+		
+		var updateActivity = (slot, task, isCurrentTaskPage) => {			
 			slot.isComplete = true;
-			
-			Slots.update(slot, () => {				
+
+			var slotsQty = $scope.notifications.allSlots.map(function(el){
+				return el.taskId === task._id;
+			});
+			var completeSlotsQty = slotsQty.filter(Boolean);
+
+			Slots.update(slot, () => {
+				if (slotsQty.length === completeSlotsQty.length) {
+					task.isComplete = true;
+				}
 				task.progress += slot.duration;
 				var progress = +(task.progress / task.estimation * 100).toFixed(2);
 
 				Tasks.update(task, () => {					
 					$rootScope.$broadcast('NEW_TASK_MODIFY');
+					if (isCurrentTaskPage) {
+						$rootScope.$broadcast('COMPLETED_SLOT_FROM_OVERDUE');
+					}
 					Notification.success({
 						message: `Good job, ${$scope.authentication.user.username}! ${progress}% done.`
 					});

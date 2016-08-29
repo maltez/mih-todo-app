@@ -29,12 +29,10 @@
 					<input type="checkbox" data-ng-model="taskListCtrl.status.isComplete" data-ng-true-value="true"/>
 				</label>
 			</div>
-
 		</div>
 		<ul class="nav nav-second-level in collapse">
-			<li data-ng-repeat="task in taskListCtrl.tasks | orderBy: taskListCtrl.sortType : taskListCtrl.sortReverse | filter:status:strict"
-				class="task-list-item"
-			>
+			<li data-ng-repeat="task in taskListCtrl.tasks | orderBy: taskListCtrl.sortType : taskListCtrl.sortReverse | filter:taskListCtrl.status:strict"
+				class="task-list-item">
 				<a data-ui-sref="todo_state.tasks.edit({ taskId: task._id })" class="task-list-item">
 					<span class="task-priority fa fa-circle {{'task-priority-' + task.priority}}"></span>
 					<span class="nav-label task-name" data-ng-bind="task.title"></span>

@@ -13,7 +13,7 @@ var mongoose = require('mongoose'),
  */
 exports.list = (req, res) => {
 	async.parallel({
-		tasks: (callback) => {
+		overdueTasks: (callback) => {
 			Slot.find({
 				'isComplete': false,
 				'end': {
@@ -27,7 +27,7 @@ exports.list = (req, res) => {
 				});
 			});
 		},
-		slots: (callback) => {
+		overdueSlots: (callback) => {
 			Slot.find({
 				'isComplete': false,
 				'end': {
@@ -36,6 +36,12 @@ exports.list = (req, res) => {
 			}).exec((err, overdueSlots) => {
 				if (err) return callback(err);
 				callback(null, overdueSlots);
+			});
+		},
+		allSlots: (callback) => {
+			Slot.find().exec((err, slots) => {
+				if (err) return callback(err);
+				callback(null, slots);
 			});
 		}
 	}, (err, result) => {

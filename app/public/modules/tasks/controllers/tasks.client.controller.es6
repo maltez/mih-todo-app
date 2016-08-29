@@ -63,6 +63,13 @@ angular.module('tasks').controller('TasksController',
 			$scope.user = Authentication.user;
 			$scope.selectedTemplate = false;
 
+			$scope.$on('COMPLETED_SLOT_FROM_OVERDUE', function () {
+				$timeout(() => {
+					$scope.task = getTask();
+					$scope.slotsRange = getSlotsByTask();
+				});
+			});
+			
 			var date = new Date(),
 				dateMax = new Date(Date.now() + (365 * 24 * 60 * 60 * 1000));
 
@@ -306,7 +313,7 @@ angular.module('tasks').controller('TasksController',
 						}
 						$timeout(() => {
 							recalcChart();
-						});
+						}, 400);
 					}
 				);
 			};
@@ -315,7 +322,9 @@ angular.module('tasks').controller('TasksController',
 				return Tasks.get({
 					taskId: $stateParams.taskId
 				}, ()=> {
-					cb();
+					if(cb) {
+						cb();
+					}
 				});
 			};
 

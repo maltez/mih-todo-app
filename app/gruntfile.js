@@ -26,22 +26,29 @@ module.exports = function(grunt) {
 					livereload: true
 				}
 			},
-			serverJS: {
-				files: watchFiles.serverJS,
-				tasks: ['jshint'],
-				options: {
-					livereload: true
-				}
-			},
+			// serverJS: {
+			// 	files: watchFiles.serverJS,
+			// 	tasks: ['jshint'],
+			// 	options: {
+			// 		livereload: true
+			// 	}
+			// },
 			clientViews: {
 				files: watchFiles.clientViews,
 				options: {
 					livereload: true
 				}
 			},
-			clientJS: {
-				files: watchFiles.clientJS,
-				tasks: ['jshint'],
+			// clientJS: {
+			// 	files: watchFiles.clientJS,
+			// 	tasks: ['jshint'],
+			// 	options: {
+			// 		livereload: true
+			// 	}
+			// },
+			allES6: {
+				files: watchFiles.allES6,
+				tasks: ['build-es6', 'jshint'],
 				options: {
 					livereload: true
 				}
@@ -55,7 +62,7 @@ module.exports = function(grunt) {
 			},
 			clientLESS: {
 				files: watchFiles.clientLESS,
-				tasks: ['less', 'csslint'],
+				tasks: ['build-less'],
 				options: {
 					livereload: true
 				}
@@ -153,8 +160,10 @@ module.exports = function(grunt) {
 			}
 		},
 		concurrent: {
-			default: ['nodemon', 'watch'],
+			server: ['nodemon', 'watch'],
 			debug: ['nodemon', 'watch', 'node-inspector'],
+			buildSrc: ['build-less', 'build-es6'],
+			minifySrc: ['cssmin', 'uglify'],
 			options: {
 				logConcurrentOutput: true,
 				limit: 10
@@ -184,6 +193,7 @@ module.exports = function(grunt) {
 			}
 		},
 		copy: {
+			// TODO: seems like doing nothing?
 			localConfig: {
 				src: 'config/env/local.example.js',
 				dest: 'config/env/local.js',
@@ -217,19 +227,26 @@ module.exports = function(grunt) {
 	});
 
 	// Default task(s).
-	grunt.registerTask('default', ['env:development', 'lint', 'copy:localConfig', 'concurrent:default', 'clean:compiledJs', 'babel:es6']);
+	grunt.registerTask('default', ['server']);
+	grunt.registerTask('server', ['build', 'minify', 'env:development', 'concurrent:server']);
+
+	// Development tasks - when external server is needed (e.g. debug through IDE)
+	grunt.registerTask('dev', ['build', 'watch']);
 
 	// Debug task.
-	grunt.registerTask('debug', ['lint', 'copy:localConfig', 'concurrent:debug']);
+	grunt.registerTask('debug', ['build', 'concurrent:debug']);
 
 	// Lint task(s).
-	grunt.registerTask('lint', ['less', 'jshint', 'csslint']);
+	grunt.registerTask('lint', ['jshint', 'csslint']);
 
 	// Build task(s).
-	grunt.registerTask('build', ['lint', 'clean:compiledJs', 'babel:es6', 'loadConfig', 'ngAnnotate', 'uglify', 'cssmin']);
+	grunt.registerTask('build', ['concurrent:buildSrc', 'lint']);
+	grunt.registerTask('build-less', ['less']);
+	grunt.registerTask('build-es6', ['clean:compiledJs', 'loadConfig', 'babel:es6', 'ngAnnotate']);
+	grunt.registerTask('minify', ['concurrent:minifySrc']);
 
 	// Test task.
-	grunt.registerTask('test', ['copy:localConfig', 'test:server', 'test:client']);
+	grunt.registerTask('test', [/*'copy:localConfig',*/ 'test:server', 'test:client']);
 	grunt.registerTask('test:server', ['clean:compiledJs', 'babel:es6', 'env:test', 'mochaTest']);
 	grunt.registerTask('test:client', ['clean:compiledJs', 'babel:es6', 'env:test', 'karma:unit']);
 };

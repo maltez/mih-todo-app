@@ -313,7 +313,7 @@ angular.module('tasks').controller('TasksController',
 						}
 						$timeout(() => {
 							recalcChart();
-						}, 400);
+						}, 100);
 					}
 				);
 			};

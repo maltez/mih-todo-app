@@ -15,6 +15,7 @@ exports.list = (req, res) => {
 	async.parallel({
 		overdueTasks: (callback) => {
 			Slot.find({
+				"taskId": {$exists: true},
 				'isComplete': false,
 				'end': {
 					$lt: new Date(req.query.time)
@@ -29,6 +30,7 @@ exports.list = (req, res) => {
 		},
 		overdueSlots: (callback) => {
 			Slot.find({
+				"taskId": {$exists: true},
 				'isComplete': false,
 				'end': {
 					$lt: new Date(req.query.time)
@@ -39,7 +41,9 @@ exports.list = (req, res) => {
 			});
 		},
 		allSlots: (callback) => {
-			Slot.find().exec((err, slots) => {
+			Slot.find({
+				"taskId": {$exists: true}
+			}).exec((err, slots) => {
 				if (err) return callback(err);
 				callback(null, slots);
 			});

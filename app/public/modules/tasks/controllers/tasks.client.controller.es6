@@ -33,22 +33,9 @@ class TasksController {
 	}
 
 	static getOptimalEstimation(startDate, endDate) {
-		var maxEstimationTime = 0,
-			bookedTime = 0;
-
-		user.predefinedSettings.booked.forEach(time => {
-			bookedTime += (TasksController.timeToMinutes(time.endTime) - TasksController.timeToMinutes(time.startTime));
-		});
-
-		TasksController.getEstimationDaysRange(startDate, endDate).forEach(day => { //Get worked hours for this day
-			let dayOptions = window.user.predefinedSettings.workingHours[TasksController.daysMap[day.getDay()]];
-
-			if (dayOptions.isWorkingDay) {
-				maxEstimationTime += TasksController.timeToMinutes(dayOptions.end) - TasksController.timeToMinutes(dayOptions.start) - bookedTime;
-			}
-		});
-
-		return Math.floor(maxEstimationTime / 60);
+		// TODO: what is considered optimal?
+		let optimalEstimation = 1 /* hour */;
+		return optimalEstimation;
 	}
 }
 
@@ -213,8 +200,11 @@ angular.module('tasks').controller('TasksController',
 			};
 
 			var updateEstimation = (model) => {
-				$scope.slider.options.ceil = TasksController.getMaxEstimation(model.days.startTime, model.days.endTime);
-				model.estimation = TasksController.getOptimalEstimation(model.days.startTime, model.days.endTime);
+				let maxEstimation = TasksController.getMaxEstimation(model.days.startTime, model.days.endTime);
+				$scope.slider.options.ceil = maxEstimation;
+				if (model.estimation > maxEstimation) {
+					model.estimation = maxEstimation;
+				}
 			};
 
 			var setEstimationExtremes = (model) => {

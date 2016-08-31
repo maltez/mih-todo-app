@@ -64,10 +64,15 @@ class Day {
 }
 
 class Algorithm {
-	constructor(Slots, Authentication, AlgorithmServer) {
+	static get $inject(){
+		// dependency injection
+		return ['Slots', 'Authentication', 'AlgorithmServer', '$injector'];
+	}
+	constructor(Slots, Authentication, AlgorithmServer, $injector) {
 		this.Slots = Slots;
 		this.user = Authentication.user;
 		this.AlgorithmServer = AlgorithmServer;
+		this.Notification = $injector.get('Notification');
 		this.slotsRange = [];
 		this.priorityConfig = {
 			"1" : 	{
@@ -209,6 +214,7 @@ class Algorithm {
 		} else {
 			// Negative branch
 
+			this.Notification.warning(`not sufficient free time. Please, reduce task estimation, or increase deadline.`);
 		}
 		this.slotsRange = this.getSuitableSlots(recommendations, priority);
 	}
@@ -350,5 +356,4 @@ class Algorithm {
 	}
 }*/
 
-Algorithm.$inject = ['Slots', 'Authentication', 'AlgorithmServer'];
 angular.module('algorithm').service('Algorithm', Algorithm);

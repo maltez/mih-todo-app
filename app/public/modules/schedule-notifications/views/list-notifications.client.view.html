@@ -4,7 +4,7 @@
 			<a ui-sref="todo_state.tasks.edit({ taskId: overdueTask._id })" class="task-list-item">
 				<span class="task-priority fa fa-circle {{'task-priority-' + overdueTask.priority}}"></span>
 				<span class="nav-label task-name" data-ng-bind="overdueTask.title"></span>
-				<span class="pull-right label label-danger" data-ng-bind="getTaskDonePercentage(overdueTask)"> 0% </span>
+				<span class="pull-right label label-danger" data-ng-bind="getTaskDonePercentage(overdueTask) + '%'"> 0% </span>
 			</a>
 		</li>
 	</ul>

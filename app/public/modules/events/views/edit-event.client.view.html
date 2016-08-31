@@ -28,22 +28,10 @@
 					</div>
 					<div class="column-wrapper col-xs-6 col-sm-4">
 						<div class="form-group">
-							<label class="control-label label-padding" for="startDate">Start date</label>
-							<div class="input-group ui-datepicker">
-								<span ng-class="{disabled: event.withoutDates}" class="input-group-addon calendar-btn" ng-click="openDatepicker($event, 'startDate')">
-									<i class="fa fa-calendar"></i>
-								</span>
-								<input id="startDate" data-ng-disabled="event.withoutDates" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy" ng-model="event.days.startTime" is-open="datepicker.startDate.isOpened" min-date="datepicker.currentDate" datepicker-options="datepicker.options" date-disabled="disabled(date, mode)"  close-text="Close" ng-click="openDatepicker($event, 'startDate')" required/>
-							</div>
+							<datetime-picker data-type="startTime" data-label="Start date" data-activity="event" data-picker-id="startDatePicker" data-linked-picker-id="endDatePicker"></datetime-picker>
 						</div>
 						<div class="form-group">
-							<label for="endDate">End date</label>
-							<div class="input-group ui-datepicker">
-								<span ng-class="{disabled: event.withoutDates}" class="input-group-addon calendar-btn" ng-click="openDatepicker($event, 'endDate')">
-									<i class="fa fa-calendar"></i>
-								</span>
-								<input id="endDate" data-ng-disabled="event.withoutDates" type="text" class="form-control input-round-borders calendar-input" datepicker-popup="dd.MM.yyyy" ng-model="event.days.endTime" is-open="datepicker.endDate.isOpened" min-date="event.days.startTime" datepicker-options="datepicker.options" date-disabled="disabled(date, mode)" close-text="Close" ng-click="openDatepicker($event, 'endDate')" required/>
-							</div>
+							<datetime-picker data-type="endTime" data-label="End date" data-activity="event" data-picker-id="endDatePicker"></datetime-picker>
 						</div>
 					</div>
 					<div class="column-wrapper col-xs-6 col-sm-4">

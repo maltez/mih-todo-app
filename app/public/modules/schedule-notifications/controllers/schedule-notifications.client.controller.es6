@@ -2,60 +2,21 @@
 
 // Notifications controller
 angular.module('schedule-notifications').controller('ScheduleNotificationsController',
-	['$scope', '$rootScope', '$stateParams', '$location', 'Authentication', 'ScheduleNotifications', '$interval',
-	function($scope, $rootScope, $stateParams, $location, Authentication, ScheduleNotifications, $interval) {
+	['$scope', '$rootScope', '$stateParams', 'Authentication', 'ScheduleNotifications', '$interval', 'Slots', 'Tasks', 'Notification',
+	function($scope, $rootScope, $stateParams, Authentication, ScheduleNotifications, $interval, Slots, Tasks, Notification) {
 		$scope.authentication = Authentication;
 		
         // TODO: move to common app config
         var notificationsInterval = 1800000; // 30 min
 
-		// Create new Notification
-		$scope.create = function() {
-			// Create new Notification object
-			var notification = new ScheduleNotifications ({
-				name: this.name
-			});
-
-			// Redirect after save
-			notification.$save(function(response) {
-				$location.path('notifications/' + response._id);
-
-				// Clear form fields
-				$scope.name = '';
-			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
-			});
+		$rootScope.$on('NEW_TASK_MODIFY', () => {
+			$scope.find();
+		});
+		
+		$scope.getTaskDonePercentage = function(task) {
+			return +((task.progress * 100) / task.estimation).toFixed(2);
 		};
-
-		// Remove existing Notification
-		$scope.remove = function(notification) {
-			if ( notification ) { 
-				notification.$remove();
-
-				for (var i in $scope.notifications) {
-					if ($scope.notifications [i] === notification) {
-						$scope.notifications.splice(i, 1);
-					}
-				}
-			} else {
-				$scope.notification.$remove(function() {
-					$location.path('notifications');
-				});
-			}
-		};
-
-		// Update existing Notification
-		$scope.update = function() {
-			var notification = $scope.notification;
-
-			notification.$update(function() {
-				$location.path('notifications/' + notification._id);
-			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
-			});
-		};
-
-		// Find a list of Notifications
+		
 		$scope.find = function() {
 			$scope.notifications = ScheduleNotifications.query();
 
@@ -63,28 +24,50 @@ angular.module('schedule-notifications').controller('ScheduleNotificationsContro
                 $scope.notifications = ScheduleNotifications.query();
             }, notificationsInterval);
 		};
+		
+		$scope.completeSlot = (slot, overdueTasks) => {		
+			var isCurrentTaskPage = false;			
+			var overdueTask = getTaskBySlot(overdueTasks, slot);
 
-		// Find existing Notification
-		$scope.findOne = function() {
-			$scope.notification = ScheduleNotifications.get({ 
-				notificationId: $stateParams.notificationId
-			});
-		};
-
-		$scope.closeView = function () {
-			$location.path('/');
-		};
-
-		// todo: move to progress controller; rewrite static
-		$scope.progressChart = {
-			data: [
-				{label: "Completed", value: 50},
-				{label: "To do", value: 50}
-			],
-			colors: ["#31C0BE", "#c7254e"],
-			formatter: function (input) {
-				return input + '%';
+			if ($stateParams.taskId === overdueTask._id) {
+				isCurrentTaskPage = true;
 			}
+			updateActivity(slot, overdueTask, isCurrentTaskPage);
+		};
+		
+		var getTaskBySlot = (tasks, slot) => {
+			return tasks.filter(function(el){
+				return el._id === slot.taskId;
+			})[0];
+		};
+		
+		var updateActivity = (slot, task, isCurrentTaskPage) => {			
+			slot.isComplete = true;
+
+			var slotsQty = $scope.notifications.allSlots.map(function(el){
+				return el.taskId === task._id;
+			});
+			var completeSlotsQty = slotsQty.filter(Boolean);
+
+			Slots.update(slot, () => {
+				if (slotsQty.length === completeSlotsQty.length) {
+					task.isComplete = true;
+				}
+				task.progress += slot.duration;
+				var progress = +(task.progress / task.estimation * 100).toFixed(2);
+
+				Tasks.update(task, () => {					
+					$rootScope.$broadcast('NEW_TASK_MODIFY');
+					if (isCurrentTaskPage) {
+						$rootScope.$broadcast('COMPLETED_SLOT_FROM_OVERDUE');
+					}
+					Notification.success({
+						message: `Good job, ${$scope.authentication.user.username}! ${progress}% done.`
+					});
+				}, (errorResponse) => {
+					console.log(errorResponse);
+				});
+			});
 		};
 	}
 ]);

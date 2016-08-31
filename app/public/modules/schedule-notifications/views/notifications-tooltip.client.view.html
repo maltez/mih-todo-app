@@ -1,20 +1,19 @@
-<a class="notifications-info" data-ng-class="{disable: !notifications.length}" data-toggle="dropdown">
+<a class="notifications-info" data-ng-class="{disable: !notifications.overdueSlots.length}" data-toggle="dropdown">
     <i class="fa fa-bell" aria-hidden="true"></i>
-    <span class="label"
-          data-ng-class="notifications.length ? 'label-primary' : 'label-default'"
-          data-ng-bind="notifications.length">
+    <span class="label" data-ng-class="notifications.overdueSlots.length ? 'label-primary' : 'label-default'"
+          data-ng-bind="notifications.overdueSlots.length">
     </span>
 </a>
 
-<ul data-ng-init="find()" data-ng-show="notifications.length" class="dropdown-menu dropdown-alerts notifications-dropdown">
-    <li data-ng-repeat="notification in notifications | limitTo: 3 " class="clearfix notification-item">
-		<div class="pull-left">
-
-			<!-- TODO: note, will throw error when used for event notifications -->
-			<!-- TODO: eventually, href should refer to a slot. fix this later -->
-			<a data-ui-sref="todo_state.tasks.edit({ taskId: notification.taskId })" class="notification-link"
-			   data-ng-bind="notification.title"></a>
-
+<ul data-ng-init="find()" data-ng-show="notifications.overdueSlots.length" class="dropdown-menu dropdown-alerts notifications-dropdown">
+    <li data-ng-repeat="slot in notifications.overdueSlots | limitTo: 3 " class="clearfix notification-item">
+		<div class="clearfix">
+			<a data-ui-sref="todo_state.tasks.edit({ taskId: slot.taskId })" class="notification-link"
+			   data-ng-bind="slot.title"></a>
+			<span class="badge overdue-badge pull-right"
+					data-ng-click="completeSlot(slot, notifications.overdueTasks)">
+				<i class="fa fa-chevron-down" aria-hidden="true"></i>
+			</span>
 		</div>
 	</li>
 	<li>

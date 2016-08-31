@@ -27,7 +27,7 @@ class TasksListController {
 	}
 
 	getTaskDonePercentage(task) {
-		return (task.progress * 100) / task.estimation;
+		return +((task.progress * 100) / task.estimation).toFixed(2);
 	}
 }
 

@@ -14,7 +14,7 @@ angular.module('schedule-notifications').controller('ScheduleNotificationsContro
 		});
 		
 		$scope.getTaskDonePercentage = function(task) {
-			return (task.progress * 100) / task.estimation;
+			return +((task.progress * 100) / task.estimation).toFixed(2);
 		};
 		
 		$scope.find = function() {

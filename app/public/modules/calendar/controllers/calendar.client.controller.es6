@@ -18,19 +18,14 @@ class Calendar {
 
 		this.uiConfig = {
 			calendar: {
-				height: 'auto',
+				height: 700,
 				editable: true,
 				header: {
 					left: 'today prev,next',
 					center: 'title',
 					right: 'agendaDay, agendaWeek, month'
 				},
-				minTime: hours.map(function(day){
-					return day.start;
-				}).min().value(),
-				maxTime: hours.map(function(day){
-					return day.end;
-				}).max().value(),
+				scrollTime: hours.map( day => day.start ).min().value(),
 				businessHours: false,
 				firstDay: 1,
 				defaultView: 'agendaWeek',

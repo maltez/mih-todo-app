@@ -85,12 +85,11 @@
 				<task-slots class="col-md-5 col-sm-6 col-xs-12" data-ng-init="initCreateSlots()"></task-slots>
 			</div>
 			<div class="row">
-				<div class="btn-holder pull-right">
+				<div class="col-xs-12 text-right">
 					<button class="btn btn-white" data-ng-click="cancel()">Cancel</button>
 					<button type="submit" class="btn btn-primary"
 							data-ng-click="create(newTask)"
-							ng-disabled="!slotsRange.length"
-					>Create</button>
+							ng-disabled="!slotsRange.length">Create</button>
 				</div>
 			</div>
 		</fieldset>

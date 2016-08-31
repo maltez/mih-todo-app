@@ -7,17 +7,13 @@
 
 <ul data-ng-init="find()" data-ng-show="notifications.overdueSlots.length" class="dropdown-menu dropdown-alerts notifications-dropdown">
     <li data-ng-repeat="slot in notifications.overdueSlots | limitTo: 3 " class="clearfix notification-item">
-		<div class="pull-left">
-
-			<!-- TODO: note, will throw error when used for event notifications -->
-			<!-- TODO: eventually, href should refer to a slot. fix this later -->
+		<div class="clearfix">
 			<a data-ui-sref="todo_state.tasks.edit({ taskId: slot.taskId })" class="notification-link"
 			   data-ng-bind="slot.title"></a>
-			<button class="btn btn-primary btn-circle btn-outline"
+			<span class="badge overdue-badge pull-right"
 					data-ng-click="completeSlot(slot, notifications.overdueTasks)">
 				<i class="fa fa-chevron-down" aria-hidden="true"></i>
-			</button>
-
+			</span>
 		</div>
 	</li>
 	<li>

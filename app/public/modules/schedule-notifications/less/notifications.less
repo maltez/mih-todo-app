@@ -1,40 +1,36 @@
-.progress-chart > svg {
-  width: 100% !important;
-}
+@import "/public/modules/tasks/less/task-slots";
 
-.dropdown-alerts.dropdown-menu.notifications-dropdown {
-  padding-top: 15px;
-
+.notifications-dropdown {
   .notification-item {
-	padding: 5px;
+	padding: 1% 0;
+	margin: 0 4px;
+  }
+
+  a.notification-control {
+	border-top: 1px solid #ddd;
+	text-align: center;
+	margin-bottom: 0;
+
+	&:hover {
+	  color: #1AB394;
+	  background: transparent;
+	}
+  }
+  i {
+	font-size: inherit;
   }
 
   .notification-link {
-	padding: 0 15px 0 0;
-	color: #676a6c;
+	padding-left: 0 !important;
+	padding-right: 5px !important;
+	display: inline-block;
+	max-width: 250px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	color: inherit;
 	&:hover {
 	  color: #1AB394;
-	}
-  }
-
-  .notification-control {
-	padding-top: 10px;
-	border-top: 1px solid #ddd;
-	text-align: center;
-	padding-bottom: 0;
-	&:hover {
-	  background: none;
-	  color: #1AB394;
-	}
-  }
-
-  .slot-controls .btn {
-	width: 25px;
-	height: 25px;
-	padding: 4px 2px;
-	i {
-	  font-size: 14px;
 	}
   }
 }
-

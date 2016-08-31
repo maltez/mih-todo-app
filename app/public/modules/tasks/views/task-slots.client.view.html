@@ -8,7 +8,6 @@
 		<div class="table-responsive slots-table">
 			<table class="table table-no-tb">
 				<tr ng-repeat="item in slotsRange" data-ng-class="{'slot-opacity' : !(isOverdueSlot(item) && !item.isComplete)}">
-					<td>{{ }}</td>
 					<td>{{item.start | date: 'EEEE'}}</td>
 					<td>{{item.start | date: 'dd.MM'}}</td>
 					<td>{{item.duration}}h</td>

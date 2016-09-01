@@ -41,34 +41,10 @@
 					</div>
 					<div class="col-md-6 col-sm-6">
 						<div class="form-group">
-							<label class="field-label" for="startDate">Start date</label>
-							<div class="input-group ui-datepicker">
-					<span class="input-group-addon calendar-btn" data-ng-click="!task.withoutDates && openStart($event)">
-						<i class="fa fa-calendar"></i>
-					</span>
-								<input type="text" id="startDate" class="form-control calendar-input"
-									   data-ng-model="task.days.startTime" data-ng-click="openStart($event)"
-									   data-ng-change="changeEstimation()" data-ng-disabled="task.withoutDates"
-									   datepicker-popup="dd.MM.yyyy" is-open="opened.startDate" min-date="startDate.minDate"
-									   max-date="startDate.maxDate" datepicker-options="dateOptions.startDate"
-									   date-disabled="disabled(date, mode)" close-text="Close" required/>
-							</div>
-							<!--<timepicker class="select-time" ng-model="task.startTime" minute-step="15" show-meridian="true"></timepicker>-->
+							<datetime-picker data-type="startTime" data-label="Start date" data-activity="task" data-picker-id="startDatePicker" data-linked-picker-id="endDatePicker"></datetime-picker>
 						</div>
 						<div class="form-group">
-							<label class="field-label" for="endDate">End date</label>
-							<div class="input-group ui-datepicker">
-					<span class="input-group-addon calendar-btn" data-ng-click="!task.withoutDates && openEnd($event)">
-						<i class="fa fa-calendar"></i>
-					</span>
-								<input type="text" id="endDate" class="form-control calendar-input"
-									   data-ng-model="task.days.endTime" data-ng-click="openEnd($event)"
-									   data-ng-change="changeEstimation()" data-ng-disabled="task.withoutDates"
-									   datepicker-popup="dd.MM.yyyy" is-open="opened.endDate" min-date="endDate.minDate"
-									   max-date="endDate.maxDate" datepicker-options="dateOptions.endDate"
-									   date-disabled="disabled(date, mode)" close-text="Close" required/>
-							</div>
-							<!--<timepicker class="select-time" ng-model="task.endTime" minute-step="15" show-meridian="true"></timepicker>-->
+							<datetime-picker data-type="endTime" data-label="End date" data-activity="task" data-picker-id="endDatePicker"></datetime-picker>
 						</div>
 						<div class="form-group">
 							<label class="field-label" for="notes">Notes</label>

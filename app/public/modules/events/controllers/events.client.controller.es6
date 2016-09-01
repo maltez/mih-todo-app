@@ -1,8 +1,8 @@
 'use strict';
 
 // Events controller
-angular.module('events').controller('EventsController', ['$scope', '$stateParams', '$location', 'Users', 'Authentication', 'Events', '$timeout', 'Algorithm', 'Slots', 'Notification',
-	function ($scope, $stateParams, $location, Users, Authentication, Events, $timeout, Algorithm, Slots, Notification) {
+angular.module('events').controller('EventsController', ['$scope', '$rootScope', '$stateParams', '$location', 'Users', 'Authentication', 'Events', '$timeout', 'Algorithm', 'Slots', 'Notification',
+	function ($scope, $rootScope, $stateParams, $location, Users, Authentication, Events, $timeout, Algorithm, Slots, Notification) {
 
 		$scope.selectedTemplate = false;
 		$scope.authentication = Authentication;
@@ -150,6 +150,8 @@ angular.module('events').controller('EventsController', ['$scope', '$stateParams
 						slots.push(slot);
 						slots = new Slots(slots);
 						slots.$save();
+						
+						$rootScope.$broadcast('NEW_EVENTS_MODIFY');
 					}, function (err) {
 						$scope.eventData.validationError = err.data.message.errors.title;
 					});
@@ -168,6 +170,7 @@ angular.module('events').controller('EventsController', ['$scope', '$stateParams
 
 			event.$update(function () {
 				$location.path('events/' + event._id);
+				$rootScope.$broadcast('NEW_EVENTS_MODIFY');
 			}, function (errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
@@ -176,6 +179,7 @@ angular.module('events').controller('EventsController', ['$scope', '$stateParams
 			$scope.event.$remove(function () {
 				$location.search('');
 				$location.path('/');
+				$rootScope.$broadcast('NEW_EVENTS_MODIFY');
 			});
 		};
 		$scope.closeEventForm = function () {

@@ -403,10 +403,10 @@ angular.module('tasks').controller('TasksController',
 				if (task) {
 					task.$remove(() => {
 						$location.path('/');
+						$rootScope.$broadcast('NEW_TASK_MODIFY');
+						removeSlotsByTask();
+						Notification.success(`Task "${task.title}" was successfully removed`);
 					});
-					removeSlotsByTask();
-					$rootScope.$broadcast('NEW_TASK_MODIFY');
-					Notification.success(`Task "${task.title}" was successfully removed`);
 				} else {
 					console.error("Error. Task is not defined");
 				}

@@ -3,7 +3,9 @@
 	<a data-ui-sref="todo_state.events.create" class="fa fa-plus-circle add-task"></a>
 </div>
 <section data-ng-controller="templatesEventsListController as templatesEventsListCtrl">
-	<div class="form-group todo-list-controls" data-ng-show="templatesEventsListCtrl.templatesList.length > 1">
+	<!-- 'templatesEventsListCtrl.templatesList.length > 3' as we have two predefined templates (sick, vacation) -->
+	<!-- and this templates hidden at this list but present in collection -->
+	<div class="form-group todo-list-controls" data-ng-show="templatesEventsListCtrl.templatesList.length > 3">
 		<a class="controls-link" ng-click="templatesEventsListCtrl.sortReverse = !templatesEventsListCtrl.sortReverse">
 			<i class="fa fa-sort-amount-desc" aria-hidden="true" ng-hide="templatesEventsListCtrl.sortReverse"></i>
 			<i class="fa fa-sort-amount-asc" aria-hidden="true" ng-show="templatesEventsListCtrl.sortReverse"></i>
@@ -12,14 +14,16 @@
 
 	<ul class="nav nav-second-level in collapse">
 		<li data-ng-repeat="eventTemplate in templatesEventsListCtrl.templatesList | orderBy:'lastUsingDate':templatesEventsListCtrl.sortReverse"
-			class="event-list-item"
-		>
+			data-ng-if="eventTemplate.type != 'sick' && eventTemplate.type != 'vacation'"
+			class="event-list-item">
 			<a ng-click="templatesEventsListCtrl.viewTemplate(eventTemplate._id)" class="clearfix">
 				<span class="nav-label event-name pull-left" data-ng-bind="eventTemplate.title"></span>
 			</a>
 		</li>
 	</ul>
-	<div class="text-center text-muted p-y-1" data-ng-hide="!templatesEventsListCtrl.templatesList.$resolved || templatesEventsListCtrl.templatesList.length">
-		No task templates yet. <br/> Please, click on <span class="fa fa-plus-circle"></span> to add new one.
+	<!-- 'templatesEventsListCtrl.templatesList.length > 2' as we have two predefined templates (sick, vacation) -->
+	<!-- and this templates hidden at this list but present in collection -->
+	<div class="text-center text-muted p-y-1" data-ng-hide="templatesEventsListCtrl.templatesList.length > 2">
+		No event templates yet.
 	</div>
 </section>

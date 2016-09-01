@@ -12,14 +12,13 @@
 
 	<ul class="nav nav-second-level in collapse">
 		<li data-ng-repeat="taskTemplate in templatesTasksListCtrl.templatesList | orderBy:'lastUsingDate':templatesTasksListCtrl.sortReverse"
-			class="event-list-item"
-		>
+			class="event-list-item">
 			<a ng-click="templatesTasksListCtrl.viewTemplate(taskTemplate._id)" class="clearfix">
 				<span class="nav-label event-name pull-left" data-ng-bind="taskTemplate.title"></span>
 			</a>
 		</li>
 	</ul>
-	<div class="text-center text-muted p-y-1" data-ng-hide="!templatesTasksListCtrl.templatesList.$resolved || templatesTasksListCtrl.templatesList.length">
-		No task templates yet. <br/> Please, click on <span class="fa fa-plus-circle"></span> to add new one.
+	<div class="text-center text-muted p-y-1" data-ng-hide="templatesTasksListCtrl.templatesList.length">
+		No task templates yet.
 	</div>
 </section>

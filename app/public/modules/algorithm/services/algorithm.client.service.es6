@@ -105,7 +105,13 @@ class Algorithm {
 				start: startDate,
 				end: endDate
 			}, res => {
+				// TODO: inconsistent object structure! First time is array, then - object.
 				this.slotsRange = res.data;
+
+				// TODO: store response data separately, because fn below has side effects,
+				// TODO: overwrites, so we cannot rely on this.slotsRange if we need consistency
+				this.freeSlotsGroupedByDays = res.data;
+
 				this.getDaysRecommendations(priority, estimation);
 				resolve(this.slotsRange);
 			});
@@ -123,7 +129,7 @@ class Algorithm {
 			});
 		});
 	}
-	
+
 	getBalancedRecommendations (data) {
 		var estimation = data.estimation,
 			availableHoursPerDay = data.availableHoursPerDay,
@@ -186,27 +192,42 @@ class Algorithm {
 		return suitableSlots;
 	}
 
-	getDaysRecommendations(priority, estimation) {
+	getFreeHoursDailyMapFromSlots(freeSlotsByDays) {
+		return _.map(freeSlotsByDays, function (dayFreeSlots, dayId) {
+			let day = {
+				freeTime: _(dayFreeSlots).map(slot => slot.duration).sum(),
+				date: dayId
+			};
+			return day;
+		});
+	}
 
-		var availableHoursPerDay = Object.keys(this.slotsRange).map(dayId => {
-				return {
-					freeTime: this.slotsRange[dayId].reduce((prev, cur) => prev + cur.duration, 0),
-					date: dayId
-				}
-			}),
-			availableHoursTotal = availableHoursPerDay.reduce((prev, cur) => prev + cur.freeTime, 0),
-			availableDaysAmount = availableHoursPerDay.length,
-			recommendedDuration = this.priorityConfig[priority].recommendedDuration,
-			data = {
-				estimation : estimation,
-				availableHoursPerDay : availableHoursPerDay,
-				availableDaysAmount : availableDaysAmount,
-				recommendedDuration : recommendedDuration
+	getTotalFreeHoursInDailyMap(dailyMap) {
+		return _.sum(dailyMap.map(day => day.freeTime));
+	}
+
+	getTimeAvailabilityFromSlotsGroupedByDays() {
+		let dailyMap = this.getFreeHoursDailyMapFromSlots(this.freeSlotsGroupedByDays);
+		let totalAvailHours = this.getTotalFreeHoursInDailyMap(dailyMap);
+		return {
+			dailyMap,
+			totalAvailHours
+		};
+	}
+
+	getDaysRecommendations(priority, estimation) {
+		let {dailyMap, totalAvailHours} = this.getTimeAvailabilityFromSlotsGroupedByDays();
+
+		var data = {
+				estimation,
+				availableHoursPerDay: dailyMap,
+				availableDaysAmount: dailyMap.length,
+				recommendedDuration: this.priorityConfig[priority].recommendedDuration
 			},
 			isBalancedLoad = this.priorityConfig[priority].isBalancedLoad,
 			recommendations = {};
 
-		if (estimation <= availableHoursTotal) {
+		if (estimation <= totalAvailHours) {
 			//Positive branch
 
 			recommendations = isBalancedLoad ? this.getBalancedRecommendations(data) : this.getIntensiveRecommendations(data);

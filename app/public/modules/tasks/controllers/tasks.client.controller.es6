@@ -199,12 +199,17 @@ angular.module('tasks').controller('TasksController',
 				};
 			};
 
+			function removeAvailHoursInfo() {
+				delete $scope.timeAvailability;
+			}
+
 			var updateEstimation = (model) => {
 				let maxEstimation = TasksController.getMaxEstimation(model.days.startTime, model.days.endTime);
 				$scope.slider.options.ceil = maxEstimation;
 				if (model.estimation > maxEstimation) {
 					model.estimation = maxEstimation;
 				}
+				removeAvailHoursInfo();
 			};
 
 			var setEstimationExtremes = (model) => {
@@ -270,12 +275,21 @@ angular.module('tasks').controller('TasksController',
 			};
 
 			var getNewSlots = (model) => {
-				Algorithm.generateSlots(new Date(model.days.startTime), new Date(model.days.endTime), model.priority, model.estimation,
-					$scope.user.predefinedSettings.workingHours).then((slotsRange) => {
-					$timeout(() => {
-						return $scope.slotsRange = slotsRange;
-					});
-				});
+				Algorithm
+					.generateSlots(
+						new Date(model.days.startTime),
+						new Date(model.days.endTime),
+						model.priority,
+						model.estimation,
+						$scope.user.predefinedSettings.workingHours
+					)
+					.then(slotsRange => {
+						$timeout(() => {
+							$scope.timeAvailability = Algorithm.getTimeAvailabilityFromSlotsGroupedByDays();
+							return $scope.slotsRange = slotsRange;
+						});
+					})
+				;
 			};
 
 			var recalcChart = () => {

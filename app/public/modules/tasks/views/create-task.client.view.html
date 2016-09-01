@@ -67,6 +67,9 @@
 										</rzslider>
 										<input type="number" id="estimation" min="{{slider.options.floor}}" max="{{slider.options.ceil}}"
 											   ng-model="newTask.estimation" data-ng-change="clearSlotsList()" data-ng-pattern="/^\d+$/">
+										<span ng-if="timeAvailability.totalAvailHours">
+											({{timeAvailability.totalAvailHours}} working hours left)
+										</span>
 									</div>
 								</div>
 							</div>

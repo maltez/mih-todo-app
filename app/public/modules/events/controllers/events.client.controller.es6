@@ -179,6 +179,11 @@ angular.module('events').controller('EventsController', ['$scope', '$rootScope',
 			$scope.event.$remove(function () {
 				$location.search('');
 				$location.path('/');
+				Events.deleteSlotsByEvent({
+						eventId: $stateParams.eventId
+					}
+				);
+				Notification.success(`Event "${$scope.event.title}" was successfully removed`);
 				$rootScope.$broadcast('NEW_EVENTS_MODIFY');
 			});
 		};

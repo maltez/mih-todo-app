@@ -4,6 +4,7 @@ var mongoose = require('mongoose'),
 	ObjectId = require("mongodb").ObjectID,
 	errorHandler = require('./errors.server.controller'),
 	Event = mongoose.model('Activity'),
+	Slot = mongoose.model('Slot'),
 	_ = require('lodash');
 
 exports.create = function(req, res) {
@@ -85,3 +86,26 @@ exports.hasAuthorization = function(req, res, next) {
 	next();
 };
 
+exports.getSlotsByEvent = function (req, res) {
+	Slot.find({eventId: req.query.eventId}).exec(function (err, slots) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			res.jsonp(slots);
+		}
+	});
+};
+
+exports.deleteSlotsByEvent = function (req, res) {
+	Slot.find({eventId: req.query.eventId}).remove().exec(function (err, slots) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			res.jsonp(slots);
+		}
+	});
+};

@@ -8,6 +8,10 @@ angular.module('events').factory('Events', ['$resource',
 		}, {
 			update: {
 				method: 'PUT'
+			},
+			'deleteSlotsByEvent': {
+				url: 'events-slots/:id',
+				method: 'DELETE'
 			}
 		});
 	}

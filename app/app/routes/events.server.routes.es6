@@ -14,6 +14,10 @@ module.exports = function(app) {
 		.put(users.requiresLogin, events.hasAuthorization, events.update)
 		.delete(users.requiresLogin, events.hasAuthorization, events.delete);
 
+	app.route('/events-slots')
+		.get(events.getSlotsByEvent)
+		.delete(events.deleteSlotsByEvent);
+
 	// Finish by binding the Event middleware
 	app.param('eventId', events.eventByID);
 };

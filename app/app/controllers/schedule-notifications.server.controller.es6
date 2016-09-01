@@ -19,7 +19,8 @@ exports.list = (req, res) => {
 				'isComplete': false,
 				'end': {
 					$lt: new Date(req.query.time)
-				}
+				},
+				userId: req.user._id,
 			}).distinct('taskId', (err, taskIds) => {
 				if (err) return callback(err);
 				Task.find({'_id': {$in: taskIds}}).exec((err, task) => {
@@ -34,7 +35,8 @@ exports.list = (req, res) => {
 				'isComplete': false,
 				'end': {
 					$lt: new Date(req.query.time)
-				}
+				},
+				userId: req.user._id,
 			}).exec((err, overdueSlots) => {
 				if (err) return callback(err);
 				callback(null, overdueSlots);
@@ -42,7 +44,8 @@ exports.list = (req, res) => {
 		},
 		allSlots: (callback) => {
 			Slot.find({
-				"taskId": {$exists: true}
+				"taskId": {$exists: true},
+				userId: req.user._id
 			}).exec((err, slots) => {
 				if (err) return callback(err);
 				callback(null, slots);

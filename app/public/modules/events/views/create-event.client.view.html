@@ -1,62 +1,69 @@
-<div class="wrapper">
+<div class="wrapper-content">
 	<a ui-sref="todo_state" class="ui-sref back btn btn-white"> < BACK to "Plan Your Day" </a>
 
 	<section class="create-event-wrapper row clearfix" data-ng-controller="EventsController">
-	<div class="col-md-12 ibox">
-		<form novalidate class="ibox-content">
-			<fieldset class="row">
-				<div class="form-holder clearfix">
-					<div class="column-wrapper col-xs-6 col-sm-4">
-						<div class="form-group">
-							<label for="title">Title*</label>
-							<input type="text" data-ng-model="eventData.title" id="title" class="form-control input-round-borders" placeholder="Title"/>
-							<div ng-show="eventData.validationError" class="error-text">
-								{{eventData.validationError.message}}
+	<div class="col-md-12 ">
+		<form novalidate>
+			<div class="ibox">
+				<div class="ibox-title">
+					<h5>Create event</h5>
+				</div>
+				<div class="ibox-content">
+					<fieldset class="row">
+						<div class="form-holder clearfix">
+							<div class="column-wrapper col-xs-6 col-sm-4">
+								<div class="form-group">
+									<label for="title">Title*</label>
+									<input type="text" data-ng-model="eventData.title" id="title" class="form-control input-round-borders" placeholder="Title"/>
+									<div ng-show="eventData.validationError" class="error-text">
+										{{eventData.validationError.message}}
+									</div>
+								</div>
+								<div class="field-group">
+									<label class="field-label" for="title">Template</label>
+									<select class="form-control" data-ng-change="loadEventTemplate(selectedTemplate)"
+											data-ng-model="selectedTemplate" data-ng-options="template.title for template in user.eventTemplates">
+										<option value="">Select template</option>
+									</select>
+								</div>
+								<div class="form-group checkbox">
+									<label for="saveAsTemplate">
+										<input type="checkbox" data-ng-model="eventData.isATemplate" id="saveAsTemplate"/>
+										Save as a new template
+									</label>
+								</div>
+								<div class="form-group">
+									<div class="checkbox">
+										<label for="withoutDates">
+											<input type="checkbox" data-ng-model="eventData.withoutDates" id="withoutDates"/>
+											Event without dates
+										</label>
+									</div>
+								</div>
+							</div>
+							<div class="column-wrapper col-xs-6 col-sm-4">
+								<div class="form-group">
+									<datetime-picker data-type="startTime" data-label="Start date" data-activity="eventData" data-picker-id="startDatePicker" data-linked-picker-id="endDatePicker"></datetime-picker>
+								</div>
+								<div class="form-group">
+									<datetime-picker data-type="endTime" data-label="End date" data-activity="eventData" data-picker-id="endDatePicker"></datetime-picker>
+								</div>
+							</div>
+							<div class="column-wrapper col-xs-6 col-sm-4">
+								<div class="form-group">
+									<label for="notes">Notes</label>
+									<textarea id="notes" class="form-control" data-ng-model="eventData.notes"></textarea>
+								</div>
 							</div>
 						</div>
-						<div class="field-group">
-							<label class="field-label" for="title">Template</label>
-							<select class="form-control" data-ng-change="loadEventTemplate(selectedTemplate)"
-									data-ng-model="selectedTemplate" data-ng-options="template.title for template in user.eventTemplates">
-								<option value="">Select template</option>
-							</select>
+						<div class=" pull-right">
+							<button class="btn btn-white" data-ng-click="clearFormData()">Clear</button>
+							<button class="btn btn-white" data-ng-click="closeEventForm()">Close</button>
+							<button class="btn btn-white" data-ng-click="createEvent()">Submit</button>
 						</div>
-						<div class="form-group checkbox">
-							<label for="saveAsTemplate">
-								<input type="checkbox" data-ng-model="eventData.isATemplate" id="saveAsTemplate"/>
-								Save as a new template
-							</label>
-						</div>
-						<div class="form-group">
-							<div class="checkbox">
-								<label for="withoutDates">
-									<input type="checkbox" data-ng-model="eventData.withoutDates" id="withoutDates"/>
-									Event without dates
-								</label>
-							</div>
-						</div>
-					</div>
-					<div class="column-wrapper col-xs-6 col-sm-4">
-						<div class="form-group">
-							<datetime-picker data-type="startTime" data-label="Start date" data-activity="eventData" data-picker-id="startDatePicker" data-linked-picker-id="endDatePicker"></datetime-picker>
-						</div>
-						<div class="form-group">
-							<datetime-picker data-type="endTime" data-label="End date" data-activity="eventData" data-picker-id="endDatePicker"></datetime-picker>
-						</div>
-					</div>
-					<div class="column-wrapper col-xs-6 col-sm-4">
-						<div class="form-group">
-							<label for="notes">Notes</label>
-							<textarea id="notes" class="form-control" data-ng-model="eventData.notes"></textarea>
-						</div>
-					</div>
+					</fieldset>
 				</div>
-				<div class=" pull-right">
-					<button class="btn btn-white" data-ng-click="clearFormData()">Clear</button>
-					<button class="btn btn-white" data-ng-click="closeEventForm()">Close</button>
-					<button class="btn btn-white" data-ng-click="createEvent()">Submit</button>
-				</div>
-			</fieldset>
+			</div>
 		</form>
 	</div>
 </section>

@@ -102,22 +102,22 @@ export class EmailSlots {
 
 	static doScheduleEmailForFutureSlot(futureSlot) {
 		// console.log("doScheduleEmailForFutureSlot()");
-
-		let incorrectInput = (
+		if (!futureSlot.userId) {
 			// we rely on userId to find proper user email
-			!futureSlot.userId ||
-
-			// do not schedule future notification, when slot is already in the past
-			// but during server restart, email will still be sent
-			futureSlot.end < new Date()
-		);
-		if (incorrectInput) {
-			console.error("doScheduleEmailForFutureSlot: incorrect input");
+			console.error("doScheduleEmailForFutureSlot: not found - futureSlot.userId. cannot send email");
 			return;
 		}
 
 		let _class = this;
 		User.findOne({"_id": futureSlot.userId}, (err, dbUser) => {
+			if (futureSlot.end < new Date()) {
+				// TODO: refactor fn calls, so this scenario never happens (but it does, currently).
+				// do not schedule future notification, when slot is already in the past
+				console.error("doScheduleEmailForFutureSlot: slot is already in the past. \n " +
+					"send email immediately, so that it is not sent during server restart");
+				_class._sendEmailReminderOfOverdueSlot(futureSlot, dbUser.email);
+				return;
+			}
 			//	TODO: for demo, use line below instead - show that email is registered and will be sent in 10secs
 			// schedule.scheduleJob(new Date(new Date().valueOf() + 10 * 1000), function () {
 			schedule.scheduleJob(futureSlot.end, () => {
@@ -134,10 +134,10 @@ export class EmailSlots {
 		// console.log("_sendEmailReminderOfOverdueSlot()");
 
 		// TODO: move this to user settings
-		let MAX_EMAIL_REMINDERS_AFTER_SERVER_RESTART = 1;
+		let MAX_EMAIL_REMINDERS_FOR_SLOT = 1;
 		overdueSlot.emailStats.timesSentCounter = overdueSlot.emailStats.timesSentCounter || 0;
 
-		if (overdueSlot.emailStats.timesSentCounter >= MAX_EMAIL_REMINDERS_AFTER_SERVER_RESTART) {
+		if (overdueSlot.emailStats.timesSentCounter >= MAX_EMAIL_REMINDERS_FOR_SLOT) {
 			// stop - maximum emails
 			console.log("MAX_EMAIL_REMINDERS_AFTER_SERVER_RESTART for", overdueSlot.title);
 			return;

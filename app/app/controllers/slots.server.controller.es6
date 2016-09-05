@@ -70,12 +70,11 @@ export class SlotsServerController {
 												message: err
 											});
 										}
-
-										SlotEmailNotificationCtrl.doScheduleEmailForFutureSlot(slot);
 									});
 									hoursForSlot += parseInt(slot.duration, 10);
 									minutesForSlot = (minutesForSlot + slot.duration % 1 * 60) % 60;
 								});
+								SlotEmailNotificationCtrl.doScheduleEmailForFutureSlot(newSlot);
 								resolve(true);
 							}
 						});

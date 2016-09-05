@@ -13,11 +13,10 @@ var mongoose = require('mongoose'),
 	User = mongoose.model('User'),
 	smtpTransport = nodemailer.createTransport(config.mailer.options),
 	schedule = require('node-schedule')
-;
+	;
 
 export class EmailSlots {
 	constructor() {
-		// console.log("SlotEmailNotificationCtrl constructor()");
 		let _class = EmailSlots;
 
 		_class._handleOverdueIncompleteSlotsForAllUsers();
@@ -29,19 +28,15 @@ export class EmailSlots {
 
 		_class._getOverdueIncompleteSlotsForAllUsers()
 			.exec(function (err, overdueSlotsForAllUsers) {
-				// console.log("exec STARTED _handleOverdueIncompleteSlotsForAllUsers()");
 				if (err) {
 					// todo
 					return;
 				}
 
-				overdueSlotsForAllUsers.forEach( overdueSlot => {
-					console.log("overdueSlot", overdueSlot.title, overdueSlot.end);
+				overdueSlotsForAllUsers.forEach(overdueSlot => {
 					if (!overdueSlot.userId) return;
 
 					User.findOne({"_id": overdueSlot.userId}, (err, dbUser) => {
-						console.log("overdueSlot.userId:", overdueSlot.userId);
-
 						//	TODO: how to handle repeated notifications when server restarts -> introduce 'lastCalled' flag?
 						_class._sendEmailReminderOfOverdueSlot(overdueSlot, dbUser.email);
 					});
@@ -50,7 +45,6 @@ export class EmailSlots {
 	}
 
 	static _getOverdueIncompleteSlotsForAllUsers() {
-		// console.log("_getOverdueIncompleteSlotsForAllUsers()");
 		return (
 			Slot
 				.find({
@@ -77,16 +71,13 @@ export class EmailSlots {
 					return;
 				}
 
-				// console.log(`  exec STARTED _handleAllFutureIncompleteSlotsForAllUsers`);
 				futureSlots.forEach(futureSlot => {
-					console.log("futureSlot", futureSlot.title, futureSlot.end);
 					_class.doScheduleEmailForFutureSlot(futureSlot);
 				});
 			});
 	}
 
 	static _getFutureIncompleteSlotsQueryResult() {
-		// console.log("_getFutureIncompleteSlotsQueryResult()");
 		return (
 			Slot
 				.find({
@@ -101,7 +92,6 @@ export class EmailSlots {
 	}
 
 	static doScheduleEmailForFutureSlot(futureSlot) {
-		// console.log("doScheduleEmailForFutureSlot()");
 		if (!futureSlot.userId) {
 			// we rely on userId to find proper user email
 			console.error("doScheduleEmailForFutureSlot: not found - futureSlot.userId. cannot send email");
@@ -118,8 +108,7 @@ export class EmailSlots {
 				_class._sendEmailReminderOfOverdueSlot(futureSlot, dbUser.email);
 				return;
 			}
-			//	TODO: for demo, use line below instead - show that email is registered and will be sent in 10secs
-			// schedule.scheduleJob(new Date(new Date().valueOf() + 10 * 1000), function () {
+
 			schedule.scheduleJob(futureSlot.end, () => {
 				_class._sendEmailReminderOfOverdueSlot(futureSlot, dbUser.email);
 			});
@@ -131,15 +120,12 @@ export class EmailSlots {
 	}
 
 	static _sendEmailReminderOfOverdueSlot(overdueSlot, emailTo) {
-		// console.log("_sendEmailReminderOfOverdueSlot()");
-
 		// TODO: move this to user settings
 		let MAX_EMAIL_REMINDERS_FOR_SLOT = 1;
 		overdueSlot.emailStats.timesSentCounter = overdueSlot.emailStats.timesSentCounter || 0;
 
 		if (overdueSlot.emailStats.timesSentCounter >= MAX_EMAIL_REMINDERS_FOR_SLOT) {
 			// stop - maximum emails
-			console.log("MAX_EMAIL_REMINDERS_AFTER_SERVER_RESTART for", overdueSlot.title);
 			return;
 		}
 

@@ -117,7 +117,7 @@ class Algorithm {
 			});
 		});
 	}
-	
+
 	getFreeSlots (startDate, endDate) {
 		return new Promise(resolve => {
 			this.AlgorithmServer.get({
@@ -183,10 +183,10 @@ class Algorithm {
 			slot;
 		Object.keys(this.slotsRange).forEach(dayId => {
 			let slotDuration = recommendations[dayId];
-			if (!!slotDuration) {
-				slot = new Slot(slotDuration, priority, dayId);
-				suitableSlots.push(slot);
-			}
+			if (!slotDuration) return;
+
+			slot = new Slot(slotDuration, priority, dayId);
+			suitableSlots.push(slot);
 		});
 
 		return suitableSlots;

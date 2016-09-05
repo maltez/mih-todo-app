@@ -35,8 +35,15 @@
 						<div class="form-group">
 							<label class="field-label" for="estimation">Estimation*</label>
 							<rzslider rz-slider-model="task.estimation" rz-slider-options="slider.options"></rzslider>
-							<input type="number" id="estimation" data-ng-model="task.estimation" data-ng-change="clearSlotsList()"
-								   data-ng-pattern="/^\d+$/" min="{{slider.options.floor}}" max="{{slider.options.ceil}}">
+							<input
+								type="number"
+								id="estimation"
+								data-ng-model="task.estimation"
+								data-ng-change="clearSlotsList()"
+								data-ng-pattern="/^\d+$/"
+								min="{{slider.options.floor}}"
+								max="{{slider.options.ceil}}"
+							>
 						</div>
 					</div>
 					<div class="col-md-6 col-sm-6">

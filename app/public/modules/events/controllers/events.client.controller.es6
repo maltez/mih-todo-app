@@ -136,7 +136,12 @@ angular.module('events').controller('EventsController', ['$scope', '$rootScope',
 					var freeTime = 0,
 						days = 0;
 					event.$save(function (res) {
-						var slots = [];
+						var slots = [],
+							classNames = ["event"], 
+							defaultTemplateType = $location.search().eventPresetType;
+						if (defaultTemplateType)  {
+							classNames.push(defaultTemplateType);
+						}
 						$location.search('');
 						$location.path('/');
 						var slot = {};
@@ -145,7 +150,7 @@ angular.module('events').controller('EventsController', ['$scope', '$rootScope',
 						slot.start = event.days.startTime;
 						slot.end = event.days.endTime;
 						slot.duration = (new Date(event.days.endTime) - new Date(event.days.startTime)) / 1000 / 60 / 60 ;
-						slot.className = "event";
+						slot.className = classNames.join(" ");
 						slot.userId = Authentication.user._id;
 						slots.push(slot);
 						slots = new Slots(slots);

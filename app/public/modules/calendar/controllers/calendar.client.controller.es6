@@ -45,7 +45,7 @@ class Calendar {
 		return {
 			start: start,
 			end: end,
-			color: 'gray',
+			color: '#e8f2f9',
 			rendering: 'background',
 			dow: [dayIndex]
 		}

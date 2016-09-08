@@ -6,6 +6,8 @@ class TasksListController {
 		this.authentication = Authentication;
 		this.tasks = Tasks.query();
 		this.Tasks = Tasks;
+		this.status = {};
+		this.status.isComplete = false;
 
 		$rootScope.$on('NEW_TASK_MODIFY', () => {
 			this.find();

@@ -43,14 +43,14 @@ class SettingsController {
 		};
 
 		var onSuccessItem = (fileItem, response, status, headers) => {
-			this.success = true;
+			this.Notification.success('file upload Success');
 			this.user = this.user = response;
 			this.cancelUpload();
 		};
 
 		var onErrorItem = (fileItem, response, status, headers) => {
 			this.cancelUpload();
-			this.error = response.message;
+			this.Notification.error(response.message);
 		};
 
 		this.uploader = new this.FileUploader({
@@ -84,15 +84,14 @@ class SettingsController {
 
 	updateUserProfile(isValid) {
 		if (isValid) {
-			this.success = this.error = null;
 			var user = new this.Users(this.user);
 
 			user.$update(response => {
-				this.success = true;
+				this.Notification.success(`Profile Saved Successfully`);
 				this.user = response;
 				this.$rootScope.$broadcast('updateUserInfo', this.user);
 			}, response => {
-				this.error = response.data.message;
+				this.Notification.error(`Error: ${response.data.message}. Please try again later`);
 			});
 		} else {
 			this.submitted = true;
@@ -100,7 +99,6 @@ class SettingsController {
 	}
 
 	uploadProfilePicture() {
-		this.success = this.error = null;
 		this.uploader.uploadAll();
 	}
 

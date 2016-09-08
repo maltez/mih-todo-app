@@ -1,20 +1,26 @@
 'use strict';
 
 class SettingsController {
-	constructor($location, Users, Authentication, $timeout, $window, FileUploader, MIHUtils, $rootScope) {
-		if (!Authentication.user) $location.path('/');
+	static get $inject() {
+		return ['$injector'];
+	}
+	constructor($injector) {
+		this.Authentication = $injector.get('Authentication');
+		this.$location = $injector.get('$location');
+		if (!this.Authentication.user) this.$location.path('/');
 
 		/*@ngInject*/
-		this.Users = Users;
-		this.user = Authentication.user;
-		this.$timeout = $timeout;
-		this.$window = $window;
-		this.FileUploader = FileUploader;
+		this.Users = $injector.get('Users');
+		this.user = this.Authentication.user;
 		this.imageURL = this.user.profileImageURL;
+		this.$timeout = $injector.get('$timeout');
+		this.$window = $injector.get('$window');
+		this.FileUploader = $injector.get('FileUploader');
 		// TODO: move to root controller + share
 		// TODO: refactor into directive so that we do not need to always inject it
-		this.MIHUtils = MIHUtils;
-		this.$rootScope = $rootScope;
+		this.MIHUtils = $injector.get('MIHUtils');
+		this.$rootScope = $injector.get('$rootScope');
+		this.Notification = $injector.get('Notification');
 
 		/*fields*/
 		this.workingDays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];

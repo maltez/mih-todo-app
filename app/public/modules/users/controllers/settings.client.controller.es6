@@ -44,7 +44,7 @@ class SettingsController {
 
 		var onSuccessItem = (fileItem, response, status, headers) => {
 			this.Notification.success('file upload Success');
-			this.user = this.user = response;
+			angular.extend(this.user, response);
 			this.cancelUpload();
 		};
 

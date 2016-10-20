@@ -19,7 +19,7 @@
     "angular-ui-calendar": "1.0.1",
     "fullcalendar": "~2.6.1",
     "angular-bootstrap-datetimepicker": "^1.0.1",
-    "angular-morris-chart": "^1.2.0",
+    "angular-morris-chart": "1.2.0",
     "lodash": "^4.15.0",
     "eonasdan-bootstrap-datetimepicker": "~4.17.37"
   },

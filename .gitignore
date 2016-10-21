@@ -52,3 +52,62 @@ app/app/**/*.map
 app/public/**/*.map
 
 app/public/modules/users/img/profiles/*
+
+
+
+# User-specific stuff:
+.idea/
+.vagrant/
+
+# Node and related ecosystem
+# ==========================
+.nodemonignore
+.sass-cache/
+app/npm-debug.log
+app/node_modules/
+app/public/lib/
+app/app/tests/coverage/
+.bower-*/
+app/.idea/
+
+# MEAN.js app and assets
+# ======================
+app/config/sslcerts/*.pem
+app/access.log
+app/public/dist/
+
+# IntelliJ
+# ========
+*.iml
+
+# Cloud9 IDE
+# =========
+.c9/
+app/data/
+mongod
+
+# General
+# =======
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+*.tmp
+*.bak
+*.swp
+*.css
+
+logs/
+build/
+
+app/**/*.js
+public/**/*.js
+app/**/*.map
+public/**/*.map
+
+public/modules/users/img/profiles/*
+
+node_modules/
+public/lib

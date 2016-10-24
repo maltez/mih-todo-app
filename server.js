@@ -32,10 +32,10 @@ var app = require('./config/express')(db);
 // Bootstrap passport config
 require('./config/passport')();
 
-// Start the app-root by listening on <port>
+// Start the app by listening on <port>
 app.listen(config.port);
 
-// Expose app-root
+// Expose app
 exports = module.exports = app;
 
 // Logging initialization

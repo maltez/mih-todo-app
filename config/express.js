@@ -25,11 +25,11 @@ var fs = require('fs'),
 	path = require('path');
 
 module.exports = function(db) {
-	// Initialize express app-root
+	// Initialize express app
 	var app = express();
 
 	// Globbing model files
-	config.getGlobbedFiles('./app-root/models/**/*.js').forEach(function(modelPath) {
+	config.getGlobbedFiles('./app/models/**/*.js').forEach(function(modelPath) {
 		require(path.resolve(modelPath));
 	});
 
@@ -64,7 +64,7 @@ module.exports = function(db) {
 
 	// Set views path and view engine
 	app.set('view engine', 'server.view.html');
-	app.set('views', './app-root/views');
+	app.set('views', './app/views');
 
 	// Enable logger (morgan)
 	app.use(morgan(logger.getLogFormat(), logger.getLogOptions()));
@@ -91,7 +91,7 @@ module.exports = function(db) {
 	app.use(helmet.ienoopen());
 	app.disable('x-powered-by');
 
-	// Setting the app-root router and static folder
+	// Setting the app router and static folder
 	app.use(express.static(path.resolve('./public')));
 
 	// CookieParser should be above session
@@ -118,7 +118,7 @@ module.exports = function(db) {
 	app.use(flash());
 
 	// Globbing routing files
-	config.getGlobbedFiles('./app-root/routes/**/*.js').forEach(function(routePath) {
+	config.getGlobbedFiles('./app/routes/**/*.js').forEach(function(routePath) {
 		require(path.resolve(routePath))(app);
 	});
 

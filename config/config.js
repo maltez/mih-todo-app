@@ -24,7 +24,7 @@ var resolvingConfig = function() {
 };
 
 /**
- * Load app-root configurations
+ * Load app configurations
  */
 module.exports = resolvingConfig();
 

@@ -7,6 +7,7 @@
   },
   "scripts": {
     "start": "grunt",
+    "web": "grunt",
     "test": "grunt test",
     "postinstall": "bower install --config.interactive=false"
   },

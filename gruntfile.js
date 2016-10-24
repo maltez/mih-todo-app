@@ -2,18 +2,18 @@
 
 var fs = require('fs');
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 	// Unified Watch Object
 	var watchFiles = {
-		serverViews: ['app-root/views/**/*.*'],
-		serverJS: ['gruntfile.js', 'server.js', 'config/**/*.js', 'app-root/**/*.js', '!app-root/tests/'],
+		serverViews: ['app/views/**/*.*'],
+		serverJS: ['gruntfile.js', 'server.js', 'config/**/*.js', 'app/**/*.js', '!app/tests/'],
 		clientViews: ['public/modules/**/views/**/*.html'],
 		clientJS: ['public/js/**/*.js', 'public/**/*.es6', '!public/**/*.compiled.js'],
-		allES6: ['public/**/*.es6', 'app-root/**/*.es6'],
+		allES6: ['public/**/*.es6', 'app/**/*.es6'],
 		clientCSS: ['public/assets/**/*.css'],
 		clientLESS: ['public/modules/**/less/*.less'],
-		mochaTestsES6: ['app-root/tests/**/*.es6'],
-		mochaTests: ['app-root/tests/**/*.js']
+		mochaTestsES6: ['app/tests/**/*.es6'],
+		mochaTests: ['app/tests/**/*.js']
 	};
 
 	// Project Configuration
@@ -78,7 +78,7 @@ module.exports = function(grunt) {
 					expand: true,
 					src: watchFiles.clientLESS,
 					ext: '.css',
-					rename: function(base, src){
+					rename: function (base, src) {
 						return src.replace('/less/', '/css/');
 					}
 				}]
@@ -197,7 +197,7 @@ module.exports = function(grunt) {
 			localConfig: {
 				src: 'config/env/local.example.js',
 				dest: 'config/env/local.js',
-				filter: function() {
+				filter: function () {
 					return !fs.existsSync('config/env/local.js');
 				}
 			}
@@ -205,7 +205,7 @@ module.exports = function(grunt) {
 		clean: {
 			compiledJs: [
 				'public/modules/**/*.js', 'public/modules/**/*.js.map',
-				'app-root/**/*.js', 'app-root/**/*.js.map'
+				'app/**/*.js', 'app/**/*.js.map'
 			]
 		}
 	});
@@ -218,7 +218,7 @@ module.exports = function(grunt) {
 	grunt.option('force', true);
 
 	// A Task for loading the configuration object
-	grunt.task.registerTask('loadConfig', 'Task that loads the config into a grunt option.', function() {
+	grunt.task.registerTask('loadConfig', 'Task that loads the config into a grunt option.', function () {
 		var init = require('./config/init')();
 		var config = require('./config/config');
 

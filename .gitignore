@@ -41,7 +41,6 @@ mongod
 *.tmp
 *.bak
 *.swp
-*.css
 
 app/logs/
 app/build/
@@ -97,7 +96,6 @@ mongod
 *.tmp
 *.bak
 *.swp
-*.css
 
 logs/
 build/
@@ -106,6 +104,9 @@ app/**/*.js
 public/**/*.js
 app/**/*.map
 public/**/*.map
+
+# we should still include 'inspinia' folder too
+public/modules/**/*.css
 
 public/modules/users/img/profiles/*
 

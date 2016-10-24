@@ -228,7 +228,7 @@ module.exports = function (grunt) {
 
 	// Default task(s).
 	grunt.registerTask('default', ['server']);
-	grunt.registerTask('server', ['build', 'minify', 'env:development', 'concurrent:server']);
+	grunt.registerTask('server', ['build-less', 'build-es6', 'minify', 'env:development', 'concurrent:server']);
 
 	// Development tasks - when external server is needed (e.g. debug through IDE)
 	grunt.registerTask('dev', ['build', 'watch']);

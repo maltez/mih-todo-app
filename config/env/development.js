@@ -2,11 +2,7 @@
 
 module.exports = {
 	db: {
-		uri: 'mongodb://localhost/mean-dev',
-		options: {
-			user: '',
-			pass: ''
-		}
+		uri: 'mongodb://devuser:devuser2day@ds031167.mlab.com:31167/mih'
 	},
 	log: {
 		// Can specify one of 'combined', 'common', 'dev', 'short', 'tiny'

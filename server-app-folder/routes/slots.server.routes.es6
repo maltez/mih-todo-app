@@ -1,8 +1,8 @@
 'use strict';
 
 module.exports = function (app) {
-	var slots = require('./controllers/slots.server.controller').SlotsServerController;
-	var users = require('./controllers/users.server.controller');
+	var slots = require('../controllers/slots.server.controller').SlotsServerController;
+	var users = require('../controllers/users.server.controller');
 
 	// Days Routes
 	app.route('/slots')

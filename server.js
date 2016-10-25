@@ -2,7 +2,7 @@
 /**
  * Module dependencies.
  */
-require('./server-app_temporary-name/models/user.server.model');
+require('./server-app-folder/models/user.server.model');
 var init = require('./config/init')(),
 	config = require('./config/config'),
 	mongoose = require('mongoose'),
@@ -32,10 +32,10 @@ var app = require('./config/express')(db);
 // Bootstrap passport config
 require('./config/passport')();
 
-// Start the server-app_temporary-name by listening on <port>
+// Start the server-app-folder by listening on <port>
 app.listen(config.port);
 
-// Expose server-app_temporary-name
+// Expose server-app-folder
 exports = module.exports = app;
 
 // Logging initialization

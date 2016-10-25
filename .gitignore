@@ -1,24 +1,105 @@
+#=========== THIS IS COPY FROM ROOT
+# TODO: leave just what is needed
+#    # User-specific stuff:
+#    .idea/
+#    .vagrant/
+#
+#    # Node and related ecosystem
+#    # ==========================
+#    .nodemonignore
+#    .sass-cache/
+#    npm-debug.log
+#    node_modules/
+#    public/lib/
+#    .bower-*/
+#    .idea/
+#
+#    # MEAN.js app and assets
+#    # ======================
+#    config/sslcerts/*.pem
+#    access.log
+#
+#    # IntelliJ
+#    # ========
+#    *.iml
+#
+#    # Cloud9 IDE
+#    # =========
+#    .c9/
+#    data/
+#    mongod
+#
+#    # General
+#    # =======
+#    *.log
+#    *.csv
+#    *.dat
+#    *.out
+#    *.pid
+#    *.gz
+#    *.tmp
+#    *.bak
+#    *.swp
+#    *.css
+#
+#    logs/
+#    build/
+#
 
-# User-specific stuff:
-.idea/
-.vagrant/
+server-app-folder/**/*.js
+server-app-folder/**/*.map
+server-app-folder/tests/coverage/
+
+public/*.js
+public/*.map
+public/dist
+public/modules/**/*.map
+public/modules/**/*.js
+public/modules/**/*.css
+public/modules/users/img/profiles/*
+
+
+#=========== THIS IS ORIGINAL FROM ROOT/APP folder
+# TODO: merge with what is above
+# iOS / Apple
+# ===========
+.DS_Store
+ehthumbs.db
+Icon?
+Thumbs.db
+config/env/local.js
 
 # Node and related ecosystem
 # ==========================
 .nodemonignore
 .sass-cache/
-app/npm-debug.log
-app/node_modules/
-app/public/lib/
-app/app/tests/coverage/
+npm-debug.log
+node_modules/
+public/lib/
+tests/coverage/
 .bower-*/
-app/.idea/
+.idea/
 
 # MEAN.js app and assets
 # ======================
-app/config/sslcerts/*.pem
-app/access.log
-app/public/dist/
+config/sslcerts/*.pem
+access.log
+public/dist/
+
+# Sublime editor
+# ==============
+.sublime-project
+*.sublime-project
+*.sublime-workspace
+
+# Eclipse project files
+# =====================
+.project
+.settings/
+.*.md.html
+.metadata
+*~.nib
+local.properties
 
 # IntelliJ
 # ========
@@ -27,7 +108,7 @@ app/public/dist/
 # Cloud9 IDE
 # =========
 .c9/
-app/data/
+data/
 mongod
 
 # General
@@ -41,14 +122,5 @@ mongod
 *.tmp
 *.bak
 *.swp
-*.css
-
-app/logs/
-app/build/
-
-app/app/**/*.js
-app/public/**/*.js
-app/app/**/*.map
-app/public/**/*.map
-
-app/public/modules/users/img/profiles/*
+logs/
+build/

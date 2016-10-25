@@ -8,18 +8,16 @@
 #    # ==========================
 #    .nodemonignore
 #    .sass-cache/
-#    app/npm-debug.log
-#    app/node_modules/
-#    app/public/lib/
-#    app/app/tests/coverage/
+#    npm-debug.log
+#    node_modules/
+#    public/lib/
 #    .bower-*/
-#    app/.idea/
+#    .idea/
 #
 #    # MEAN.js app and assets
 #    # ======================
-#    app/config/sslcerts/*.pem
-#    app/access.log
-#    app/public/dist/
+#    config/sslcerts/*.pem
+#    access.log
 #
 #    # IntelliJ
 #    # ========
@@ -28,7 +26,7 @@
 #    # Cloud9 IDE
 #    # =========
 #    .c9/
-#    app/data/
+#    data/
 #    mongod
 #
 #    # General
@@ -44,15 +42,21 @@
 #    *.swp
 #    *.css
 #
-#    app/logs/
-#    app/build/
+#    logs/
+#    build/
 #
-#    app/app/**/*.js
-#    app/public/**/*.js
-#    app/app/**/*.map
-#    app/public/**/*.map
-#
-#    app/public/modules/users/img/profiles/*
+
+server-app-folder/**/*.js
+server-app-folder/**/*.map
+server-app-folder/tests/coverage/
+
+public/*.js
+public/*.map
+public/dist
+public/modules/**/*.map
+public/modules/**/*.js
+public/modules/**/*.css
+public/modules/users/img/profiles/*
 
 
 #=========== THIS IS ORIGINAL FROM ROOT/APP folder
@@ -72,7 +76,7 @@ config/env/local.js
 npm-debug.log
 node_modules/
 public/lib/
-app/tests/coverage/
+tests/coverage/
 .bower-*/
 .idea/
 

@@ -21,7 +21,9 @@
     "angular-bootstrap-datetimepicker": "^1.0.1",
     "angular-morris-chart": "1.2.0",
     "lodash": "^4.15.0",
-    "eonasdan-bootstrap-datetimepicker": "~4.17.37"
+    "eonasdan-bootstrap-datetimepicker": "~4.17.37",
+    "angular-cookies": "1.2.32",
+    "angular-loading-bar": "^0.9.0"
   },
   "devDependencies": {
     "angularjs-slider": "^2.11.0"

@@ -50,7 +50,8 @@ module.exports = {
 				'public/lib/angular-ui-notification/dist/angular-ui-notification.css',
 				'public/lib/angularjs-slider/dist/rzslider.min.css',
 				'public/lib/fullcalendar/dist/fullcalendar.css',
-				'public/lib/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css'
+				'public/lib/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
+				'public/lib/angular-loading-bar/build/loading-bar.min.css'
 			],
 			js: [
 				'public/lib/angular/angular.js',
@@ -76,7 +77,9 @@ module.exports = {
 				'public/lib/raphael/raphael.min.js',
 				'public/lib/morris.js/morris.min.js',
 				'public/lib/angular-morris-chart/src/angular-morris-chart.min.js',
-				'public/lib/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js'
+				'public/lib/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
+				'public/lib/angular-cookies/angular-cookies.min.js',
+				'public/lib/angular-loading-bar/build/loading-bar.min.js'
 			]
 		},
 		css: [

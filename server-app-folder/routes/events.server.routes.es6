@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(app) {
+module.exports = function (app) {
 	var users = require('../controllers/users.server.controller');
 	var events = require('../controllers/events.server.controller');
 
@@ -8,6 +8,9 @@ module.exports = function(app) {
 	app.route('/events')
 		.get(events.list)
 		.post(users.requiresLogin, events.create);
+
+	app.route('/events/import/outlook')
+		.post(users.requiresLogin, events.importOutlook);
 
 	app.route('/events/:eventId')
 		.get(events.read)

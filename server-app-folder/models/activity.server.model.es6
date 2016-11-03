@@ -61,7 +61,7 @@ var eventTemplate = {
  */
 var ActivitySchema = new Schema(_.extend({
 	id: {
-		type: Date,
+		type: String,
 		default: Date.now
 	},
 	type: {

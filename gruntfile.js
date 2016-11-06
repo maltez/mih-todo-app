@@ -5,15 +5,15 @@ var fs = require('fs');
 module.exports = function(grunt) {
 	// Unified Watch Object
 	var watchFiles = {
-		serverViews: ['server-app-folder/views/**/*.*'],
-		serverJS: ['gruntfile.js', 'server.js', 'config/**/*.js', 'server-app-folder/**/*.js', '!server-app-folder/tests/'],
+		serverViews: ['server/views/**/*.*'],
+		serverJS: ['gruntfile.js', 'server.js', 'config/**/*.js', 'server/**/*.js', '!server/tests/'],
 		clientViews: ['public/modules/**/views/**/*.html'],
 		clientJS: ['public/js/**/*.js', 'public/**/*.es6', '!public/**/*.compiled.js'],
-		allES6: ['public/**/*.es6', 'server-app-folder/**/*.es6'],
+		allES6: ['public/**/*.es6', 'server/**/*.es6'],
 		clientCSS: ['public/assets/**/*.css'],
 		clientLESS: ['public/modules/**/less/*.less'],
-		mochaTestsES6: ['server-app-folder/tests/**/*.es6'],
-		mochaTests: ['server-app-folder/tests/**/*.js']
+		mochaTestsES6: ['server/tests/**/*.es6'],
+		mochaTests: ['server/tests/**/*.js']
 	};
 
 	// Project Configuration
@@ -205,7 +205,7 @@ module.exports = function(grunt) {
 		clean: {
 			compiledJs: [
 				'public/modules/**/*.js', 'public/modules/**/*.js.map',
-				'server-app-folder/**/*.js', 'server-app-folder/**/*.js.map'
+				'server/**/*.js', 'server/**/*.js.map'
 			]
 		}
 	});

@@ -46,9 +46,9 @@
 #    build/
 #
 
-server-app-folder/**/*.js
-server-app-folder/**/*.map
-server-app-folder/tests/coverage/
+server/**/*.js
+server/**/*.map
+server/tests/coverage/
 
 public/*.js
 public/*.map

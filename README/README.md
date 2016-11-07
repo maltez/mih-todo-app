@@ -1,12 +1,15 @@
+// TODO Make more readable README
+
+
 # Make It Happen
 
 "Make It Happen" - is an online app, which helps you to plan your days and achieve more. When signing up to "Make It Happen", online organizer will get a schedule that is powerful & flexible enough to help you get much more done. This is an online calendar based solution for your total time management. Handy for tracking your progress and maintain life balance between family, health, friends and career.
 
 ## Initial steps if you prefer to run application using Virtual Box
 ### Configurations below should be made once:
-1. Download and install Virtual Box  https://www.virtualbox.org/wiki/Downloads 
-2. Download and install Extensions for Virtual box  https://www.virtualbox.org/wiki/Downloads 
-3. Download and install Vagrant  https://www.vagrantup.com/downloads.html 
+1. Download and install Virtual Box  https://www.virtualbox.org/wiki/Downloads
+2. Download and install Extensions for Virtual box  https://www.virtualbox.org/wiki/Downloads
+3. Download and install Vagrant  https://www.vagrantup.com/downloads.html
 4. Clone Git repository into local machine:
 
 ```bash
@@ -14,26 +17,26 @@ git clone https://git.epam.com/anna_pavlova/epmkhrdmh.git
 ```
 
 ### Configurations below should be made each time you want to run application locally
-1. Open repository folder and locate MIH/VM 
-2. Run command "vagrant up" 
+1. Open repository folder and locate MIH/VM
+2. Run command "vagrant up"
 
 ```bash
 vagrant up
 ```
 
-Please, note: 
+Please, note:
 
 > If you have the error 'Vagrant could not detect VirtualBox' try changing environment variable "VBOX_MSI_INSTALL_PATH" to "VBOX_INSTALL_PATH."
 
- 
-> If you are a Windows 10 user, you may have the error "The VirtualBox VM was created with a user that doesn't match the current user running Vagrant.". In this case locate MIH\VM\.vagrant\machines\default\virtualbox and edit creator_uid file (set 0). 
 
- 
+> If you are a Windows 10 user, you may have the error "The VirtualBox VM was created with a user that doesn't match the current user running Vagrant.". In this case locate MIH\VM\.vagrant\machines\default\virtualbox and edit creator_uid file (set 0).
+
+
 > If you need to shut down VM run command "vagrant halt"
 
 
 3. Run command “vagrant ssh”.
- 
+
 ```bash
 vagrant ssh
 ```

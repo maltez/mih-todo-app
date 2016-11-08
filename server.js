@@ -1,33 +1,25 @@
-'use strict';
-/**
- * Module dependencies.
- */
 require('./server/models/user.server.model');
-var init = require('./config/init')(),
-	config = require('./config/config'),
-	mongoose = require('mongoose'),
-	chalk = require('chalk');
-
-/**
- * Main application entry file.
- * Please note that the order of loading is important.
- */
+const init = require('./config/init')();
+const config = require('./config/config');
+const mongoose = require('mongoose');
+const chalk = require('chalk');
 
 // Bootstrap db connection
-var db = mongoose.connect(config.db.uri, config.db.options, function(err) {
-	if (err) {
-		console.error(chalk.red('Could not connect to MongoDB!'));
-		console.log(chalk.red(err));
-	}
+const db = mongoose.connect(config.db.uri, config.db.options, err => {
+  if (err) {
+    console.error(chalk.red('Could not connect to MongoDB!'));
+    console.log(chalk.red(err));
+  }
 });
-mongoose.connection.on('error', function(err) {
-	console.error(chalk.red('MongoDB connection error: ' + err));
-	process.exit(-1);
-	}
+
+mongoose.connection.on('error', err => {
+    console.error(chalk.red(`MongoDB connection error: ${ err }`));
+    process.exit(-1);
+  }
 );
 
 // Init the express application
-var app = require('./config/express')(db);
+const app = require('./config/express')(db);
 
 // Bootstrap passport config
 require('./config/passport')();
@@ -36,12 +28,12 @@ require('./config/passport')();
 app.listen(config.port);
 
 // Expose server
-exports = module.exports = app;
+module.exports = app;
 
 // Logging initialization
 console.log('--');
-console.log(chalk.green(config.app.title + ' application started'));
-console.log(chalk.green('Environment:\t\t\t' + process.env.NODE_ENV));
-console.log(chalk.green('Port:\t\t\t\t' + config.port));
-console.log(chalk.green('Database:\t\t\t' + config.db.uri));
+console.log(chalk.green(`${ config.app.title } application started`));
+console.log(chalk.green(`Environment:\t\t\t${ process.env.NODE_ENV }`));
+console.log(chalk.green(`Port:\t\t\t\t${ config.port }`));
+console.log(chalk.green(`Database:\t\t\t${ config.db.uri }`));
 console.log('--');

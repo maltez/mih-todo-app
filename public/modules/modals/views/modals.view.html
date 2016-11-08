@@ -1,20 +1,20 @@
 <div data-ng-controller="ModalsController as modal">
 	<div class="modal-header">
-		<h3 class="modal-title">Confirmation Window</h3>
+		<h3 class="modal-title">{{modal.getTitleMessage()}}</h3>
 	</div>
 	<div class="modal-body">
-		<p>Not sufficient free time for a new task. You can choose one of the following ways to deal with it.</p>
+		<p>{{modal.getWarningMessage()}}</p>
 	</div>
 	<div class="modal-footer">
 		<button class="btn btn-primary" type="button"
-				data-ng-click="modal.userInterrupts()">
-			Increase deadline or reduce estimation
-		</button>
+		  data-ng-click="modal.firstWayHandle()">
+          {{modal.getButtonsMessages().firstWay}}
+        </button>
 		<button class="btn btn-warning" type="button"
-				data-ng-click="modal.automaticSlotShift()"
-				data-ng-disabled="modal.abilityToShiftExistingSlots()">
-			Shift existing slots
-		</button>
+		  data-ng-click="modal.secondWayHandle()"
+          data-ng-disabled="false">
+          {{modal.getButtonsMessages().secondWay}}
+      </button>
 	</div>
 </div>
 

@@ -1,24 +1,40 @@
 class ModalsController {
-	
+
 	/** @ngInject */
-	constructor(ModalsService, $scope) {
+	constructor(ModalsService, $scope, $rootScope) {
 		Object.assign(this, {
-			ModalsService,
-			$scope
+      ModalsService,
+      $scope,
+      $rootScope
 		});
 	}
 
-	userInterrupts() {
-		//show how much time user need to free up
-		console.log('ALIVE');
+  getWarningMessage() {
+    return this.$scope.ngDialogData.WARNING_MSG;
+  }
+
+  getTitleMessage() {
+    return this.$scope.ngDialogData.MODAL_TITLE;
+  }
+
+  getButtonsMessages() {
+    return {
+      firstWay: this.$scope.ngDialogData.BUTTONS_MSG.FIRST_WAY,
+      secondWay: this.$scope.ngDialogData.BUTTONS_MSG.SECOND_WAY
+    };
+  }
+
+	firstWayHandle() {
+    this.$rootScope.$broadcast(`CONFLICTED_${this.$scope.ngDialogData.TYPE}_FIRST`);
 	}
 
-	automaticSlotShift() {
-		console.log('ALIVE ONE MORE TIME');
+  secondWayHandle() {
+    this.$rootScope.$broadcast(`CONFLICTED_${this.$scope.ngDialogData.TYPE}_SECOND`);
 	}
 
 	abilityToShiftExistingSlots() {
-		return false;
+    //needs to be replaced from this controller
+    return true;
 	}
 }
 

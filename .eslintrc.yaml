@@ -15,7 +15,7 @@
   rules:
     indent:
       - off
-      - tab
+      - 2
       -
         SwitchCase: 1
         VariableDeclarator: 1

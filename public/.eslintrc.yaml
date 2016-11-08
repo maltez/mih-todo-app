@@ -120,7 +120,7 @@
       - self
     angular/controller-name:
       - error
-      - /[A-Z].*Ctrl$/
+      - /mih[A-Z].*Ctrl$/
     angular/di:
       - off
       - function
@@ -130,7 +130,7 @@
     angular/di-unused: error
     angular/directive-name:
       - error
-      - osm
+      - mih
     angular/directive-restrict:
       - off
       -
@@ -145,7 +145,7 @@
       -
         nameStyle: dash
         typeSeparator: dot
-        ignorePrefix: osm
+        ignorePrefix: mih
         ignoreTypeSuffix: true
     angular/filter-name: off
     angular/function-type:
@@ -155,10 +155,10 @@
       - off
       -
         grouped: true
-        prefix: osm
+        prefix: mih
     angular/module-name:
       - error
-      - osm
+      - mih
     angular/no-inline-template:
       - error
       -
@@ -177,7 +177,7 @@
           - $resource
     angular/service-name:
       - error
-      - /.*(Fct|Srv|Const|Val)$/
+      - /mih.*(Fct|Srv|Const|Val)$/
     angular/rest-service:
       - error
       - $resource

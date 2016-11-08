@@ -1,9 +1,5 @@
-'use strict';
-
-/**
- * Module dependencies.
- */
-var applicationConfiguration = require('./config/config');
+const applicationConfiguration = require('./config/config');
+const jsAssets = applicationConfiguration.assets.lib.js;
 
 // Karma configuration
 module.exports = function (config) {
@@ -12,7 +8,7 @@ module.exports = function (config) {
     frameworks: ['jasmine'],
 
     // List of files / patterns to load in the browser
-    files: applicationConfiguration.assets.lib.js.concat(applicationConfiguration.assets.js, applicationConfiguration.assets.tests),
+    files: jsAssets.concat(applicationConfiguration.assets.js, applicationConfiguration.assets.tests, ['public/modules/core/tests/controllers/mih.core.aside.conroller.test.js']),
 
     // Test results reporter to use
     // Possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'

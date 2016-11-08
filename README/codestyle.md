@@ -146,7 +146,7 @@ So here is a proper example
     class MyCtrl {
       /\*@ngInject\*/
       constructor($injector, $element) {
-        this.someService = $injector.get('osmSomeService');
+        this.someService = $injector.get('mihSomeService');
         this.$element = $element;
       }
 

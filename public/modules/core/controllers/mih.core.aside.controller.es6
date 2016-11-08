@@ -19,7 +19,7 @@ class mihAsideCtrl {
     $scope.$on('$stateChangeSuccess', stateChangeHandler);
   }
 
-  static goToState(newState) {
+  goToState(newState) {
     if (!newState) {
       return false;
     }
@@ -33,4 +33,4 @@ mihAsideCtrl.$inject = ['$scope', '$state'];
 
 angular
   .module('core')
-  .controller('AsideCtrl', mihAsideCtrl);
+  .controller('mihAsideCtrl', mihAsideCtrl);

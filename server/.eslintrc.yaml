@@ -130,7 +130,7 @@
     angular/di-unused: error
     angular/directive-name:
       - error
-      - osm
+      - mih
     angular/directive-restrict:
       - off
       -
@@ -145,7 +145,7 @@
       -
         nameStyle: dash
         typeSeparator: dot
-        ignorePrefix: osm
+        ignorePrefix: mih
         ignoreTypeSuffix: true
     angular/filter-name: off
     angular/function-type:
@@ -155,10 +155,10 @@
       - off
       -
         grouped: true
-        prefix: osm
+        prefix: mih
     angular/module-name:
       - error
-      - osm
+      - mih
     angular/no-inline-template:
       - error
       -

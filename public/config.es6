@@ -1,4 +1,4 @@
-const ApplicationConfiguration = (() => {
+const appConfig = (() => {
   const appName = 'mih';
   const vendors = [
     'ngResource',

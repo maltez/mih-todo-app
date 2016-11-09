@@ -1,4 +1,4 @@
-ApplicationConfiguration.registerModule('core');
+appConfig.registerModule('core');
 
 angular.module('core')
   .constant('ROUTER', {

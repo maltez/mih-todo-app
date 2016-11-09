@@ -11,24 +11,19 @@ class ModalsController {
 
   renderModalData() {
     return {
-      warning: this.$scope.ngDialogData.WARNING_MSG,
-      title: this.$scope.ngDialogData.WARNING_MSG,
-      firstWay: this.$scope.ngDialogData.BUTTONS_MSG.FIRST_WAY,
-      secondWay: this.$scope.ngDialogData.BUTTONS_MSG.SECOND_WAY
-    }
+      warning: this.$scope.ngDialogData.warningMsg,
+      title: this.$scope.ngDialogData.modalTitle,
+      firstHandler: this.$scope.ngDialogData.buttonsMsg.firstHandler,
+      secondHandler: this.$scope.ngDialogData.buttonsMsg.secondHandler
+    };
   }
 
   firstWayHandle() {
-    this.$rootScope.$broadcast(`CONFLICTED_${this.$scope.ngDialogData.TYPE}_FIRST`);
+    this.$rootScope.$broadcast(`CONFLICTED_${this.$scope.ngDialogData.type}_FIRST`);
   }
 
   secondWayHandle() {
-    this.$rootScope.$broadcast(`CONFLICTED_${this.$scope.ngDialogData.TYPE}_SECOND`);
-  }
-
-  abilityToShiftExistingSlots() {
-    //needs to be replaced from this controller
-    return true;
+    this.$rootScope.$broadcast(`CONFLICTED_${this.$scope.ngDialogData.type}_SECOND`);
   }
 }
 

@@ -246,14 +246,14 @@ class Algorithm {
 
 	static timeToMinutes(time) {
 		return time.split(':').reduce((prev, cur) => ((parseInt(prev, 10)) * 60) + parseInt(cur, 10));
-	};
+	}
 
 	static minutesToTime(minutes) {
 		return [
 			('0' + Math.floor(minutes / 60)).substr(-2),
 			('0' + minutes % 60).substr(-2)
 		].join(':');
-	};
+	}
 }
 
 angular.module('algorithm').service('Algorithm', Algorithm);

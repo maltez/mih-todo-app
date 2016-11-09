@@ -1,11 +1,11 @@
 {% extends 'layout.server.view.html' %}
 {% block content %}
-	<section class="page-wrapper">
-		{% if user %}
-			<ng-include src="'/modules/core/views/sidebar/sidebar.client.view.html'"></ng-include>
-			<ng-include src="'/modules/core/views/main.client.view.html'"></ng-include>
-		{% else %}
-			<ng-include src="'/modules/core/views/login.client.view.html'"></ng-include>
-		{% endif %}
-	</section>
+<section class="page-wrapper">
+  {% if user %}
+  <ng-include src="'/modules/core/views/sidebar/sidebar.client.view.html'"></ng-include>
+  <ng-include src="'/modules/core/views/main.client.view.html'"></ng-include>
+  {% else %}
+  <ng-include src="'/modules/core/views/login.client.view.html'"></ng-include>
+  {% endif %}
+</section>
 {% endblock %}

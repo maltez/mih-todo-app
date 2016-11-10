@@ -5,7 +5,19 @@
 var ApplicationConfiguration = (() => {
 	// Init module configuration options
 	var applicationModuleName = 'mih';
-	var applicationModuleVendorDependencies = ['ngResource', 'ngAnimate', 'ui.router', 'ui.bootstrap', 'ui.utils', 'ui-notification', 'angularFileUpload', 'modelOptions', 'rzModule'];
+	var applicationModuleVendorDependencies = [
+		'ngResource',
+		'ngAnimate',
+		'ui.router',
+		'ui.bootstrap',
+		'ui.utils',
+		'ui-notification',
+		'angularFileUpload',
+		'modelOptions',
+		'rzModule',
+		'ngCookies',
+		'angular-loading-bar'
+	];
 
 	// Add a new vertical module
 	var registerModule = function registerModule(moduleName, dependencies) {

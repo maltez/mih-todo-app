@@ -1,0 +1,69 @@
+<div class="ibox migration">
+	<div data-ng-controller="MigrationController as ctrl" class="ibox-content">
+		<section class="row outlook">
+			<div class="col-xs-12">
+				<h2>Outlook calendar synchronization</h2>
+
+				<a data-ng-show="ctrl.outlook.authUrl" class="btn btn-large btn-primary"
+				   href="{{ctrl.outlook.authUrl}}">Log In</a>
+
+				<div data-ng-show="ctrl.outlook.token && ctrl.outlook.email">
+					<div class="row">
+						<div class="col-xs-12">
+							<div class="row">
+								<div class="col-xs-3">
+									<label for="syncDateFrom" class="control-label">Start date: </label>
+									<input id="syncDateFrom" type="date" class="form-control"
+										   data-ng-model="ctrl.outlook.startDateTime">
+								</div>
+								<div class="col-xs-3">
+									<label for="syncDateTo" class="control-label">End date: </label>
+									<input id="syncDateTo" type="date" class="form-control"
+										   data-ng-model="ctrl.outlook.endDateTime">
+								</div>
+								<div class="col-xs-4">
+									<button type="button" class="btn btn-large btn-primary api-call-btn"
+											data-ng-click="ctrl.getOutlookCalendarEvents()">
+										Get events
+									</button>
+									<button type="button" class="btn btn-large btn-primary api-call-btn"
+											data-ng-click="ctrl.importOutlookCalendarEvents()"
+											data-ng-disabled="!ctrl.importedEvents.length">
+										Import events
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<table class="col-xs-12 events-list" data-ng-show="ctrl.importedEvents.length">
+							<thead>
+							<tr>
+								<th>Title</th>
+								<th>Notes</th>
+								<th>Start date</th>
+								<th>End date</th>
+								<th>Status</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr data-ng-repeat="event in ctrl.importedEvents">
+								<td>{{event.title}}</td>
+								<td>{{event.notes}}</td>
+								<td>{{event.days.startTime | date:ctrl.dateFormat}}</td>
+								<td>{{event.days.endTime | date:ctrl.dateFormat}}</td>
+								<td>{{event.status}}</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<div data-ng-show="!ctrl.importedEvents.length" class="no-events">
+						No events
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+</div>

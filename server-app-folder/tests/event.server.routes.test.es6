@@ -6,7 +6,7 @@ var should = require('should'),
 	mongoose = require('mongoose'),
 	User = mongoose.model('User'),
 	Event = mongoose.model('Activity'),
-	express = require(path.resolve('./config/lib/express'));
+	express = require('express');
 
 /**
  * Globals

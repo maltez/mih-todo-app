@@ -11,7 +11,7 @@
 
   globals:
     inject: true
-    something: true
+    appConfig: true
 
   rules:
     indent:
@@ -141,7 +141,7 @@
       - 2
     angular/empty-controller: error
     angular/file-name:
-      - warn
+      - off
       -
         nameStyle: dash
         typeSeparator: dot

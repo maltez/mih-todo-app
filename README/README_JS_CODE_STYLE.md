@@ -1,27 +1,26 @@
-# Code style notes
+# JS Code style notes
 
 ## Tooling
 
-We do use eslint for code style managing.
+We do use ESLint for code style managing.
 So in some cases you should perform code static analysis yourself
 
-To understand better the topic, please look [this link](http://elijahmanor.com/javascript-smells/?utm_source=javascriptweekly&utm_medium=email) and watch the video there:
+To understand better the topic, please look [this link](http://elijahmanor.com/javascript-smells/?utm```source=javascriptweekly&utm```medium=email) and watch the video there:
 
-First of all setup using eslint in your IDE.
-For Webstorm you can do this Settings -> (Search eslint) -> Enable. And also set it to use local package
+### First of all setup using ESLint in your IDE.
+> For Webstorm you can do this Settings -> (Search ESLint) -> Enable. And also set it to use local package
+>
+> The second thing is to meet some code style guides and tools:
+> 1. ESLint: http://ESLint.org/docs/rules/
+> 2. code smells plugin: https://github.com/elijahmanor/ESLint-plugin-smells
+> 3. angular plugin: https://github.com/Gillespie59/ESLint-plugin-angular
+>
+> If you have troubles with ESLint hints first of all understand which rule you are to brake (consult rules list)
 
-The second thing is to meet some codestyle guides and tools:
-
-eslint: http://eslint.org/docs/rules/
-code smells plugin: https://github.com/elijahmanor/eslint-plugin-smells
-angular plugin: https://github.com/Gillespie59/eslint-plugin-angular
-
-If you have troubles with eslint hints first of all understand which rule you are to brake (consult rules list)
-
-The second thing to remember here - do remember that disabling of eslint is prohibited.
-Only in some very rare cases where library files brake this rule.
-For instance provide some Cap instance which should be called without new,
-or you need to paste some json data and it is better to save it's syntax to be able to update it easily.
+### The second thing to remember here - do remember that disabling of ESLint is prohibited.
+> Only in some very rare cases where library files brake this rule.
+> For instance provide some Cap instance which should be called without new,
+> or you need to paste some json data and it is better to save it's syntax to be able to update it easily.
 
 ## Common
 
@@ -59,9 +58,9 @@ Pay attention on:
 - usage single quotes for strings only
 - we don't quote keys for objects unless this is required
 - usage of curly braces even if we have one statement
-- negation of conditions to reduce nesting and usage of _return_ instead of _else_ in such cases
-- empty lines after blocks, vars and before return
-- usage of _let_ and _const_ instead of _var_
+- negation of conditions to reduce nesting and usage of ```return``` instead of ```else``` in such cases
+- empty lines after blocks, _VARIABLES_ and before ```return```
+- usage of ```let``` and ```const``` instead of ```var```
 - usage of semicolons ONLY where they are needed by the standard
 - usage of arrow functions with one argument
 - piping on new line
@@ -77,7 +76,6 @@ Also:
 
 
 ## ES6
-
 ES6 is mandatory. Usage of old patterns that have alternatives in ES6 are forbidden:
 - ```const``` and ```let``` instead of ```var```
 - rest parameters instead of ```arguments```
@@ -87,13 +85,10 @@ ES6 is mandatory. Usage of old patterns that have alternatives in ES6 are forbid
 - default parameters instead of checking them inside functions
 - classes instead of prototypes
 - arrow functions to callbacks instead of functions
-
-Also:
 - single arrow operator's parameter should not be wrapped in braces
 
 
 ## Classes
-
 Don't use ```_``` (underscore) for private methods or properties.
 Use documentation annotation for this.
 
@@ -101,19 +96,20 @@ Use documentation annotation for this.
 ## Angular code style notes
 
 ### Naming
-
 Module names should start from **mih**
 Controller names should start with uppercase letter and finishes with Ctrl
 Directive name should start from **mih**
-Service name should start from uppercase if it is instantiable value or with lowercase if not and finishes with **Fct**, **Srv**, **Val** or **Const** suffixes (accordingly)
+Service name should start from uppercase if it is instantiable value or with lowercase if not and finishes with **Srv**
+Factory name should start from uppercase if it is instantiable value or with lowercase if not and finishes with **Fct**
+Value name should start from uppercase if it is instantiable value or with lowercase if not and finishes with **Val**
+Constant name should start from uppercase if it is instantiable value or with lowercase if not and finishes with **Const** suffixes (accordingly)
 
 File name should have the pattern:
-mih.<dashed-component-name>.<type>.js
-
-for example for *'SomeViewCtrl'* controller file name is **mih.some-view.controller.js*
+> <dashed-component-name>.<type>.js
+>
+> for example for *'SomeViewCtrl'* controller file name is **some-view.controller.js*
 
 ### Components
-
 There should be one component per file. The exception here is some small variables or constants.
 
 Rest service is used for server interaction is *$resource* and it is forbidden to use any other.
@@ -121,18 +117,13 @@ Also it is forbidden to inject this service into a controller or a directive.
 
 Dependencies for components should go sorted alphabetically
 
-
 ### Controllers
-
 controllerAs syntax should be used. Injection of $scope is prohibited unless this is strongly needed.
 $rootScope should be injected only for emitting/listening message. Broadcasting on a $rootScope is forbidden.
 
 
 ### Injections
-
 We don't use inline array or $inject property annotation.
-We do use automatic annotation by webpack loader
-Sometimes it can't understand that it should annotate something.
 In this case we can use /*@ngInject*/ syntax to force it.
 
 Maximum parameters allowed for the function is 5.
@@ -182,7 +173,7 @@ Documentation comments should be proper ngdoc annotations.
   ```
     /**
      * @ngdoc service
-     * @name <module_name>.<service_name>
+     * @name <module```name>.<service```name>
      *
      * @description <description>
      */
@@ -194,8 +185,8 @@ Documentation comments should be proper ngdoc annotations.
   ```
     /**
      * @ngdoc controller
-     * @name <module_name>.<controller_name>
-     * @extends <module_name>.<controller_name>
+     * @name <module```name>.<controller```name>
+     * @extends <module```name>.<controller```name>
      * @class
      *
      * @description <description>
@@ -207,7 +198,7 @@ Documentation comments should be proper ngdoc annotations.
   ```
     /**
      * @ngdoc directive
-     * @name <module_name>.<directive_name>
+     * @name <module```name>.<directive```name>
      * @restrict <restrict>
      *
      * @description <description>
@@ -219,7 +210,7 @@ Documentation comments should be proper ngdoc annotations.
   ```
     /**
      * @ngdoc directive
-     * @name <module_name>.<directive_name>
+     * @name <module```name>.<directive```name>
      * @restrict <restrict>
      *
      * @scope
@@ -234,8 +225,8 @@ Documentation comments should be proper ngdoc annotations.
   ```
     /**
      * @ngdoc method
-     * @methodOf <object_name>
-     * @name <object_name>#<method_name>
+     * @methodOf <object```name>
+     * @name <object```name>#<method```name>
      *
      * @param {<type>} <name> <description>
      * @returns {<type>} <description>
@@ -250,8 +241,8 @@ Documentation comments should be proper ngdoc annotations.
   ```
     /**
      * @ngdoc property
-     * @propertyOf <object_name>
-     * @name <object_name>#<method_name>
+     * @propertyOf <object```name>
+     * @name <object```name>#<method```name>
      * @private / @protected
      *
      * @description <description>

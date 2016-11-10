@@ -11,12 +11,12 @@
 
   globals:
     inject: true
-    something: true
+    appConfig: true
 
   rules:
     indent:
       - error
-      - tab
+      - 2
       -
         SwitchCase: 1
         VariableDeclarator: 1
@@ -55,6 +55,7 @@
         ignoreComments: true
         ignoreUrls: true
 
+    prefer-arrow-callback: error
     arrow-body-style:
       - error
       - as-needed
@@ -141,7 +142,7 @@
       - 2
     angular/empty-controller: error
     angular/file-name:
-      - warn
+      - off
       -
         nameStyle: dash
         typeSeparator: dot

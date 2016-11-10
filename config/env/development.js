@@ -2,7 +2,11 @@
 
 module.exports = {
 	db: {
-		uri: 'mongodb://devuser:devuser2day@ds031167.mlab.com:31167/mih'
+		uri: 'mongodb://localhost/mean-test',
+		options: {
+			user: '',
+			pass: ''
+		}
 	},
 	log: {
 		// Can specify one of 'combined', 'common', 'dev', 'short', 'tiny'
@@ -52,5 +56,29 @@ module.exports = {
 				pass: process.env.MAILER_PASSWORD || 'qwe123rty456'
 			}
 		}
+	},
+
+	outlook: {
+		//serverRedirectUrl: 'http://localhost:3000/migrate/outlook/authorize',
+		serverRedirectUrl: 'https://make-it-happen-app.herokuapp.com/migrate/outlook/authorize',
+		authorizationPath: '/oauth2/v2.0/authorize',
+		uiRedirectUrl: '/#!/migrate',
+		cookieMaxAge: 100 * 60 * 60 * 5,
+		clientSecret: 'FHTnvdXrL15cR5C1ffGiiJe',
+		apiEndpoint: 'https://outlook.office.com/api/v2.0',
+		calendarUrl: '/me/calendarview',
+		tokenPath: '/oauth2/v2.0/token',
+		clientID: '18d1debf-1018-4c00-b353-24bac62f294b',
+		site: 'https://login.microsoftonline.com/common',
+		calendarScopes: [
+			'openid',
+			'profile',
+			'offline_access',
+			'https://outlook.office.com/calendars.readwrite'
+		],
+		headers: [
+			'odata.track-changes',
+			'odata.maxpagesize=10'
+		]
 	}
 };

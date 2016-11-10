@@ -55,7 +55,8 @@ public/*.map
 public/dist
 public/modules/**/*.map
 public/modules/**/*.js
-public/modules/**/*.css
+public/css/*.css
+public/**/*.css
 public/modules/users/img/profiles/*
 
 

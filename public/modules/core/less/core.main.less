@@ -1,0 +1,212 @@
+@import "_core.variables.less";
+@import "_core.mixins.less";
+@import "_core.override.less";
+@import "logo/_logo.less";
+@import "socials/_socials.less";
+@import "login/_login.less";
+@import "datepicker/_datepicker.less";
+@import "navigation/_navigation.less";
+@import "sidebar/_sidebar.less";
+
+.undecorated-link:hover {
+  text-decoration: none;
+}
+
+.page-wrapper {
+  height: 100%;
+}
+
+.container-wrapper {
+  background: #f3f3f4;
+}
+
+.only-mobile {
+  display: none;
+
+  @media @mobile-display {
+    display: block;
+  }
+}
+
+.add-task {
+  float: right;
+  color: #fff;
+  font-size: 1.3em;
+
+  &:hover {
+    color: @base-color;
+  }
+}
+
+.nav-item {
+  color: #fff;
+  padding: 14px 20px 14px 25px;
+  position: relative;
+  font-size: 1.2em;
+  cursor: pointer;
+
+  &:hover {
+    background: #293846;
+  }
+}
+
+.task-list-item {
+  .task-priority {
+    margin-right: 10px;
+  }
+}
+
+.p-r-1 {
+  padding-right: 5px;
+}
+
+.p-l-1 {
+  padding-left: 5px;
+}
+
+.p-1 {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+.p-y-1 {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+
+.ui-sref.back {
+  margin-bottom: 20px;
+}
+
+.rzslider-manual-input {
+  margin-top: .5em;
+}
+
+// ---------------- MAIN CONTENT ----------------
+.main-view-container {
+  height: 100%;
+
+  > section {
+    height: 100%;
+  }
+}
+
+.main-content {
+  transition: margin .6s;
+  position: relative;
+  height: 100%;
+  z-index: 2;
+
+  &.with-sidebar {
+    margin-left: 300px;
+  }
+
+  .container-wrapper {
+    min-height: 100%;
+    position: relative;
+
+    .navbar-default {
+      background: #fff;
+      box-shadow: none;
+      padding: 0 15px;
+      box-sizing: border-box;
+    }
+  }
+}
+
+// ---------------- IBOX ----------------
+.ibox {
+  .ibox-content {
+    padding: 15px 20px 20px;
+    min-height: 330px;
+  }
+}
+
+.btn-ibox-title {
+  margin-top: -10px;
+}
+
+// ---------------- NOTIFICATION ----------------
+div.ui-notification {
+  :before {
+    content: '×';
+    right: 5px;
+    top: 0;
+    position: absolute;
+    display: block;
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  &.success {
+    background: #1ab394;
+  }
+
+  .message {
+    background-color: transparent;
+    border: none;
+    text-align: left;
+    display: block;
+    padding: 0;
+    position: relative;
+    border-radius: 0;
+  }
+}
+
+.notifications-info .label {
+  line-height: 12px;
+  padding: 2px 5px;
+  position: absolute;
+  right: 6px;
+  top: 12px;
+}
+
+.error-message {
+  .error-text {
+    color: @error-message-color;
+  }
+}
+
+// ---------------- PRIORITY ----------------
+.item {
+  &-priority {
+    color: @color-mid-grey;
+  }
+
+  &-priority-1 {
+    border-left: 10px solid @color-dark-pink;
+    color: @color-dark-pink;
+
+    .item-priority:focus {
+      border-color: @color-dark-pink !important;
+    }
+  }
+
+  &-priority-2 {
+    border-left: 10px solid @color-sun;
+    color: @color-sun;
+
+    .item-priority:focus {
+      border-color: @color-sun !important;
+    }
+  }
+
+  &-priority-3 {
+    border-left: 10px solid @color-mountain-meadow;
+    color: @color-mountain-meadow;
+
+    .item-priority:focus {
+      border-color: @color-mountain-meadow !important;
+    }
+  }
+
+  &-priority-4 {
+    border-left: 10px solid @color-mid-grey;
+    color: @color-mid-grey;
+
+    .item-priority:focus {
+      border-color: @color-mid-grey !important;
+    }
+  }
+}

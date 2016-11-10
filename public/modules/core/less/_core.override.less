@@ -13,7 +13,7 @@ body.ng-cloak {
 }
 
 body {
-  background: #f3f3f4;
+  background: @body-background-color;
 }
 
 a {
@@ -40,16 +40,16 @@ textarea {
 
 .nav-title {
   font-size: 1.5em;
-  color: #fff;
+  color: #FFF;
   text-transform: uppercase;
 }
 
 .navbar {
-  background: #fff;
+  background: #FFF;
 
   .top-link {
     &:hover {
-      color: #1ab394;
+      color: @base-color;
     }
   }
 }

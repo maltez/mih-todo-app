@@ -1,0 +1,27 @@
+@import "../../core/less/_core.variables.less";
+@import "events-list/_events.list.less";
+
+.create-event-wrapper {
+  .form-holder {
+    margin-bottom: 20px;
+  }
+  .column-wrapper {
+    .calendar-btn {
+      cursor: pointer;
+    }
+  }
+  .error-text {
+    color: @error-text;
+    margin-top: 5px;
+  }
+  .btn-white {
+    border-color: @btn_white--border-color;
+    &:hover {
+      background: @base-color;
+      color: #FFF;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+}

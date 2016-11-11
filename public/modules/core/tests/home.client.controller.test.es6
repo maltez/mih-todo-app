@@ -1,24 +1,24 @@
 'use strict';
 
 (function () {
-	describe('HomeController', function () {
-		//Initialize global variables
-		var scope, HomeController;
+  describe('HomeController', function () {
+    //Initialize global variables
+    var scope, HomeController;
 
-		// Load the main application module
-		beforeEach(module(ApplicationConfiguration.applicationModuleName));
+    // Load the main application module
+    beforeEach(module(appConfig.applicationModuleName));
 
-		beforeEach(inject(function ($controller, $rootScope, Authentication) {
-			scope = $rootScope.$new();
-			scope.authentication = Authentication;
+    beforeEach(inject(function ($controller, $rootScope, Authentication) {
+      scope = $rootScope.$new();
+      scope.authentication = Authentication;
 
-			HomeController = $controller('HomeController', {
-				$scope: scope
-			});
-		}));
+      HomeController = $controller('HomeController', {
+        $scope: scope
+      });
+    }));
 
-		it('should expose the authentication service', function () {
-			expect(scope.authentication).toBeTruthy();
-		});
-	});
+    it('should expose the authentication service', function () {
+      expect(scope.authentication).toBeTruthy();
+    });
+  });
 })();

@@ -1,11 +1,10 @@
 <aside class="left-sidebar navbar-default navbar-static-side">
     <div class="sidebar-collapse">
-        <ul class="nav" data-ng-controller="SidebarController as sidebarCtrl">
+        <ul class="nav" data-ng-controller="mihAsideCtrl as sidebarCtrl">
             <select class="nav-header nav-title left-sidebar__category-control"
-                    ng-model="sidebarCtrl.selectedTopState"
-                    ng-options="topState.data.menuLabel for topState in sidebarCtrl.topStatesInNavDropdown"
-                    ng-change="sidebarCtrl.goToState(sidebarCtrl.selectedTopState)"
-            >
+                    data-ng-model="sidebarCtrl.selectedTopState"
+                    data-ng-options="topState.data.menuLabel for topState in sidebarCtrl.topStates"
+                    data-ng-change="sidebarCtrl.goToState(sidebarCtrl.selectedTopState)">
             </select>
         </ul>
         <div ui-view="aside">No data</div>

@@ -1,0 +1,138 @@
+ol,
+ul { list-style: none; }
+
+ol,
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
+
+.todo-list-controls {
+  padding: 5px 15px;
+  background: @todo-list-controls-color;
+  text-align: right;
+}
+.controls-link {
+  font-size: 1.3em;
+  padding: 0 5px;
+  color: @controls-link-color;
+
+  &:hover, &:active {
+    color: @base-color;
+  }
+}
+
+.task-list-header {
+  border-bottom: 1px solid @task-list-header-brd-btm-color;
+  height: 70px;
+  padding: 0 15px;
+  width: 100%;
+  display: table;
+  background-color: @task-list-header-bg-color;
+
+  > h1 {
+    display: table-cell;
+    vertical-align: middle;
+    color: #FFF;
+  }
+}
+
+.tasks-subtitle-wrapper {
+  padding: 10px;
+  background-color: @tasks-subtitle-wrapper-bg-color;
+  text-align: right;
+
+  > .tasks-subtitle {
+    color: #EEE;
+    font-size: 1.5em;
+    float: left;
+  }
+
+  > .add-task-link {
+    float: right;
+
+    > span {
+      font-size: 1.5em;
+      color: #FFF;
+    }
+  }
+}
+
+.task-list-show-completed {
+  padding: 0 10px;
+
+  label { color: #FFF; }
+}
+
+.tasks-list {
+  padding: 10px;
+  background-color: @tasks-list-bg-color;
+  height: 255px;
+  overflow: auto;
+
+  > .tasks-list-item {
+    overflow: hidden;
+    width: 100%;
+    padding: 8px 0;
+    border-bottom: 1px solid @task-list-header-bg-color;
+
+    .tasks-item-priority {
+      display: inline-block;
+      font-size: 1.5em;
+      color: #FFF;
+      margin: 0 10px;
+      vertical-align: middle;
+
+      &.tasks-priority1 { color: @priority-1-color; }
+      &.tasks-priority2 { color: @priority-2-color; }
+      &.tasks-priority3 { color: @priority-3-color; }
+      &.tasks-priority4 { color: @priority-4-color; }
+    }
+
+    .tasks-item-percent {
+      display: inline-block;
+      vertical-align: middle;
+      font-size: 1em;
+      background-color: #EEE;
+      width: 40px;
+      text-align: center;
+      border-radius: 5px;
+      color: #333;
+    }
+
+    .tasks-list-item-title {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: inline-block;
+      vertical-align: middle;
+      width: 60%;
+      margin-right: 15px;
+      color: #FFF;
+
+      > a { color: #FFF; }
+    }
+  }
+}
+
+.left-sidebar {
+  .task {
+    &-priority-1 {color: @priority-1-color; }
+    &-priority-2 {color: @priority-2-color; }
+    &-priority-3 {color: @priority-3-color; }
+    &-priority-4 {color: @priority-4-color; }
+  }
+}
+
+.task-list-item {
+  .task-name {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 75%;
+    display: inline-block;
+    overflow: hidden;
+  }
+}
+
+

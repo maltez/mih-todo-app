@@ -104,4 +104,10 @@ export class AlgorithmServerController {
 			res.json({data: slotsRange});
 		});
 	}
+
+  static getOccupiedTime(req, res) {
+
+    //TODO: realize slots getting from db
+    console.log('text');
+  }
 }

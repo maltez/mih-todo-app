@@ -130,12 +130,16 @@ class Algorithm {
 
   getOccupiedSlots(startDate, endDate) {
     return new Promise(resolve => {
-      this.getSlots(startDate, endDate, 'free-time')
+      this.getSlots(startDate, endDate, 'occupied-time')
         .then(res => {
 
           //TODO: get appropriate data
 
-          this.slotsOccupiedSlots = res.data;
+          this.slotsOccupiedSlots.slots = res.slots;
+          this.slotsOccupiedSlots.tasks = res.tasks;
+
+          this.AlgorithmNegative.cc(this.slotsOccupiedSlots);
+
           resolve(this.slotsOccupiedSlots);
         });
     });
@@ -151,6 +155,8 @@ class Algorithm {
       priority: priority,
       estimation: estimation
     });
+
+    this.getOccupiedSlots(startDate, endDate);
 
     return new Promise(resolve => {
       this.getSlots(startDate, endDate, 'free-time')

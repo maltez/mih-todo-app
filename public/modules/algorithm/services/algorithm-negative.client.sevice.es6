@@ -42,6 +42,10 @@ class AlgorithmNegative {
   recalculateExistingTasks() {
     console.log(this.estimation, this.priority, this.startDate, this.endDate);
   }
+
+  cc(data) {
+    console.log(data);
+  }
 }
 
 angular.module('algorithm').service('AlgorithmNegative', AlgorithmNegative);

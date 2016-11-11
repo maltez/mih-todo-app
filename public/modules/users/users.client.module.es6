@@ -1,4 +1,4 @@
 'use strict';
 
 // Use Application configuration module to register a new module
-appConfig.registerModule('users',['mgcrea.ngStrap']);
+ApplicationConfiguration.registerModule('users',['mgcrea.ngStrap']);

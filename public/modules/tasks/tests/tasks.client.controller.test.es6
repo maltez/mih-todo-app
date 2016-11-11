@@ -30,7 +30,7 @@
 		});
 
 		// Then we can start by loading the main application module
-		beforeEach(module(appConfig.applicationModuleName));
+		beforeEach(module(ApplicationConfiguration.applicationModuleName));
 
 		// The injector ignores leading and trailing underscores here (i.e. _$httpBackend_).
 		// This allows us to inject a service but then attach it to a variable

@@ -1,3 +1,3 @@
 'use strict';
 
-appConfig.registerModule('templates', []);
+ApplicationConfiguration.registerModule('templates', []);

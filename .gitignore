@@ -46,17 +46,16 @@
 #    build/
 #
 
-server/**/*.js
-server/**/*.map
-server/tests/coverage/
+server-app-folder/**/*.js
+server-app-folder/**/*.map
+server-app-folder/tests/coverage/
 
 public/*.js
 public/*.map
 public/dist
 public/modules/**/*.map
 public/modules/**/*.js
-public/css/*.css
-public/**/*.css
+public/modules/**/*.css
 public/modules/users/img/profiles/*
 
 

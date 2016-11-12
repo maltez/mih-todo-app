@@ -43,8 +43,48 @@ class AlgorithmNegative {
     console.log(this.estimation, this.priority, this.startDate, this.endDate);
   }
 
+  leftTimeBeforeDeadline(tasks) {
+    return tasks.forEach(function(value, key) {
+      tasks[key].leftEstimation = tasks[key].estimation - _.sum(tasks[key].slots.passedSlots.map(function(value) {
+        return value.duration;
+      }));
+
+      tasks[key].leftHoursBeforeDeadline = parseInt(((new Date(tasks[key].days.endTime) - this.startDate) / (1000 * 60 * 60)).toFixed(1));
+    }, this);
+  }
+
   cc(data) {
-    console.log(data);
+    var tasks = data.tasks; //arr
+    var slots = data.slots; //obj
+
+    var concatSlots = {
+      arrayOfPassedSlots: slots.passedSlots.map(function(value) { return value.taskId; }),
+      arrayOfFutureSlots: slots.futureSlots.map(function(value) { return value.taskId; })
+    };
+
+    tasks.forEach(function(value, key) {
+      tasks[key].slots = {
+        passedSlots: [],
+        futureSlots: []
+      };
+
+      var indexArrPassed = concatSlots.arrayOfPassedSlots.reduce(function(newArr, elem, index) {
+        if (elem === value._id)
+          newArr.push(index);
+        return newArr;
+      }, []);
+
+      var indexArrFuture = concatSlots.arrayOfFutureSlots.reduce(function(newArr, elem, index) {
+        if (elem === value._id)
+          newArr.push(index);
+        return newArr;
+      }, []);
+
+      indexArrPassed.forEach(function(index) { tasks[key].slots.passedSlots.push(slots.passedSlots[index]); });
+      indexArrFuture.forEach(function(index) { tasks[key].slots.futureSlots.push(slots.futureSlots[index]); });
+    });
+
+    this.leftTimeBeforeDeadline(tasks);
   }
 }
 

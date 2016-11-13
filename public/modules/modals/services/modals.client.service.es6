@@ -12,7 +12,7 @@ class ModalsService {
       template: '/modules/modals/views/modals.view.html',
       controller: 'ModalsController',
       controllerAs: 'modal',
-      width: '40%',
+      width: '60%',
       className: 'ngdialog-theme-default',
       data: msg
     });

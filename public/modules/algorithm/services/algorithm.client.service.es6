@@ -128,35 +128,17 @@ class Algorithm {
     }).$promise;
   }
 
-  getOccupiedSlots(startDate, endDate) {
-    return new Promise(resolve => {
-      this.getSlots(startDate, endDate, 'occupied-time')
-        .then(res => {
-
-          //TODO: get appropriate data
-
-          this.slotsOccupiedSlots.slots = res.slots;
-          this.slotsOccupiedSlots.tasks = res.tasks;
-
-          this.AlgorithmNegative.cc(this.slotsOccupiedSlots);
-
-          resolve(this.slotsOccupiedSlots);
-        });
-    });
-  }
-
   generateSlots(startDate, endDate, priority, estimation) {
     startDate.setHours(0, 0, 0, 0);
     endDate.setHours(0, 0, 0, 0);
 
-    Algorithm.algorithmBranchDataSetter([this.AlgorithmNegative, this.AlgorithmPositive], {
-      startDate: startDate,
-      endDate: endDate,
-      priority: priority,
-      estimation: estimation
-    });
-
-    this.getOccupiedSlots(startDate, endDate);
+	  Algorithm.algorithmBranchDataSetter([this.AlgorithmNegative, this.AlgorithmPositive], {
+		  startDate: startDate,
+		  endDate: endDate,
+		  estimation: estimation,
+		  priority: priority,
+		  delegate: this
+	  });
 
     return new Promise(resolve => {
       this.getSlots(startDate, endDate, 'free-time')
@@ -230,9 +212,10 @@ class Algorithm {
       recommendations = isBalancedLoad ? this.AlgorithmPositive.getBalancedRecommendations(data) : this.AlgorithmPositive.getIntensiveRecommendations(data);
     } else {
       // Negative branch
-      this.AlgorithmNegative.openModalForDecision('task');
+      this.AlgorithmNegative.initialize('task', totalAvailHours);
+	  //recommendations = this.AlgorithmNegative.returnRecommendations();
     }
-    this.slotsRange = this.getSuitableSlots(recommendations, priority);
+	  this.slotsRange = this.getSuitableSlots(recommendations, priority);
   }
 }
 

@@ -47,77 +47,71 @@ class AlgorithmNegative {
             tasks: res.tasks
           };
 
-	      resolve(this.slotsOccupiedSlots);
+          resolve(this.slotsOccupiedSlots);
 
           let aggregatedTasksWithSlots = this.aggregateTasksWithSlots(this.slotsOccupiedSlots);
           let tasksWithLeftTimeData = this.leftTimeBeforeDeadline(aggregatedTasksWithSlots);
 
           this.tasksWithShiftAbilities = this.checkShiftAbilities(tasksWithLeftTimeData);
-	      //TODO: check posibility to shift tasks for days before deadline (get days free time before deadline)
-	      this.recalculateExistingTasks(this.tasksWithShiftAbilities);
+          //TODO: check posibility to shift tasks for days before deadline (get days free time before deadline)
+          this.recalculateExistingTasks(this.tasksWithShiftAbilities);
         });
     });
   }
 
   //TODO: how to decrease quantity of requests?
   recalculateExistingTasks(tasks) {
-	  let freeSlots = [];
+      let freeSlots = [];
 
-	  return new Promise(resolve => {
-		  tasks.forEach(function(value, key) {
-			  this.getSlots(new Date(this.startDate.setDate(this.startDate.getDate() + 1)), value.days.endTime, 'free-time')
-				  .then(res => {
-					  this.slots = res.data;
-					  freeSlots.push(this.slots);
-					  resolve(this.slots);
-				  });
-		  }, this);
-	  }).then(() => {
-		  this.$timeout(() => {
-			  console.log(freeSlots);
-			  this.findAppropriateSlotsToShift(tasks, freeSlots);
-		  });
-		});
+      return new Promise(resolve => {
+          tasks.forEach(function(value, key) {
+              this.getSlots(new Date(this.startDate.setDate(this.startDate.getDate() + 1)), value.days.endTime, 'free-time')
+                  .then(res => {
+                      this.slots = res.data;
+                      freeSlots.push(this.slots);
+                      resolve(this.slots);
+                  });
+          }, this);
+      }).then(() => {
+          this.$timeout(() => {
+              this.findAppropriateSlotsToShift(tasks, freeSlots);
+              this.closeModalInstance();
+          });
+        });
   }
 
-	findAppropriateSlotsToShift(tasksToShift, freeSlots) {
-		let hoursToFree = this.estimation - this.totalAvailHours;
+    findAppropriateSlotsToShift(tasksToShift, freeSlots) {
+        let hoursToFree = this.estimation - this.totalAvailHours;
 
-		tasksToShift.forEach(function(value, key) {
-			while (hoursToFree > 0) {
-				value.slots.futureSlots.forEach(function(v, index) {
-					let slotDuration = v.duration;
-					let freePlaces = freeSlots[key];
+        tasksToShift.forEach(function(value, key) {
+            value.slots.futureSlots.forEach(function(v, index) {
+                let slotDuration = v.duration;
+                let freePlaces = freeSlots[key];
 
-					Object.keys(freePlaces).forEach(function(ky, ind) {
-						freePlaces[ky].forEach(function(val, k) {
-							if (val.duration >= slotDuration) {
-								hoursToFree -= slotDuration;
+                Object.keys(freePlaces).forEach(function(ky, ind) {
+                    while (hoursToFree > 0) {
+                        freePlaces[ky].forEach(function (val, k) {
+                            if (val.duration >= slotDuration) {
+                                hoursToFree -= slotDuration;
 
-								value.slots.futureSlots[index].start = val.start;
-								value.slots.futureSlots[index].end = new Date(new Date(val.start).setHours(new Date(val.start).getHours() + 3)).toISOString();
+                                value.slots.futureSlots[index].start = val.start;
+                                value.slots.futureSlots[index].end = new Date(new Date(val.start).setHours(new Date(val.start).getHours() + 3)).toISOString();
 
-								this.Slots.update(value.slots.futureSlots[index]);
-							}
-						}, this);
-					}, this);
-				}, this);
-			}
-		}, this);
-	}
+                                this.Slots.update(value.slots.futureSlots[index]);
+                                //this.delegate.$scope.apply();
+                            }
+                        }, this);
+                    }
+                }, this);
 
-	// returnRecommendations() {
-	// 	let suitableSlots = [];
-	//
-	// 	suitableSlots.push({
-	// 		duration: this.estimation,
-	// 		priority: this.priority,
-	// 		end: this.endDate.getTime(),
-	// 		start: this.startDate.getTime()
-	// 	});
-	//
-	// 	return suitableSlots;
-	// }
+            }, this);
+        }, this);
+    }
+
+    //duration: this.estimation,
+    //priority: this.priority,
+    //end     : this.endDate.getTime(),
+    //start   : this.startDate.getTime()
 
   leftTimeBeforeDeadline(tasks) {
     tasks.forEach((value, key) => {

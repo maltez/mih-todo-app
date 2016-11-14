@@ -132,13 +132,13 @@ class Algorithm {
     startDate.setHours(0, 0, 0, 0);
     endDate.setHours(0, 0, 0, 0);
 
-	  Algorithm.algorithmBranchDataSetter([this.AlgorithmNegative, this.AlgorithmPositive], {
-		  startDate: startDate,
-		  endDate: endDate,
-		  estimation: estimation,
-		  priority: priority,
-		  delegate: this
-	  });
+    Algorithm.algorithmBranchDataSetter([this.AlgorithmNegative, this.AlgorithmPositive], {
+      startDate: startDate,
+      endDate: endDate,
+      estimation: estimation,
+      priority: priority,
+      delegate: this
+    });
 
     return new Promise(resolve => {
       this.getSlots(startDate, endDate, 'free-time')
@@ -210,12 +210,12 @@ class Algorithm {
     if (estimation <= totalAvailHours) {
       // Positive branch
       recommendations = isBalancedLoad ? this.AlgorithmPositive.getBalancedRecommendations(data) : this.AlgorithmPositive.getIntensiveRecommendations(data);
+
     } else {
       // Negative branch
       this.AlgorithmNegative.initialize('task', totalAvailHours);
-	  //recommendations = this.AlgorithmNegative.returnRecommendations();
     }
-	  this.slotsRange = this.getSuitableSlots(recommendations, priority);
+    this.slotsRange = this.getSuitableSlots(recommendations, priority);
   }
 }
 

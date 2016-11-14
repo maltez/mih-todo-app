@@ -51,7 +51,9 @@ module.exports = {
 				'public/lib/angularjs-slider/dist/rzslider.min.css',
 				'public/lib/fullcalendar/dist/fullcalendar.css',
 				'public/lib/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
-				'public/lib/angular-loading-bar/build/loading-bar.min.css'
+				'public/lib/angular-loading-bar/build/loading-bar.min.css',
+				'public/lib/ng-dialog/css/ngDialog.css',
+				'public/lib/ng-dialog/css/ngDialog-theme-default.css'
 			],
 			js: [
 				'public/lib/angular/angular.js',
@@ -79,7 +81,8 @@ module.exports = {
 				'public/lib/angular-morris-chart/src/angular-morris-chart.min.js',
 				'public/lib/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
 				'public/lib/angular-cookies/angular-cookies.min.js',
-				'public/lib/angular-loading-bar/build/loading-bar.min.js'
+				'public/lib/angular-loading-bar/build/loading-bar.min.js',
+				'public/lib/ng-dialog/js/ngDialog.min.js'
 			]
 		},
 		css: [

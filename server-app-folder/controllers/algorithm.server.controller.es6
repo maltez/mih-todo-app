@@ -1,9 +1,10 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-	errorHandler = require('./errors.server.controller'),
-	Slot = mongoose.model('Slot'),
-	_ = require('lodash');
+  errorHandler = require('./errors.server.controller'),
+  Slot = mongoose.model('Slot'),
+  Task = mongoose.model('Activity'),
+  _ = require('lodash');
 
 var weekMap = {0: 'sun', 1: 'mon', 2: 'tue', 3: 'wed', 4: 'thu', 5: 'fri', 6: 'sat'};
 var formatDateForKey = date => `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
@@ -104,4 +105,59 @@ export class AlgorithmServerController {
 			res.json({data: slotsRange});
 		});
 	}
+
+  static getOccupiedTime(req, res) {
+    var start = new Date(req.query.start),
+         end = new Date(req.query.end);
+
+    start.setHours(0, 0, 0);
+    end.setHours(23, 59, 0);
+
+    Slot.find({
+      start: {$gte: start.toUTCString()},
+      end: {$lte: end.toUTCString()},
+      taskId: {$exists: true},
+      userId: req.user._id
+    }).distinct('taskId', (err, taskIds) => {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      Task.find({'_id': {$in: taskIds}}).exec((err, tasks) => {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        }
+
+        Slot.find({
+          taskId: {$in: taskIds},
+          start: {$gte: start.toUTCString()}
+        }).exec((err, futureSlots) => {
+          if (err) {
+            return res.status(400).send({
+              message: errorHandler.getErrorMessage(err)
+            });
+          }
+
+          Slot.find({
+            taskId: {$in: taskIds},
+            start: {$lte: start.toUTCString()}
+          }).exec((err, passedSlots) => {
+            if (err) {
+              return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+              });
+            }
+
+            res.json({slots: {
+              futureSlots: futureSlots,
+              passedSlots: passedSlots
+            }, tasks: tasks});
+          });
+        });
+      });
+    });
+  }
 }

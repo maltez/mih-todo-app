@@ -16,7 +16,8 @@ var ApplicationConfiguration = (() => {
 		'modelOptions',
 		'rzModule',
 		'ngCookies',
-		'angular-loading-bar'
+		'angular-loading-bar',
+		'ngDialog'
 	];
 
 	// Add a new vertical module

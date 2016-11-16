@@ -1,4 +1,4 @@
-# Make It Happen
+# Make It Happen App
 
 "Make It Happen" - is an online app, which helps you to plan your days and achieve more. When signing up to "Make It Happen", online organizer will get a schedule that is powerful & flexible enough to help you get much more done. This is an online calendar based solution for your total time management. Handy for tracking your progress and maintain life balance between family, health, friends and career.
 

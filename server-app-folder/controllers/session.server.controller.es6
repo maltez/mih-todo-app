@@ -11,11 +11,11 @@ exports.getUserBySession = (req, res) => {
         // TODO Remove this crap! 
         // https://github.com/Automattic/mongoose/issues/1975
         if(!data.session){
-            res.json({error:'Cant establish session'});
+            res.json({error:'Session was not established'});
         }
 
         let output = data.session.toString();
-        console.log(output);
+        
         let regex = /"user":"([0-9a-zA-Z]+)"/g; 
         let userId = regex.exec(output)[1];
         if (userId){

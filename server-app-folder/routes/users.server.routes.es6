@@ -12,7 +12,7 @@ module.exports = function (app) {
 	const session = require('../controllers/session.server.controller');
 
 	//Session routes
-	app.route('/session/:sessionID').get(session.getUserBySession);
+	app.route('/session/').get(session.getUserBySession);
 
 	// Setting up the users profile api
 	app.route('/users/me').get(users.me);
